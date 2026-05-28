@@ -35,3 +35,10 @@ coverage/
 
 # Temporary files
 *.local
+
+# Local cache
+.vite/
+**/.vite/
+
+# Local editor settings
+flowstudy-web/.vscode/
