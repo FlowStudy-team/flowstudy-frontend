@@ -1,0 +1,41 @@
+0 verbose cli C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\npm\bin\npm-cli.js
+1 info using npm@11.13.0
+2 info using node@v24.16.0
+3 silly config load:file:C:\Program Files\nodejs\node_modules\npm\npmrc
+4 silly config load:file:F:\software\JetBrains\IdeaProject\flowstudy-frontend\.npmrc
+5 silly config load:file:C:\Users\hejsh\.npmrc
+6 silly config load:file:C:\Users\hejsh\AppData\Roaming\npm\etc\npmrc
+7 verbose title npm create vite@latest . --template vue-ts
+8 verbose argv "create" "vite@latest" "." "--" "--template" "vue-ts"
+9 verbose logfile logs-max:10 dir:F:\software\JetBrains\IdeaProject\flowstudy-frontend\.npm-cache\_logs\2026-05-28T02_45_55_264Z-
+10 verbose logfile F:\software\JetBrains\IdeaProject\flowstudy-frontend\.npm-cache\_logs\2026-05-28T02_45_55_264Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:4496293888 maxSize:1124073472 maxEntrySize:562036736
+13 http fetch GET 200 https://registry.npmjs.org/create-vite 291ms (cache miss)
+14 silly packumentCache heap:4496293888 maxSize:1124073472 maxEntrySize:562036736
+15 warn exec The following package was not found and will be installed: create-vite@9.0.7
+16 silly idealTree buildDeps
+17 silly fetch manifest create-vite@9.0.7
+18 silly packumentCache full:https://registry.npmjs.org/create-vite cache-miss
+19 http fetch GET 200 https://registry.npmjs.org/create-vite 105ms (cache miss)
+20 silly packumentCache full:https://registry.npmjs.org/create-vite set size:undefined disposed:false
+21 silly placeDep ROOT create-vite@9.0.7 OK for:  want: 9.0.7
+22 silly reify moves {}
+23 silly audit bulk request { 'create-vite': [ '9.0.7' ] }
+24 http cache create-vite@https://registry.npmjs.org/create-vite/-/create-vite-9.0.7.tgz 0ms (cache hit)
+25 silly tarball no local data for create-vite@https://registry.npmjs.org/create-vite/-/create-vite-9.0.7.tgz. Extracting by manifest.
+26 http fetch GET 200 https://registry.npmjs.org/npm 505ms
+27 http fetch POST 200 https://registry.npmjs.org/-/npm/v1/security/advisories/bulk 326ms
+28 silly audit report {}
+29 http fetch GET 200 https://registry.npmjs.org/create-vite/-/create-vite-9.0.7.tgz 948ms (cache miss)
+30 verbose cwd F:\software\JetBrains\IdeaProject\flowstudy-frontend
+31 verbose os Windows_NT 10.0.26200
+32 verbose node v24.16.0
+33 verbose npm  v11.13.0
+34 notice
+34 notice New minor version of npm available! 11.13.0 -> 11.16.0
+34 notice Changelog: https://github.com/npm/cli/releases/tag/v11.16.0
+34 notice To update run: npm install -g npm@11.16.0
+34 notice  { force: true, Symbol(proc-log.meta): true }
+35 verbose exit 0
+36 info ok

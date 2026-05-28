@@ -1,0 +1,60 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+.output/
+coverage/
+
+# Package manager logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Env files (may contain secrets)
+.env
+.env.*
+!.env.example
+
+# Certificates / keys / credentials
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.kdbx
+
+# OS junk
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE/editor
+.idea/
+.vscode/
+*.suo
+*.user
+*.userossc
+*.swp
+*.swo
+
+# Temporary/cache
+.cache/
+.tmp/
+tmp/
+temp/
+*.tmp
+
+# Frontend tooling caches
+.vite/
+.parcel-cache/
+.eslintcache
+*.tsbuildinfo
+
+# Python cache (for utility scripts)
+__pycache__/
+*.pyc
+

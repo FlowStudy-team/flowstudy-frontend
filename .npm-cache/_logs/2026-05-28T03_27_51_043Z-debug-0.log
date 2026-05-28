@@ -1,0 +1,651 @@
+0 verbose cli C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\npm\bin\npm-cli.js
+1 info using npm@11.13.0
+2 info using node@v24.16.0
+3 silly config load:file:C:\Program Files\nodejs\node_modules\npm\npmrc
+4 silly config load:file:F:\software\JetBrains\IdeaProject\flowstudy-frontend\auth-ui\.npmrc
+5 silly config load:file:C:\Users\hejsh\.npmrc
+6 silly config load:file:F:\software\JetBrains\IdeaProject\flowstudy-frontend\auth-ui\etc\npmrc
+7 verbose title npm install vue-router pinia
+8 verbose argv "--prefix" ".\\auth-ui" "install" "vue-router" "pinia"
+9 verbose logfile logs-max:10 dir:F:\software\JetBrains\IdeaProject\flowstudy-frontend\.npm-cache\_logs\2026-05-28T03_27_51_043Z-
+10 verbose logfile F:\software\JetBrains\IdeaProject\flowstudy-frontend\.npm-cache\_logs\2026-05-28T03_27_51_043Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:4496293888 maxSize:1124073472 maxEntrySize:562036736
+13 verbose shrinkwrap failed to load node_modules/.package-lock.json out of date, updated: node_modules
+14 silly idealTree buildDeps
+15 silly fetch manifest vue-router@*
+16 silly packumentCache full:https://registry.npmjs.org/vue-router cache-miss
+17 http fetch GET 200 https://registry.npmjs.org/vue-router 809ms (cache miss)
+18 silly packumentCache full:https://registry.npmjs.org/vue-router set size:undefined disposed:false
+19 silly fetch manifest @pinia/colada@>=0.21.2
+20 silly packumentCache full:https://registry.npmjs.org/@pinia%2fcolada cache-miss
+21 http fetch GET 200 https://registry.npmjs.org/@pinia%2fcolada 233ms (cache miss)
+22 silly packumentCache full:https://registry.npmjs.org/@pinia%2fcolada set size:undefined disposed:false
+23 silly fetch manifest pinia@*
+24 silly packumentCache full:https://registry.npmjs.org/pinia cache-miss
+25 http fetch GET 200 https://registry.npmjs.org/pinia 183ms (cache miss)
+26 silly packumentCache full:https://registry.npmjs.org/pinia set size:undefined disposed:false
+27 silly fetch manifest typescript@~6.0.2
+28 silly packumentCache full:https://registry.npmjs.org/typescript cache-miss
+29 http fetch GET 200 https://registry.npmjs.org/typescript 137ms (cache revalidated)
+30 silly packumentCache full:https://registry.npmjs.org/typescript set size:15409943 disposed:false
+31 silly fetch manifest vue@^3.5.34
+32 silly packumentCache full:https://registry.npmjs.org/vue cache-miss
+33 http fetch GET 200 https://registry.npmjs.org/vue 85ms (cache revalidated)
+34 silly packumentCache full:https://registry.npmjs.org/vue set size:2039081 disposed:false
+35 silly fetch manifest @vue/compiler-sfc@^3.5.34
+36 silly packumentCache full:https://registry.npmjs.org/@vue%2fcompiler-sfc cache-miss
+37 http fetch GET 200 https://registry.npmjs.org/@vue%2fcompiler-sfc 106ms (cache revalidated)
+38 silly packumentCache full:https://registry.npmjs.org/@vue%2fcompiler-sfc set size:975444 disposed:false
+39 silly placeDep ROOT pinia@3.0.4 OK for: auth-ui@0.0.0 want: *
+40 silly placeDep ROOT vue-router@5.0.7 OK for: auth-ui@0.0.0 want: *
+41 silly fetch manifest @vue/devtools-api@^7.7.7
+42 silly packumentCache full:https://registry.npmjs.org/@vue%2fdevtools-api cache-miss
+43 silly fetch manifest @babel/generator@^8.0.0-rc.4
+44 silly packumentCache full:https://registry.npmjs.org/@babel%2fgenerator cache-miss
+45 silly fetch manifest @vue-macros/common@^3.1.1
+46 silly packumentCache full:https://registry.npmjs.org/@vue-macros%2fcommon cache-miss
+47 silly fetch manifest @vue/devtools-api@^8.1.1
+48 silly packumentCache full:https://registry.npmjs.org/@vue%2fdevtools-api cache-miss
+49 silly fetch manifest ast-walker-scope@^0.8.3
+50 silly packumentCache full:https://registry.npmjs.org/ast-walker-scope cache-miss
+51 silly fetch manifest chokidar@^5.0.0
+52 silly packumentCache full:https://registry.npmjs.org/chokidar cache-miss
+53 silly fetch manifest json5@^2.2.3
+54 silly packumentCache full:https://registry.npmjs.org/json5 cache-miss
+55 silly fetch manifest local-pkg@^1.1.2
+56 silly packumentCache full:https://registry.npmjs.org/local-pkg cache-miss
+57 silly fetch manifest mlly@^1.8.0
+58 silly packumentCache full:https://registry.npmjs.org/mlly cache-miss
+59 silly fetch manifest pathe@^2.0.3
+60 silly packumentCache full:https://registry.npmjs.org/pathe cache-miss
+61 silly fetch manifest scule@^1.3.0
+62 silly packumentCache full:https://registry.npmjs.org/scule cache-miss
+63 silly fetch manifest unplugin@^3.0.0
+64 silly packumentCache full:https://registry.npmjs.org/unplugin cache-miss
+65 silly fetch manifest unplugin-utils@^0.3.1
+66 silly packumentCache full:https://registry.npmjs.org/unplugin-utils cache-miss
+67 silly fetch manifest yaml@^2.8.2
+68 silly packumentCache full:https://registry.npmjs.org/yaml cache-miss
+69 http fetch GET 200 https://registry.npmjs.org/@vue%2fdevtools-api 341ms (cache miss)
+70 silly packumentCache full:https://registry.npmjs.org/@vue%2fdevtools-api set size:undefined disposed:false
+71 http fetch GET 200 https://registry.npmjs.org/yaml 424ms (cache revalidated)
+72 silly packumentCache full:https://registry.npmjs.org/yaml set size:385754 disposed:false
+73 http fetch GET 200 https://registry.npmjs.org/unplugin-utils 438ms (cache miss)
+74 silly packumentCache full:https://registry.npmjs.org/unplugin-utils set size:undefined disposed:false
+75 http fetch GET 200 https://registry.npmjs.org/scule 441ms (cache miss)
+76 silly packumentCache full:https://registry.npmjs.org/scule set size:undefined disposed:false
+77 http fetch GET 200 https://registry.npmjs.org/ast-walker-scope 551ms (cache miss)
+78 silly packumentCache full:https://registry.npmjs.org/ast-walker-scope set size:undefined disposed:false
+79 http fetch GET 200 https://registry.npmjs.org/json5 571ms (cache miss)
+80 silly packumentCache full:https://registry.npmjs.org/json5 set size:undefined disposed:false
+81 http fetch GET 200 https://registry.npmjs.org/pathe 586ms (cache miss)
+82 silly packumentCache full:https://registry.npmjs.org/pathe set size:undefined disposed:false
+83 http fetch GET 200 https://registry.npmjs.org/@vue-macros%2fcommon 590ms (cache miss)
+84 silly packumentCache full:https://registry.npmjs.org/@vue-macros%2fcommon set size:undefined disposed:false
+85 http fetch GET 200 https://registry.npmjs.org/chokidar 610ms (cache miss)
+86 silly packumentCache full:https://registry.npmjs.org/chokidar set size:undefined disposed:false
+87 http fetch GET 200 https://registry.npmjs.org/@vue%2fdevtools-api 619ms (cache miss)
+88 silly packumentCache full:https://registry.npmjs.org/@vue%2fdevtools-api set size:undefined disposed:false
+89 http fetch GET 200 https://registry.npmjs.org/mlly 622ms (cache miss)
+90 silly packumentCache full:https://registry.npmjs.org/mlly set size:undefined disposed:false
+91 http fetch GET 200 https://registry.npmjs.org/local-pkg 680ms (cache miss)
+92 silly packumentCache full:https://registry.npmjs.org/local-pkg set size:undefined disposed:false
+93 http fetch GET 200 https://registry.npmjs.org/unplugin 696ms (cache miss)
+94 silly packumentCache full:https://registry.npmjs.org/unplugin set size:undefined disposed:false
+95 http fetch GET 200 https://registry.npmjs.org/@babel%2fgenerator 720ms (cache miss)
+96 silly packumentCache full:https://registry.npmjs.org/@babel%2fgenerator set size:undefined disposed:false
+97 silly placeDep ROOT @vue/devtools-api@7.7.9 OK for: pinia@3.0.4 want: ^7.7.7
+98 silly fetch manifest @vue/devtools-kit@^7.7.9
+99 silly packumentCache full:https://registry.npmjs.org/@vue%2fdevtools-kit cache-miss
+100 http fetch GET 200 https://registry.npmjs.org/@vue%2fdevtools-kit 168ms (cache miss)
+101 silly packumentCache full:https://registry.npmjs.org/@vue%2fdevtools-kit set size:undefined disposed:false
+102 silly placeDep ROOT @vue/devtools-kit@7.7.9 OK for: @vue/devtools-api@7.7.9 want: ^7.7.9
+103 silly fetch manifest mitt@^3.0.1
+104 silly packumentCache full:https://registry.npmjs.org/mitt cache-miss
+105 silly fetch manifest birpc@^2.3.0
+106 silly packumentCache full:https://registry.npmjs.org/birpc cache-miss
+107 silly fetch manifest hookable@^5.5.3
+108 silly packumentCache full:https://registry.npmjs.org/hookable cache-miss
+109 silly fetch manifest superjson@^2.2.2
+110 silly packumentCache full:https://registry.npmjs.org/superjson cache-miss
+111 silly fetch manifest speakingurl@^14.0.1
+112 silly packumentCache full:https://registry.npmjs.org/speakingurl cache-miss
+113 silly fetch manifest perfect-debounce@^1.0.0
+114 silly packumentCache full:https://registry.npmjs.org/perfect-debounce cache-miss
+115 silly fetch manifest @vue/devtools-shared@^7.7.9
+116 silly packumentCache full:https://registry.npmjs.org/@vue%2fdevtools-shared cache-miss
+117 http fetch GET 200 https://registry.npmjs.org/mitt 155ms (cache miss)
+118 silly packumentCache full:https://registry.npmjs.org/mitt set size:undefined disposed:false
+119 http fetch GET 200 https://registry.npmjs.org/perfect-debounce 156ms (cache miss)
+120 silly packumentCache full:https://registry.npmjs.org/perfect-debounce set size:undefined disposed:false
+121 http fetch GET 200 https://registry.npmjs.org/birpc 166ms (cache miss)
+122 silly packumentCache full:https://registry.npmjs.org/birpc set size:undefined disposed:false
+123 http fetch GET 200 https://registry.npmjs.org/hookable 171ms (cache miss)
+124 silly packumentCache full:https://registry.npmjs.org/hookable set size:undefined disposed:false
+125 http fetch GET 200 https://registry.npmjs.org/speakingurl 175ms (cache miss)
+126 silly packumentCache full:https://registry.npmjs.org/speakingurl set size:undefined disposed:false
+127 http fetch GET 200 https://registry.npmjs.org/superjson 180ms (cache miss)
+128 silly packumentCache full:https://registry.npmjs.org/superjson set size:undefined disposed:false
+129 http fetch GET 200 https://registry.npmjs.org/@vue%2fdevtools-shared 194ms (cache miss)
+130 silly packumentCache full:https://registry.npmjs.org/@vue%2fdevtools-shared set size:undefined disposed:false
+131 silly placeDep ROOT @vue/devtools-shared@7.7.9 OK for: @vue/devtools-kit@7.7.9 want: ^7.7.9
+132 silly placeDep ROOT birpc@2.9.0 OK for: @vue/devtools-kit@7.7.9 want: ^2.3.0
+133 silly placeDep ROOT hookable@5.5.3 OK for: @vue/devtools-kit@7.7.9 want: ^5.5.3
+134 silly placeDep ROOT mitt@3.0.1 OK for: @vue/devtools-kit@7.7.9 want: ^3.0.1
+135 silly placeDep ROOT perfect-debounce@1.0.0 OK for: @vue/devtools-kit@7.7.9 want: ^1.0.0
+136 silly placeDep ROOT speakingurl@14.0.1 OK for: @vue/devtools-kit@7.7.9 want: ^14.0.1
+137 silly placeDep ROOT superjson@2.2.6 OK for: @vue/devtools-kit@7.7.9 want: ^2.2.2
+138 silly fetch manifest rfdc@^1.4.1
+139 silly packumentCache full:https://registry.npmjs.org/rfdc cache-miss
+140 silly fetch manifest copy-anything@^4
+141 silly packumentCache full:https://registry.npmjs.org/copy-anything cache-miss
+142 http fetch GET 200 https://registry.npmjs.org/rfdc 161ms (cache miss)
+143 silly packumentCache full:https://registry.npmjs.org/rfdc set size:undefined disposed:false
+144 http fetch GET 200 https://registry.npmjs.org/copy-anything 332ms (cache miss)
+145 silly packumentCache full:https://registry.npmjs.org/copy-anything set size:undefined disposed:false
+146 silly placeDep ROOT rfdc@1.4.1 OK for: @vue/devtools-shared@7.7.9 want: ^1.4.1
+147 silly placeDep ROOT copy-anything@4.0.5 OK for: superjson@2.2.6 want: ^4
+148 silly fetch manifest is-what@^5.2.0
+149 silly packumentCache full:https://registry.npmjs.org/is-what cache-miss
+150 http fetch GET 200 https://registry.npmjs.org/is-what 213ms (cache miss)
+151 silly packumentCache full:https://registry.npmjs.org/is-what set size:undefined disposed:false
+152 silly placeDep ROOT is-what@5.5.0 OK for: copy-anything@4.0.5 want: ^5.2.0
+153 silly fetch manifest typescript@*
+154 silly packumentCache full:https://registry.npmjs.org/typescript cache-miss
+155 http cache https://registry.npmjs.org/typescript 37ms (cache hit)
+156 silly packumentCache full:https://registry.npmjs.org/typescript set size:15409943 disposed:false
+157 silly placeDep ROOT @babel/generator@8.0.0-rc.6 OK for: vue-router@5.0.7 want: ^8.0.0-rc.4
+158 silly placeDep ROOT @vue-macros/common@3.1.2 OK for: vue-router@5.0.7 want: ^3.1.1
+159 silly placeDep node_modules/vue-router @vue/devtools-api@8.1.2 OK for: vue-router@5.0.7 want: ^8.1.1
+160 silly placeDep ROOT ast-walker-scope@0.8.3 OK for: vue-router@5.0.7 want: ^0.8.3
+161 silly placeDep ROOT chokidar@5.0.0 OK for: vue-router@5.0.7 want: ^5.0.0
+162 silly placeDep ROOT json5@2.2.3 OK for: vue-router@5.0.7 want: ^2.2.3
+163 silly placeDep ROOT local-pkg@1.2.1 OK for: vue-router@5.0.7 want: ^1.1.2
+164 silly placeDep ROOT mlly@1.8.2 OK for: vue-router@5.0.7 want: ^1.8.0
+165 silly placeDep ROOT pathe@2.0.3 OK for: vue-router@5.0.7 want: ^2.0.3
+166 silly placeDep ROOT scule@1.3.0 OK for: vue-router@5.0.7 want: ^1.3.0
+167 silly placeDep ROOT unplugin@3.0.0 OK for: vue-router@5.0.7 want: ^3.0.0
+168 silly placeDep ROOT unplugin-utils@0.3.1 OK for: vue-router@5.0.7 want: ^0.3.1
+169 silly placeDep ROOT yaml@2.9.0 OK for: vue-router@5.0.7 want: ^2.8.2
+170 silly fetch manifest jsesc@^3.0.2
+171 silly packumentCache full:https://registry.npmjs.org/jsesc cache-miss
+172 silly fetch manifest @babel/types@^8.0.0-rc.6
+173 silly packumentCache full:https://registry.npmjs.org/@babel%2ftypes cache-miss
+174 silly fetch manifest @types/jsesc@^2.5.0
+175 silly packumentCache full:https://registry.npmjs.org/@types%2fjsesc cache-miss
+176 silly fetch manifest @babel/parser@^8.0.0-rc.6
+177 silly packumentCache full:https://registry.npmjs.org/@babel%2fparser cache-miss
+178 silly fetch manifest @jridgewell/gen-mapping@^0.3.12
+179 silly packumentCache full:https://registry.npmjs.org/@jridgewell%2fgen-mapping cache-miss
+180 silly fetch manifest @jridgewell/trace-mapping@^0.3.28
+181 silly packumentCache full:https://registry.npmjs.org/@jridgewell%2ftrace-mapping cache-miss
+182 silly fetch manifest ast-kit@^2.1.2
+183 silly packumentCache full:https://registry.npmjs.org/ast-kit cache-miss
+184 silly fetch manifest magic-string-ast@^1.0.2
+185 silly packumentCache full:https://registry.npmjs.org/magic-string-ast cache-miss
+186 silly fetch manifest unplugin-utils@^0.3.0
+187 silly packumentCache full:https://registry.npmjs.org/unplugin-utils cache-miss
+188 silly fetch manifest @vue/devtools-kit@^8.1.2
+189 silly packumentCache full:https://registry.npmjs.org/@vue%2fdevtools-kit cache-miss
+190 silly fetch manifest ast-kit@^2.1.3
+191 silly packumentCache full:https://registry.npmjs.org/ast-kit cache-miss
+192 silly fetch manifest readdirp@^5.0.0
+193 silly packumentCache full:https://registry.npmjs.org/readdirp cache-miss
+194 silly fetch manifest mlly@^1.7.4
+195 silly packumentCache full:https://registry.npmjs.org/mlly cache-miss
+196 silly fetch manifest pkg-types@^2.3.0
+197 silly packumentCache full:https://registry.npmjs.org/pkg-types cache-miss
+198 silly fetch manifest quansync@^0.2.11
+199 silly packumentCache full:https://registry.npmjs.org/quansync cache-miss
+200 http cache https://registry.npmjs.org/@vue%2fdevtools-kit 35ms (cache hit)
+201 silly packumentCache full:https://registry.npmjs.org/@vue%2fdevtools-kit set size:185944 disposed:false
+202 silly fetch manifest acorn@^8.16.0
+203 silly packumentCache full:https://registry.npmjs.org/acorn cache-miss
+204 http cache https://registry.npmjs.org/unplugin-utils 43ms (cache hit)
+205 silly packumentCache full:https://registry.npmjs.org/unplugin-utils set size:25826 disposed:false
+206 silly fetch manifest pkg-types@^1.3.1
+207 silly packumentCache full:https://registry.npmjs.org/pkg-types cache-miss
+208 http cache https://registry.npmjs.org/mlly 46ms (cache hit)
+209 silly packumentCache full:https://registry.npmjs.org/mlly set size:209209 disposed:false
+210 silly fetch manifest ufo@^1.6.3
+211 silly packumentCache full:https://registry.npmjs.org/ufo cache-miss
+212 http fetch GET 200 https://registry.npmjs.org/magic-string-ast 225ms (cache miss)
+213 silly packumentCache full:https://registry.npmjs.org/magic-string-ast set size:undefined disposed:false
+214 silly fetch manifest @jridgewell/remapping@^2.3.5
+215 silly packumentCache full:https://registry.npmjs.org/@jridgewell%2fremapping cache-miss
+216 http fetch GET 200 https://registry.npmjs.org/jsesc 237ms (cache miss)
+217 silly packumentCache full:https://registry.npmjs.org/jsesc set size:undefined disposed:false
+218 silly fetch manifest webpack-virtual-modules@^0.6.2
+219 silly packumentCache full:https://registry.npmjs.org/webpack-virtual-modules cache-miss
+220 http fetch GET 200 https://registry.npmjs.org/@types%2fjsesc 240ms (cache miss)
+221 silly packumentCache full:https://registry.npmjs.org/@types%2fjsesc set size:undefined disposed:false
+222 http fetch GET 200 https://registry.npmjs.org/pkg-types 238ms (cache miss)
+223 silly packumentCache full:https://registry.npmjs.org/pkg-types set size:undefined disposed:false
+224 http fetch GET 200 https://registry.npmjs.org/ast-kit 242ms (cache miss)
+225 silly packumentCache full:https://registry.npmjs.org/ast-kit set size:undefined disposed:false
+226 http fetch GET 200 https://registry.npmjs.org/quansync 242ms (cache miss)
+227 silly packumentCache full:https://registry.npmjs.org/quansync set size:undefined disposed:false
+228 http fetch GET 200 https://registry.npmjs.org/ast-kit 251ms (cache miss)
+229 silly packumentCache full:https://registry.npmjs.org/ast-kit set size:undefined disposed:false
+230 http fetch GET 200 https://registry.npmjs.org/readdirp 251ms (cache miss)
+231 silly packumentCache full:https://registry.npmjs.org/readdirp set size:undefined disposed:false
+232 http fetch GET 200 https://registry.npmjs.org/@babel%2fparser 258ms (cache revalidated)
+233 silly packumentCache full:https://registry.npmjs.org/@babel%2fparser set size:730539 disposed:false
+234 http fetch GET 200 https://registry.npmjs.org/@babel%2ftypes 270ms (cache revalidated)
+235 silly packumentCache full:https://registry.npmjs.org/@babel%2ftypes set size:496342 disposed:false
+236 http fetch GET 200 https://registry.npmjs.org/@jridgewell%2ftrace-mapping 273ms (cache miss)
+237 silly packumentCache full:https://registry.npmjs.org/@jridgewell%2ftrace-mapping set size:undefined disposed:false
+238 http fetch GET 200 https://registry.npmjs.org/pkg-types 232ms (cache miss)
+239 silly packumentCache full:https://registry.npmjs.org/pkg-types set size:undefined disposed:false
+240 http fetch GET 200 https://registry.npmjs.org/@jridgewell%2fgen-mapping 371ms (cache miss)
+241 silly packumentCache full:https://registry.npmjs.org/@jridgewell%2fgen-mapping set size:undefined disposed:false
+242 http fetch GET 200 https://registry.npmjs.org/acorn 331ms (cache miss)
+243 silly packumentCache full:https://registry.npmjs.org/acorn set size:undefined disposed:false
+244 http fetch GET 200 https://registry.npmjs.org/@jridgewell%2fremapping 169ms (cache miss)
+245 silly packumentCache full:https://registry.npmjs.org/@jridgewell%2fremapping set size:undefined disposed:false
+246 http fetch GET 200 https://registry.npmjs.org/webpack-virtual-modules 163ms (cache miss)
+247 silly packumentCache full:https://registry.npmjs.org/webpack-virtual-modules set size:undefined disposed:false
+248 http fetch GET 200 https://registry.npmjs.org/ufo 614ms (cache miss)
+249 silly packumentCache full:https://registry.npmjs.org/ufo set size:undefined disposed:false
+250 silly placeDep node_modules/@babel/generator @babel/parser@8.0.0-rc.6 OK for: @babel/generator@8.0.0-rc.6 want: ^8.0.0-rc.6
+251 silly placeDep node_modules/@babel/generator @babel/types@8.0.0-rc.6 OK for: @babel/generator@8.0.0-rc.6 want: ^8.0.0-rc.6
+252 silly placeDep ROOT @jridgewell/gen-mapping@0.3.13 OK for: @babel/generator@8.0.0-rc.6 want: ^0.3.12
+253 silly placeDep ROOT @jridgewell/trace-mapping@0.3.31 OK for: @babel/generator@8.0.0-rc.6 want: ^0.3.28
+254 silly placeDep ROOT @types/jsesc@2.5.1 OK for: @babel/generator@8.0.0-rc.6 want: ^2.5.0
+255 silly placeDep ROOT jsesc@3.1.0 OK for: @babel/generator@8.0.0-rc.6 want: ^3.0.2
+256 silly fetch manifest @babel/helper-string-parser@^8.0.0-rc.6
+257 silly packumentCache full:https://registry.npmjs.org/@babel%2fhelper-string-parser cache-miss
+258 silly fetch manifest @babel/helper-validator-identifier@^8.0.0-rc.6
+259 silly packumentCache full:https://registry.npmjs.org/@babel%2fhelper-validator-identifier cache-miss
+260 silly fetch manifest @jridgewell/trace-mapping@^0.3.24
+261 silly packumentCache full:https://registry.npmjs.org/@jridgewell%2ftrace-mapping cache-miss
+262 silly fetch manifest @jridgewell/resolve-uri@^3.1.0
+263 silly packumentCache full:https://registry.npmjs.org/@jridgewell%2fresolve-uri cache-miss
+264 http cache https://registry.npmjs.org/@jridgewell%2ftrace-mapping 13ms (cache hit)
+265 silly packumentCache full:https://registry.npmjs.org/@jridgewell%2ftrace-mapping set size:170909 disposed:false
+266 http fetch GET 200 https://registry.npmjs.org/@babel%2fhelper-validator-identifier 170ms (cache revalidated)
+267 silly packumentCache full:https://registry.npmjs.org/@babel%2fhelper-validator-identifier set size:123928 disposed:false
+268 http fetch GET 200 https://registry.npmjs.org/@babel%2fhelper-string-parser 182ms (cache revalidated)
+269 silly packumentCache full:https://registry.npmjs.org/@babel%2fhelper-string-parser set size:89614 disposed:false
+270 http fetch GET 200 https://registry.npmjs.org/@jridgewell%2fresolve-uri 188ms (cache miss)
+271 silly packumentCache full:https://registry.npmjs.org/@jridgewell%2fresolve-uri set size:undefined disposed:false
+272 silly placeDep ROOT @jridgewell/resolve-uri@3.1.2 OK for: @jridgewell/trace-mapping@0.3.31 want: ^3.1.0
+273 silly placeDep ROOT ast-kit@2.2.0 OK for: @vue-macros/common@3.1.2 want: ^2.1.2
+274 silly placeDep ROOT magic-string-ast@1.0.3 OK for: @vue-macros/common@3.1.2 want: ^1.0.2
+275 silly placeDep ROOT readdirp@5.0.0 OK for: chokidar@5.0.0 want: ^5.0.0
+276 silly placeDep ROOT pkg-types@2.3.1 OK for: local-pkg@1.2.1 want: ^2.3.0
+277 silly placeDep ROOT quansync@0.2.11 OK for: local-pkg@1.2.1 want: ^0.2.11
+278 silly fetch manifest confbox@^0.2.4
+279 silly packumentCache full:https://registry.npmjs.org/confbox cache-miss
+280 silly fetch manifest exsolve@^1.0.8
+281 silly packumentCache full:https://registry.npmjs.org/exsolve cache-miss
+282 http fetch GET 200 https://registry.npmjs.org/confbox 192ms (cache miss)
+283 silly packumentCache full:https://registry.npmjs.org/confbox set size:undefined disposed:false
+284 http fetch GET 200 https://registry.npmjs.org/exsolve 197ms (cache miss)
+285 silly packumentCache full:https://registry.npmjs.org/exsolve set size:undefined disposed:false
+286 silly placeDep ROOT acorn@8.16.0 OK for: mlly@1.8.2 want: ^8.16.0
+287 silly placeDep node_modules/mlly pkg-types@1.3.1 OK for: mlly@1.8.2 want: ^1.3.1
+288 silly placeDep ROOT ufo@1.6.4 OK for: mlly@1.8.2 want: ^1.6.3
+289 silly fetch manifest confbox@^0.1.8
+290 silly packumentCache full:https://registry.npmjs.org/confbox cache-miss
+291 http cache https://registry.npmjs.org/confbox 8ms (cache hit)
+292 silly packumentCache full:https://registry.npmjs.org/confbox set size:44789 disposed:false
+293 silly placeDep ROOT confbox@0.2.4 OK for: pkg-types@2.3.1 want: ^0.2.4
+294 silly placeDep ROOT exsolve@1.0.8 OK for: pkg-types@2.3.1 want: ^1.0.8
+295 silly placeDep ROOT @jridgewell/remapping@2.3.5 OK for: unplugin@3.0.0 want: ^2.3.5
+296 silly placeDep ROOT webpack-virtual-modules@0.6.2 OK for: unplugin@3.0.0 want: ^0.6.2
+297 silly placeDep node_modules/@babel/generator @babel/helper-string-parser@8.0.0-rc.6 OK for: @babel/types@8.0.0-rc.6 want: ^8.0.0-rc.6
+298 silly placeDep node_modules/@babel/generator @babel/helper-validator-identifier@8.0.0-rc.6 OK for: @babel/types@8.0.0-rc.6 want: ^8.0.0-rc.6
+299 silly placeDep node_modules/mlly confbox@0.1.8 OK for: pkg-types@1.3.1 want: ^0.1.8
+300 silly placeDep node_modules/vue-router @vue/devtools-kit@8.1.2 OK for: @vue/devtools-api@8.1.2 want: ^8.1.2
+301 silly fetch manifest perfect-debounce@^2.0.0
+302 silly packumentCache full:https://registry.npmjs.org/perfect-debounce cache-miss
+303 silly fetch manifest @vue/devtools-shared@^8.1.2
+304 silly packumentCache full:https://registry.npmjs.org/@vue%2fdevtools-shared cache-miss
+305 http cache https://registry.npmjs.org/@vue%2fdevtools-shared 8ms (cache hit)
+306 silly packumentCache full:https://registry.npmjs.org/@vue%2fdevtools-shared set size:173901 disposed:false
+307 http cache https://registry.npmjs.org/perfect-debounce 11ms (cache hit)
+308 silly packumentCache full:https://registry.npmjs.org/perfect-debounce set size:28201 disposed:false
+309 silly placeDep node_modules/vue-router @vue/devtools-shared@8.1.2 OK for: @vue/devtools-kit@8.1.2 want: ^8.1.2
+310 silly placeDep node_modules/vue-router perfect-debounce@2.1.0 OK for: @vue/devtools-kit@8.1.2 want: ^2.0.0
+311 silly reify moves {}
+312 silly audit bulk request {
+312 silly audit   '@babel/helper-string-parser': [ '7.29.7', '8.0.0-rc.6' ],
+312 silly audit   '@babel/helper-validator-identifier': [ '7.29.7', '8.0.0-rc.6' ],
+312 silly audit   '@babel/parser': [ '7.29.7', '8.0.0-rc.6' ],
+312 silly audit   '@babel/types': [ '7.29.7', '8.0.0-rc.6' ],
+312 silly audit   '@emnapi/core': [ '1.10.0' ],
+312 silly audit   '@emnapi/runtime': [ '1.10.0' ],
+312 silly audit   '@emnapi/wasi-threads': [ '1.2.1' ],
+312 silly audit   '@jridgewell/sourcemap-codec': [ '1.5.5' ],
+312 silly audit   '@napi-rs/wasm-runtime': [ '1.1.4' ],
+312 silly audit   '@oxc-project/types': [ '0.132.0' ],
+312 silly audit   '@rolldown/binding-android-arm64': [ '1.0.2' ],
+312 silly audit   '@rolldown/binding-darwin-arm64': [ '1.0.2' ],
+312 silly audit   '@rolldown/binding-darwin-x64': [ '1.0.2' ],
+312 silly audit   '@rolldown/binding-freebsd-x64': [ '1.0.2' ],
+312 silly audit   '@rolldown/binding-linux-arm-gnueabihf': [ '1.0.2' ],
+312 silly audit   '@rolldown/binding-linux-arm64-gnu': [ '1.0.2' ],
+312 silly audit   '@rolldown/binding-linux-arm64-musl': [ '1.0.2' ],
+312 silly audit   '@rolldown/binding-linux-ppc64-gnu': [ '1.0.2' ],
+312 silly audit   '@rolldown/binding-linux-s390x-gnu': [ '1.0.2' ],
+312 silly audit   '@rolldown/binding-linux-x64-gnu': [ '1.0.2' ],
+312 silly audit   '@rolldown/binding-linux-x64-musl': [ '1.0.2' ],
+312 silly audit   '@rolldown/binding-openharmony-arm64': [ '1.0.2' ],
+312 silly audit   '@rolldown/binding-wasm32-wasi': [ '1.0.2' ],
+312 silly audit   '@rolldown/binding-win32-arm64-msvc': [ '1.0.2' ],
+312 silly audit   '@rolldown/binding-win32-x64-msvc': [ '1.0.2' ],
+312 silly audit   '@rolldown/pluginutils': [ '1.0.1' ],
+312 silly audit   '@tybys/wasm-util': [ '0.10.2' ],
+312 silly audit   '@types/node': [ '24.12.4' ],
+312 silly audit   '@vitejs/plugin-vue': [ '6.0.7' ],
+312 silly audit   '@volar/language-core': [ '2.4.28' ],
+312 silly audit   '@volar/source-map': [ '2.4.28' ],
+312 silly audit   '@volar/typescript': [ '2.4.28' ],
+312 silly audit   '@vue/compiler-core': [ '3.5.35' ],
+312 silly audit   '@vue/compiler-dom': [ '3.5.35' ],
+312 silly audit   '@vue/compiler-sfc': [ '3.5.35' ],
+312 silly audit   '@vue/compiler-ssr': [ '3.5.35' ],
+312 silly audit   '@vue/language-core': [ '3.3.2' ],
+312 silly audit   '@vue/reactivity': [ '3.5.35' ],
+312 silly audit   '@vue/runtime-core': [ '3.5.35' ],
+312 silly audit   '@vue/runtime-dom': [ '3.5.35' ],
+312 silly audit   '@vue/server-renderer': [ '3.5.35' ],
+312 silly audit   '@vue/shared': [ '3.5.35' ],
+312 silly audit   '@vue/tsconfig': [ '0.9.1' ],
+312 silly audit   'alien-signals': [ '3.2.1' ],
+312 silly audit   csstype: [ '3.2.3' ],
+312 silly audit   'detect-libc': [ '2.1.2' ],
+312 silly audit   entities: [ '7.0.1' ],
+312 silly audit   'estree-walker': [ '2.0.2' ],
+312 silly audit   fdir: [ '6.5.0' ],
+312 silly audit   fsevents: [ '2.3.3' ],
+312 silly audit   lightningcss: [ '1.32.0' ],
+312 silly audit   'lightningcss-android-arm64': [ '1.32.0' ],
+312 silly audit   'lightningcss-darwin-arm64': [ '1.32.0' ],
+312 silly audit   'lightningcss-darwin-x64': [ '1.32.0' ],
+312 silly audit   'lightningcss-freebsd-x64': [ '1.32.0' ],
+312 silly audit   'lightningcss-linux-arm-gnueabihf': [ '1.32.0' ],
+312 silly audit   'lightningcss-linux-arm64-gnu': [ '1.32.0' ],
+312 silly audit   'lightningcss-linux-arm64-musl': [ '1.32.0' ],
+312 silly audit   'lightningcss-linux-x64-gnu': [ '1.32.0' ],
+312 silly audit   'lightningcss-linux-x64-musl': [ '1.32.0' ],
+312 silly audit   'lightningcss-win32-arm64-msvc': [ '1.32.0' ],
+312 silly audit   'lightningcss-win32-x64-msvc': [ '1.32.0' ],
+312 silly audit   'magic-string': [ '0.30.21' ],
+312 silly audit   'muggle-string': [ '0.4.1' ],
+312 silly audit   nanoid: [ '3.3.12' ],
+312 silly audit   'path-browserify': [ '1.0.1' ],
+312 silly audit   picocolors: [ '1.1.1' ],
+312 silly audit   picomatch: [ '4.0.4' ],
+312 silly audit   postcss: [ '8.5.15' ],
+312 silly audit   rolldown: [ '1.0.2' ],
+312 silly audit   'source-map-js': [ '1.2.1' ],
+312 silly audit   tinyglobby: [ '0.2.16' ],
+312 silly audit   tslib: [ '2.8.1' ],
+312 silly audit   typescript: [ '6.0.3' ],
+312 silly audit   'undici-types': [ '7.16.0' ],
+312 silly audit   vite: [ '8.0.14' ],
+312 silly audit   'vscode-uri': [ '3.1.0' ],
+312 silly audit   vue: [ '3.5.35' ],
+312 silly audit   'vue-tsc': [ '3.3.2' ],
+312 silly audit   pinia: [ '3.0.4' ],
+312 silly audit   'vue-router': [ '5.0.7' ],
+312 silly audit   '@vue/devtools-api': [ '7.7.9', '8.1.2' ],
+312 silly audit   '@vue/devtools-kit': [ '7.7.9', '8.1.2' ],
+312 silly audit   '@vue/devtools-shared': [ '7.7.9', '8.1.2' ],
+312 silly audit   birpc: [ '2.9.0' ],
+312 silly audit   hookable: [ '5.5.3' ],
+312 silly audit   mitt: [ '3.0.1' ],
+312 silly audit   'perfect-debounce': [ '1.0.0', '2.1.0' ],
+312 silly audit   speakingurl: [ '14.0.1' ],
+312 silly audit   superjson: [ '2.2.6' ],
+312 silly audit   rfdc: [ '1.4.1' ],
+312 silly audit   'copy-anything': [ '4.0.5' ],
+312 silly audit   'is-what': [ '5.5.0' ],
+312 silly audit   '@babel/generator': [ '8.0.0-rc.6' ],
+312 silly audit   '@vue-macros/common': [ '3.1.2' ],
+312 silly audit   'ast-walker-scope': [ '0.8.3' ],
+312 silly audit   chokidar: [ '5.0.0' ],
+312 silly audit   json5: [ '2.2.3' ],
+312 silly audit   'local-pkg': [ '1.2.1' ],
+312 silly audit   mlly: [ '1.8.2' ],
+312 silly audit   pathe: [ '2.0.3' ],
+312 silly audit   scule: [ '1.3.0' ],
+312 silly audit   unplugin: [ '3.0.0' ],
+312 silly audit   'unplugin-utils': [ '0.3.1' ],
+312 silly audit   yaml: [ '2.9.0' ],
+312 silly audit   '@jridgewell/gen-mapping': [ '0.3.13' ],
+312 silly audit   '@jridgewell/trace-mapping': [ '0.3.31' ],
+312 silly audit   '@types/jsesc': [ '2.5.1' ],
+312 silly audit   jsesc: [ '3.1.0' ],
+312 silly audit   '@jridgewell/resolve-uri': [ '3.1.2' ],
+312 silly audit   'ast-kit': [ '2.2.0' ],
+312 silly audit   'magic-string-ast': [ '1.0.3' ],
+312 silly audit   readdirp: [ '5.0.0' ],
+312 silly audit   'pkg-types': [ '2.3.1', '1.3.1' ],
+312 silly audit   quansync: [ '0.2.11' ],
+312 silly audit   acorn: [ '8.16.0' ],
+312 silly audit   ufo: [ '1.6.4' ],
+312 silly audit   confbox: [ '0.2.4', '0.1.8' ],
+312 silly audit   exsolve: [ '1.0.8' ],
+312 silly audit   '@jridgewell/remapping': [ '2.3.5' ],
+312 silly audit   'webpack-virtual-modules': [ '0.6.2' ]
+312 silly audit }
+313 http cache @jridgewell/remapping@https://registry.npmjs.org/@jridgewell/remapping/-/remapping-2.3.5.tgz 0ms (cache hit)
+314 http cache webpack-virtual-modules@https://registry.npmjs.org/webpack-virtual-modules/-/webpack-virtual-modules-0.6.2.tgz 0ms (cache hit)
+315 http cache exsolve@https://registry.npmjs.org/exsolve/-/exsolve-1.0.8.tgz 0ms (cache hit)
+316 http cache ufo@https://registry.npmjs.org/ufo/-/ufo-1.6.4.tgz 0ms (cache hit)
+317 http cache confbox@https://registry.npmjs.org/confbox/-/confbox-0.2.4.tgz 0ms (cache hit)
+318 http cache acorn@https://registry.npmjs.org/acorn/-/acorn-8.16.0.tgz 0ms (cache hit)
+319 http cache pkg-types@https://registry.npmjs.org/pkg-types/-/pkg-types-2.3.1.tgz 0ms (cache hit)
+320 http cache @jridgewell/resolve-uri@https://registry.npmjs.org/@jridgewell/resolve-uri/-/resolve-uri-3.1.2.tgz 0ms (cache hit)
+321 http cache quansync@https://registry.npmjs.org/quansync/-/quansync-0.2.11.tgz 0ms (cache hit)
+322 http cache readdirp@https://registry.npmjs.org/readdirp/-/readdirp-5.0.0.tgz 0ms (cache hit)
+323 http cache magic-string-ast@https://registry.npmjs.org/magic-string-ast/-/magic-string-ast-1.0.3.tgz 0ms (cache hit)
+324 http cache ast-kit@https://registry.npmjs.org/ast-kit/-/ast-kit-2.2.0.tgz 0ms (cache hit)
+325 http cache jsesc@https://registry.npmjs.org/jsesc/-/jsesc-3.1.0.tgz 0ms (cache hit)
+326 http cache @types/jsesc@https://registry.npmjs.org/@types/jsesc/-/jsesc-2.5.1.tgz 0ms (cache hit)
+327 http cache @jridgewell/trace-mapping@https://registry.npmjs.org/@jridgewell/trace-mapping/-/trace-mapping-0.3.31.tgz 0ms (cache hit)
+328 http cache @jridgewell/gen-mapping@https://registry.npmjs.org/@jridgewell/gen-mapping/-/gen-mapping-0.3.13.tgz 0ms (cache hit)
+329 http cache unplugin-utils@https://registry.npmjs.org/unplugin-utils/-/unplugin-utils-0.3.1.tgz 0ms (cache hit)
+330 http cache yaml@https://registry.npmjs.org/yaml/-/yaml-2.9.0.tgz 0ms (cache hit)
+331 http cache scule@https://registry.npmjs.org/scule/-/scule-1.3.0.tgz 0ms (cache hit)
+332 http cache unplugin@https://registry.npmjs.org/unplugin/-/unplugin-3.0.0.tgz 0ms (cache hit)
+333 http cache pathe@https://registry.npmjs.org/pathe/-/pathe-2.0.3.tgz 0ms (cache hit)
+334 http cache mlly@https://registry.npmjs.org/mlly/-/mlly-1.8.2.tgz 0ms (cache hit)
+335 http cache local-pkg@https://registry.npmjs.org/local-pkg/-/local-pkg-1.2.1.tgz 0ms (cache hit)
+336 http cache json5@https://registry.npmjs.org/json5/-/json5-2.2.3.tgz 0ms (cache hit)
+337 http cache @vue-macros/common@https://registry.npmjs.org/@vue-macros/common/-/common-3.1.2.tgz 0ms (cache hit)
+338 http cache ast-walker-scope@https://registry.npmjs.org/ast-walker-scope/-/ast-walker-scope-0.8.3.tgz 0ms (cache hit)
+339 http cache @babel/generator@https://registry.npmjs.org/@babel/generator/-/generator-8.0.0-rc.6.tgz 0ms (cache hit)
+340 http cache chokidar@https://registry.npmjs.org/chokidar/-/chokidar-5.0.0.tgz 0ms (cache hit)
+341 http cache copy-anything@https://registry.npmjs.org/copy-anything/-/copy-anything-4.0.5.tgz 0ms (cache hit)
+342 http cache is-what@https://registry.npmjs.org/is-what/-/is-what-5.5.0.tgz 0ms (cache hit)
+343 http cache rfdc@https://registry.npmjs.org/rfdc/-/rfdc-1.4.1.tgz 0ms (cache hit)
+344 http cache superjson@https://registry.npmjs.org/superjson/-/superjson-2.2.6.tgz 0ms (cache hit)
+345 http cache perfect-debounce@https://registry.npmjs.org/perfect-debounce/-/perfect-debounce-1.0.0.tgz 0ms (cache hit)
+346 http cache speakingurl@https://registry.npmjs.org/speakingurl/-/speakingurl-14.0.1.tgz 0ms (cache hit)
+347 http cache mitt@https://registry.npmjs.org/mitt/-/mitt-3.0.1.tgz 0ms (cache hit)
+348 http cache hookable@https://registry.npmjs.org/hookable/-/hookable-5.5.3.tgz 0ms (cache hit)
+349 http cache birpc@https://registry.npmjs.org/birpc/-/birpc-2.9.0.tgz 0ms (cache hit)
+350 http cache pinia@https://registry.npmjs.org/pinia/-/pinia-3.0.4.tgz 0ms (cache hit)
+351 http cache @vue/devtools-shared@https://registry.npmjs.org/@vue/devtools-shared/-/devtools-shared-7.7.9.tgz 0ms (cache hit)
+352 http cache @vue/devtools-api@https://registry.npmjs.org/@vue/devtools-api/-/devtools-api-7.7.9.tgz 0ms (cache hit)
+353 http cache vue-router@https://registry.npmjs.org/vue-router/-/vue-router-5.0.7.tgz 0ms (cache hit)
+354 http cache confbox@https://registry.npmjs.org/confbox/-/confbox-0.1.8.tgz 0ms (cache hit)
+355 http cache @vue/devtools-kit@https://registry.npmjs.org/@vue/devtools-kit/-/devtools-kit-7.7.9.tgz 0ms (cache hit)
+356 http cache pkg-types@https://registry.npmjs.org/pkg-types/-/pkg-types-1.3.1.tgz 0ms (cache hit)
+357 http cache @babel/helper-validator-identifier@https://registry.npmjs.org/@babel/helper-validator-identifier/-/helper-validator-identifier-8.0.0-rc.6.tgz 0ms (cache hit)
+358 http cache @babel/types@https://registry.npmjs.org/@babel/types/-/types-8.0.0-rc.6.tgz 0ms (cache hit)
+359 http cache @babel/helper-string-parser@https://registry.npmjs.org/@babel/helper-string-parser/-/helper-string-parser-8.0.0-rc.6.tgz 0ms (cache hit)
+360 http cache @babel/parser@https://registry.npmjs.org/@babel/parser/-/parser-8.0.0-rc.6.tgz 0ms (cache hit)
+361 http cache perfect-debounce@https://registry.npmjs.org/perfect-debounce/-/perfect-debounce-2.1.0.tgz 0ms (cache hit)
+362 silly tarball no local data for @jridgewell/remapping@https://registry.npmjs.org/@jridgewell/remapping/-/remapping-2.3.5.tgz. Extracting by manifest.
+363 silly tarball no local data for webpack-virtual-modules@https://registry.npmjs.org/webpack-virtual-modules/-/webpack-virtual-modules-0.6.2.tgz. Extracting by manifest.
+364 silly tarball no local data for exsolve@https://registry.npmjs.org/exsolve/-/exsolve-1.0.8.tgz. Extracting by manifest.
+365 silly tarball no local data for ufo@https://registry.npmjs.org/ufo/-/ufo-1.6.4.tgz. Extracting by manifest.
+366 silly tarball no local data for confbox@https://registry.npmjs.org/confbox/-/confbox-0.2.4.tgz. Extracting by manifest.
+367 silly tarball no local data for acorn@https://registry.npmjs.org/acorn/-/acorn-8.16.0.tgz. Extracting by manifest.
+368 silly tarball no local data for pkg-types@https://registry.npmjs.org/pkg-types/-/pkg-types-2.3.1.tgz. Extracting by manifest.
+369 silly tarball no local data for @jridgewell/resolve-uri@https://registry.npmjs.org/@jridgewell/resolve-uri/-/resolve-uri-3.1.2.tgz. Extracting by manifest.
+370 silly tarball no local data for quansync@https://registry.npmjs.org/quansync/-/quansync-0.2.11.tgz. Extracting by manifest.
+371 silly tarball no local data for readdirp@https://registry.npmjs.org/readdirp/-/readdirp-5.0.0.tgz. Extracting by manifest.
+372 silly tarball no local data for magic-string-ast@https://registry.npmjs.org/magic-string-ast/-/magic-string-ast-1.0.3.tgz. Extracting by manifest.
+373 silly tarball no local data for ast-kit@https://registry.npmjs.org/ast-kit/-/ast-kit-2.2.0.tgz. Extracting by manifest.
+374 silly tarball no local data for jsesc@https://registry.npmjs.org/jsesc/-/jsesc-3.1.0.tgz. Extracting by manifest.
+375 silly tarball no local data for @types/jsesc@https://registry.npmjs.org/@types/jsesc/-/jsesc-2.5.1.tgz. Extracting by manifest.
+376 silly tarball no local data for @jridgewell/trace-mapping@https://registry.npmjs.org/@jridgewell/trace-mapping/-/trace-mapping-0.3.31.tgz. Extracting by manifest.
+377 silly tarball no local data for @jridgewell/gen-mapping@https://registry.npmjs.org/@jridgewell/gen-mapping/-/gen-mapping-0.3.13.tgz. Extracting by manifest.
+378 silly tarball no local data for unplugin-utils@https://registry.npmjs.org/unplugin-utils/-/unplugin-utils-0.3.1.tgz. Extracting by manifest.
+379 silly tarball no local data for yaml@https://registry.npmjs.org/yaml/-/yaml-2.9.0.tgz. Extracting by manifest.
+380 silly tarball no local data for scule@https://registry.npmjs.org/scule/-/scule-1.3.0.tgz. Extracting by manifest.
+381 silly tarball no local data for unplugin@https://registry.npmjs.org/unplugin/-/unplugin-3.0.0.tgz. Extracting by manifest.
+382 silly tarball no local data for pathe@https://registry.npmjs.org/pathe/-/pathe-2.0.3.tgz. Extracting by manifest.
+383 silly tarball no local data for mlly@https://registry.npmjs.org/mlly/-/mlly-1.8.2.tgz. Extracting by manifest.
+384 silly tarball no local data for local-pkg@https://registry.npmjs.org/local-pkg/-/local-pkg-1.2.1.tgz. Extracting by manifest.
+385 silly tarball no local data for json5@https://registry.npmjs.org/json5/-/json5-2.2.3.tgz. Extracting by manifest.
+386 silly tarball no local data for @vue-macros/common@https://registry.npmjs.org/@vue-macros/common/-/common-3.1.2.tgz. Extracting by manifest.
+387 silly tarball no local data for ast-walker-scope@https://registry.npmjs.org/ast-walker-scope/-/ast-walker-scope-0.8.3.tgz. Extracting by manifest.
+388 silly tarball no local data for @babel/generator@https://registry.npmjs.org/@babel/generator/-/generator-8.0.0-rc.6.tgz. Extracting by manifest.
+389 silly tarball no local data for chokidar@https://registry.npmjs.org/chokidar/-/chokidar-5.0.0.tgz. Extracting by manifest.
+390 silly tarball no local data for copy-anything@https://registry.npmjs.org/copy-anything/-/copy-anything-4.0.5.tgz. Extracting by manifest.
+391 http cache @vue/devtools-shared@https://registry.npmjs.org/@vue/devtools-shared/-/devtools-shared-8.1.2.tgz 0ms (cache hit)
+392 silly tarball no local data for is-what@https://registry.npmjs.org/is-what/-/is-what-5.5.0.tgz. Extracting by manifest.
+393 silly tarball no local data for rfdc@https://registry.npmjs.org/rfdc/-/rfdc-1.4.1.tgz. Extracting by manifest.
+394 silly tarball no local data for superjson@https://registry.npmjs.org/superjson/-/superjson-2.2.6.tgz. Extracting by manifest.
+395 silly tarball no local data for perfect-debounce@https://registry.npmjs.org/perfect-debounce/-/perfect-debounce-1.0.0.tgz. Extracting by manifest.
+396 silly tarball no local data for speakingurl@https://registry.npmjs.org/speakingurl/-/speakingurl-14.0.1.tgz. Extracting by manifest.
+397 silly tarball no local data for mitt@https://registry.npmjs.org/mitt/-/mitt-3.0.1.tgz. Extracting by manifest.
+398 silly tarball no local data for hookable@https://registry.npmjs.org/hookable/-/hookable-5.5.3.tgz. Extracting by manifest.
+399 silly tarball no local data for birpc@https://registry.npmjs.org/birpc/-/birpc-2.9.0.tgz. Extracting by manifest.
+400 http cache @vue/devtools-kit@https://registry.npmjs.org/@vue/devtools-kit/-/devtools-kit-8.1.2.tgz 0ms (cache hit)
+401 silly tarball no local data for pinia@https://registry.npmjs.org/pinia/-/pinia-3.0.4.tgz. Extracting by manifest.
+402 silly tarball no local data for @vue/devtools-shared@https://registry.npmjs.org/@vue/devtools-shared/-/devtools-shared-7.7.9.tgz. Extracting by manifest.
+403 silly tarball no local data for @vue/devtools-api@https://registry.npmjs.org/@vue/devtools-api/-/devtools-api-7.7.9.tgz. Extracting by manifest.
+404 silly tarball no local data for vue-router@https://registry.npmjs.org/vue-router/-/vue-router-5.0.7.tgz. Extracting by manifest.
+405 silly tarball no local data for confbox@https://registry.npmjs.org/confbox/-/confbox-0.1.8.tgz. Extracting by manifest.
+406 silly tarball no local data for @vue/devtools-kit@https://registry.npmjs.org/@vue/devtools-kit/-/devtools-kit-7.7.9.tgz. Extracting by manifest.
+407 silly tarball no local data for pkg-types@https://registry.npmjs.org/pkg-types/-/pkg-types-1.3.1.tgz. Extracting by manifest.
+408 silly tarball no local data for @babel/helper-validator-identifier@https://registry.npmjs.org/@babel/helper-validator-identifier/-/helper-validator-identifier-8.0.0-rc.6.tgz. Extracting by manifest.
+409 silly tarball no local data for @babel/types@https://registry.npmjs.org/@babel/types/-/types-8.0.0-rc.6.tgz. Extracting by manifest.
+410 silly tarball no local data for @babel/helper-string-parser@https://registry.npmjs.org/@babel/helper-string-parser/-/helper-string-parser-8.0.0-rc.6.tgz. Extracting by manifest.
+411 silly tarball no local data for @babel/parser@https://registry.npmjs.org/@babel/parser/-/parser-8.0.0-rc.6.tgz. Extracting by manifest.
+412 silly tarball no local data for perfect-debounce@https://registry.npmjs.org/perfect-debounce/-/perfect-debounce-2.1.0.tgz. Extracting by manifest.
+413 http cache @vue/devtools-api@https://registry.npmjs.org/@vue/devtools-api/-/devtools-api-8.1.2.tgz 0ms (cache hit)
+414 silly tarball no local data for @vue/devtools-shared@https://registry.npmjs.org/@vue/devtools-shared/-/devtools-shared-8.1.2.tgz. Extracting by manifest.
+415 silly tarball no local data for @vue/devtools-kit@https://registry.npmjs.org/@vue/devtools-kit/-/devtools-kit-8.1.2.tgz. Extracting by manifest.
+416 silly tarball no local data for @vue/devtools-api@https://registry.npmjs.org/@vue/devtools-api/-/devtools-api-8.1.2.tgz. Extracting by manifest.
+417 http fetch POST 200 https://registry.npmjs.org/-/npm/v1/security/advisories/bulk 348ms
+418 silly audit report {}
+419 http fetch GET 200 https://registry.npmjs.org/@jridgewell/remapping/-/remapping-2.3.5.tgz 304ms (cache miss)
+420 http fetch GET 200 https://registry.npmjs.org/@types/jsesc/-/jsesc-2.5.1.tgz 298ms (cache miss)
+421 http fetch GET 200 https://registry.npmjs.org/magic-string-ast/-/magic-string-ast-1.0.3.tgz 306ms (cache miss)
+422 http fetch GET 200 https://registry.npmjs.org/pkg-types/-/pkg-types-2.3.1.tgz 312ms (cache miss)
+423 http fetch GET 200 https://registry.npmjs.org/ast-kit/-/ast-kit-2.2.0.tgz 310ms (cache miss)
+424 http fetch GET 200 https://registry.npmjs.org/jsesc/-/jsesc-3.1.0.tgz 311ms (cache miss)
+425 http fetch GET 200 https://registry.npmjs.org/readdirp/-/readdirp-5.0.0.tgz 319ms (cache miss)
+426 http fetch GET 200 https://registry.npmjs.org/exsolve/-/exsolve-1.0.8.tgz 326ms (cache miss)
+427 http fetch GET 200 https://registry.npmjs.org/@jridgewell/resolve-uri/-/resolve-uri-3.1.2.tgz 336ms (cache miss)
+428 http fetch GET 200 https://registry.npmjs.org/ufo/-/ufo-1.6.4.tgz 340ms (cache miss)
+429 http fetch GET 200 https://registry.npmjs.org/webpack-virtual-modules/-/webpack-virtual-modules-0.6.2.tgz 347ms (cache miss)
+430 http fetch GET 200 https://registry.npmjs.org/quansync/-/quansync-0.2.11.tgz 362ms (cache miss)
+431 http fetch GET 200 https://registry.npmjs.org/confbox/-/confbox-0.2.4.tgz 400ms (cache miss)
+432 http fetch GET 200 https://registry.npmjs.org/acorn/-/acorn-8.16.0.tgz 411ms (cache miss)
+433 http fetch GET 200 https://registry.npmjs.org/unplugin-utils/-/unplugin-utils-0.3.1.tgz 460ms (cache miss)
+434 http fetch GET 200 https://registry.npmjs.org/@vue-macros/common/-/common-3.1.2.tgz 466ms (cache miss)
+435 http fetch GET 200 https://registry.npmjs.org/ast-walker-scope/-/ast-walker-scope-0.8.3.tgz 472ms (cache miss)
+436 http fetch GET 200 https://registry.npmjs.org/scule/-/scule-1.3.0.tgz 481ms (cache miss)
+437 http fetch GET 200 https://registry.npmjs.org/local-pkg/-/local-pkg-1.2.1.tgz 486ms (cache miss)
+438 http fetch GET 200 https://registry.npmjs.org/pathe/-/pathe-2.0.3.tgz 518ms (cache miss)
+439 http fetch GET 200 https://registry.npmjs.org/unplugin/-/unplugin-3.0.0.tgz 528ms (cache miss)
+440 http fetch GET 200 https://registry.npmjs.org/@jridgewell/gen-mapping/-/gen-mapping-0.3.13.tgz 562ms (cache miss)
+441 http fetch GET 200 https://registry.npmjs.org/copy-anything/-/copy-anything-4.0.5.tgz 598ms (cache miss)
+442 http fetch GET 200 https://registry.npmjs.org/perfect-debounce/-/perfect-debounce-1.0.0.tgz 673ms (cache miss)
+443 http fetch GET 200 https://registry.npmjs.org/@babel/generator/-/generator-8.0.0-rc.6.tgz 693ms (cache miss)
+444 http fetch GET 200 https://registry.npmjs.org/rfdc/-/rfdc-1.4.1.tgz 702ms (cache miss)
+445 http fetch GET 200 https://registry.npmjs.org/chokidar/-/chokidar-5.0.0.tgz 707ms (cache miss)
+446 http fetch GET 200 https://registry.npmjs.org/@jridgewell/trace-mapping/-/trace-mapping-0.3.31.tgz 718ms (cache miss)
+447 http fetch GET 200 https://registry.npmjs.org/hookable/-/hookable-5.5.3.tgz 705ms (cache miss)
+448 http fetch GET 200 https://registry.npmjs.org/mlly/-/mlly-1.8.2.tgz 723ms (cache miss)
+449 http fetch GET 200 https://registry.npmjs.org/birpc/-/birpc-2.9.0.tgz 714ms (cache miss)
+450 http fetch GET 200 https://registry.npmjs.org/mitt/-/mitt-3.0.1.tgz 718ms (cache miss)
+451 http fetch GET 200 https://registry.npmjs.org/json5/-/json5-2.2.3.tgz 736ms (cache miss)
+452 http fetch GET 200 https://registry.npmjs.org/pinia/-/pinia-3.0.4.tgz 737ms (cache miss)
+453 http fetch GET 200 https://registry.npmjs.org/@vue/devtools-api/-/devtools-api-7.7.9.tgz 825ms (cache miss)
+454 http fetch GET 200 https://registry.npmjs.org/@vue/devtools-shared/-/devtools-shared-7.7.9.tgz 826ms (cache miss)
+455 http fetch GET 200 https://registry.npmjs.org/perfect-debounce/-/perfect-debounce-2.1.0.tgz 832ms (cache miss)
+456 http fetch GET 200 https://registry.npmjs.org/@vue/devtools-shared/-/devtools-shared-8.1.2.tgz 822ms (cache miss)
+457 http fetch GET 200 https://registry.npmjs.org/@babel/helper-validator-identifier/-/helper-validator-identifier-8.0.0-rc.6.tgz 849ms (cache miss)
+458 http fetch GET 200 https://registry.npmjs.org/@babel/helper-string-parser/-/helper-string-parser-8.0.0-rc.6.tgz 850ms (cache miss)
+459 http fetch GET 200 https://registry.npmjs.org/pkg-types/-/pkg-types-1.3.1.tgz 864ms (cache miss)
+460 http fetch GET 200 https://registry.npmjs.org/superjson/-/superjson-2.2.6.tgz 895ms (cache miss)
+461 http fetch GET 200 https://registry.npmjs.org/@vue/devtools-api/-/devtools-api-8.1.2.tgz 862ms (cache miss)
+462 http fetch GET 200 https://registry.npmjs.org/speakingurl/-/speakingurl-14.0.1.tgz 900ms (cache miss)
+463 http fetch GET 200 https://registry.npmjs.org/@vue/devtools-kit/-/devtools-kit-7.7.9.tgz 969ms (cache miss)
+464 http fetch GET 200 https://registry.npmjs.org/confbox/-/confbox-0.1.8.tgz 981ms (cache miss)
+465 http fetch GET 200 https://registry.npmjs.org/is-what/-/is-what-5.5.0.tgz 1033ms (cache miss)
+466 http fetch GET 200 https://registry.npmjs.org/@vue/devtools-kit/-/devtools-kit-8.1.2.tgz 1014ms (cache miss)
+467 http fetch GET 200 https://registry.npmjs.org/vue-router/-/vue-router-5.0.7.tgz 1121ms (cache miss)
+468 http fetch GET 200 https://registry.npmjs.org/@babel/types/-/types-8.0.0-rc.6.tgz 1205ms (cache miss)
+469 http fetch GET 200 https://registry.npmjs.org/@babel/parser/-/parser-8.0.0-rc.6.tgz 1205ms (cache miss)
+470 http fetch GET 200 https://registry.npmjs.org/yaml/-/yaml-2.9.0.tgz 1515ms (cache miss)
+471 silly ADD node_modules/webpack-virtual-modules
+472 silly ADD node_modules/@jridgewell/remapping
+473 silly ADD node_modules/exsolve
+474 silly ADD node_modules/confbox
+475 silly ADD node_modules/ufo
+476 silly ADD node_modules/acorn
+477 silly ADD node_modules/quansync
+478 silly ADD node_modules/pkg-types
+479 silly ADD node_modules/readdirp
+480 silly ADD node_modules/magic-string-ast
+481 silly ADD node_modules/ast-kit
+482 silly ADD node_modules/@jridgewell/resolve-uri
+483 silly ADD node_modules/jsesc
+484 silly ADD node_modules/@types/jsesc
+485 silly ADD node_modules/@jridgewell/trace-mapping
+486 silly ADD node_modules/@jridgewell/gen-mapping
+487 silly ADD node_modules/yaml
+488 silly ADD node_modules/unplugin-utils
+489 silly ADD node_modules/unplugin
+490 silly ADD node_modules/scule
+491 silly ADD node_modules/pathe
+492 silly ADD node_modules/mlly
+493 silly ADD node_modules/mlly/node_modules/confbox
+494 silly ADD node_modules/mlly/node_modules/pkg-types
+495 silly ADD node_modules/local-pkg
+496 silly ADD node_modules/json5
+497 silly ADD node_modules/chokidar
+498 silly ADD node_modules/ast-walker-scope
+499 silly ADD node_modules/@vue-macros/common
+500 silly ADD node_modules/@babel/generator
+501 silly ADD node_modules/@babel/generator/node_modules/@babel/helper-validator-identifier
+502 silly ADD node_modules/@babel/generator/node_modules/@babel/helper-string-parser
+503 silly ADD node_modules/@babel/generator/node_modules/@babel/types
+504 silly ADD node_modules/@babel/generator/node_modules/@babel/parser
+505 silly ADD node_modules/is-what
+506 silly ADD node_modules/copy-anything
+507 silly ADD node_modules/rfdc
+508 silly ADD node_modules/superjson
+509 silly ADD node_modules/speakingurl
+510 silly ADD node_modules/perfect-debounce
+511 silly ADD node_modules/mitt
+512 silly ADD node_modules/hookable
+513 silly ADD node_modules/birpc
+514 silly ADD node_modules/@vue/devtools-shared
+515 silly ADD node_modules/@vue/devtools-kit
+516 silly ADD node_modules/@vue/devtools-api
+517 silly ADD node_modules/vue-router
+518 silly ADD node_modules/vue-router/node_modules/perfect-debounce
+519 silly ADD node_modules/vue-router/node_modules/@vue/devtools-shared
+520 silly ADD node_modules/vue-router/node_modules/@vue/devtools-kit
+521 silly ADD node_modules/vue-router/node_modules/@vue/devtools-api
+522 silly ADD node_modules/pinia
+523 verbose cwd F:\software\JetBrains\IdeaProject\flowstudy-frontend
+524 verbose os Windows_NT 10.0.26200
+525 verbose node v24.16.0
+526 verbose npm  v11.13.0
+527 verbose exit 0
+528 info ok
