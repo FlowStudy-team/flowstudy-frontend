@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FlowStudy - 文章页原型</title>
+    <style>
+      body { margin: 0; font-family: "Segoe UI", Arial, sans-serif; background: #f8fafc; color: #1f2937; }
+      .top { height: 64px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; background: #fff; border-bottom: 1px solid #e5e7eb; }
+      .layout { display: grid; grid-template-columns: 280px 1fr 320px; min-height: calc(100vh - 64px); }
+      .left, .right { background: #fff; border-right: 1px solid #e5e7eb; padding: 14px; }
+      .right { border-right: none; border-left: 1px solid #e5e7eb; }
+      .center { padding: 20px; overflow: auto; }
+      .item { padding: 8px 10px; border-radius: 8px; margin-bottom: 6px; background: #f1f5f9; }
+      .item:hover { background: #dbeafe; color: #1d4ed8; }
+      .chat { border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px; margin-bottom: 8px; background: #f8fafc; }
+      .input { width: 100%; height: 38px; border: 1px solid #cbd5e1; border-radius: 8px; padding: 0 10px; }
+      .btn { margin-top: 8px; width: 100%; border: none; border-radius: 8px; height: 36px; background: #2563eb; color: #fff; }
+      @media (max-width: 1100px) { .layout { grid-template-columns: 1fr; } .left,.right { border: none; } }
+    </style>
+  </head>
+  <body>
+    <header class="top">
+      <strong>FlowStudy - 文章阅读</strong>
+      <div><a href="./home.html">首页</a> · <a href="./auth.html">登录/注册</a></div>
+    </header>
+    <main class="layout">
+      <aside class="left">
+        <h3>目录导航</h3>
+        <div class="item">项目介绍</div>
+        <div class="item">面试准备（必看）</div>
+        <div class="item">Java</div>
+        <div class="item">数据库</div>
+        <div class="item">系统设计</div>
+      </aside>
+      <section class="center">
+        <h1>Java 面试题汇总</h1>
+        <p>这里是文章正文展示区域，用于承载知识点、段落、列表和章节内容。</p>
+        <h2>概念</h2>
+        <ul>
+          <li>平台无关性：一次编写，到处运行。</li>
+          <li>面向对象：封装、继承、多态。</li>
+          <li>内存管理：GC 自动回收。</li>
+        </ul>
+      </section>
+      <aside class="right">
+        <h3>AI 对话侧栏</h3>
+        <div class="chat">你：这节的重点是什么？</div>
+        <div class="chat">AI：建议先掌握 Java 基础，再过渡到并发和系统设计。</div>
+        <input class="input" placeholder="输入问题..." />
+        <button class="btn">发送</button>
+      </aside>
+    </main>
+  </body>
+  </html>
