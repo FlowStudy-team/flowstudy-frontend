@@ -2,6 +2,8 @@
 import { computed, onMounted, ref } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import { fetchChapterDetail } from '../../api/modules/articles'
+import AiSidebar from '../../components/ai/AiSidebar.vue'
+import UserAvatarMenu from '../../components/common/UserAvatarMenu.vue'
 import EmptyState from '../../components/common/EmptyState.vue'
 import ErrorRetry from '../../components/common/ErrorRetry.vue'
 import LoadingBlock from '../../components/common/LoadingBlock.vue'
@@ -10,9 +12,9 @@ import { useAiStore } from '../../store/modules/ai'
 import { useAuthStore } from '../../store/modules/auth'
 import type { ChapterDetail } from '../../types/article'
 
-interface NavSection {
+interface NavItem {
   title: string
-  children: string[]
+  children?: NavItem[]
 }
 
 const route = useRoute()
@@ -23,22 +25,27 @@ const error = ref('')
 const detail = ref<ChapterDetail | null>(null)
 const chapterId = computed(() => String(route.params.chapterId))
 const showAi = ref(true)
-const aiInput = ref('')
+const aiWidth = ref(360)
 const isAuthed = computed(() => authStore.isAuthenticated)
 const expanded = ref<string[]>(['Java'])
 const activeTop = ref('Java')
 
-const navSections: NavSection[] = [
-  { title: '项目介绍', children: ['项目地址', '在线阅读'] },
-  { title: '面试准备（必看）', children: ['学习路线', '简历准备', '项目经验'] },
-  { title: 'Java', children: ['Java基础面试题', 'Java集合', 'JVM'] },
-  { title: '数据库', children: ['MySQL', 'Redis', '事务与索引'] },
-  { title: '开发工具', children: ['Git', 'Maven', 'Docker'] },
-  { title: '常用框架', children: ['Spring', 'MyBatis', 'Spring Boot'] },
-  { title: '系统设计', children: ['缓存设计', '限流熔断', '一致性'] },
-  { title: '分布式', children: ['分布式事务', '消息队列', '服务治理'] },
-  { title: '高性能', children: ['性能分析', '热点优化', '并发模型'] },
-  { title: '高可用', children: ['容灾', '降级', '监控告警'] },
+const navSections: NavItem[] = [
+  { title: '项目介绍', children: [{ title: '项目地址' }, { title: '在线阅读' }] },
+  { title: '面试准备（必看）', children: [{ title: '学习路线' }, { title: '简历准备' }, { title: '项目经验' }] },
+  {
+    title: 'Java',
+    children: [
+      { title: 'Java基础面试题', children: [{ title: '概念' }, { title: '数据类型' }] },
+      { title: 'Java集合', children: [{ title: 'List' }, { title: 'Map' }] },
+      { title: 'JVM', children: [{ title: '内存模型' }, { title: 'GC' }] },
+    ],
+  },
+  { title: '数据库', children: [{ title: 'MySQL' }, { title: 'Redis' }, { title: '事务与索引' }] },
+  { title: '开发工具', children: [{ title: 'Git' }, { title: 'Maven' }, { title: 'Docker' }] },
+  { title: '常用框架', children: [{ title: 'Spring' }, { title: 'MyBatis' }, { title: 'Spring Boot' }] },
+  { title: '系统设计', children: [{ title: '缓存设计' }, { title: '限流熔断' }, { title: '一致性' }] },
+  { title: '分布式', children: [{ title: '分布式事务' }, { title: '消息队列' }, { title: '服务治理' }] },
 ]
 
 function isExpanded(title: string) {
@@ -60,17 +67,10 @@ async function load() {
   try {
     detail.value = await fetchChapterDetail('a1', chapterId.value)
   } catch (err) {
-    error.value = err instanceof Error ? err.message : 'Load failed.'
+    error.value = err instanceof Error ? err.message : '加载失败'
   } finally {
     loading.value = false
   }
-}
-
-async function sendAi() {
-  const text = aiInput.value.trim()
-  if (!text) return
-  aiInput.value = ''
-  await aiStore.send(text)
 }
 
 async function analyzeCurrentChapter() {
@@ -85,7 +85,7 @@ onMounted(load)
   <section class="reader-page">
     <LoadingBlock v-if="loading" />
     <ErrorRetry v-else-if="error" :text="error" @retry="load" />
-    <EmptyState v-else-if="!detail" text="Chapter not found." />
+    <EmptyState v-else-if="!detail" text="章节不存在" />
     <div v-else class="reader-page-wrap">
       <header class="jg-header">
         <div class="jg-brand">
@@ -93,10 +93,11 @@ onMounted(load)
           <strong>FlowStudy</strong>
         </div>
         <nav class="jg-nav">
+          <RouterLink to="/">首页</RouterLink>
           <a href="#">后端开发</a>
           <a href="#">计算机基础</a>
           <a href="#">AI应用开发</a>
-          <a href="#">算法练习</a>
+          <RouterLink to="/practice">算法练习</RouterLink>
           <a href="#">AI编程</a>
           <a href="#" class="active">推荐阅读</a>
           <a href="#">网站相关</a>
@@ -104,11 +105,14 @@ onMounted(load)
         <div class="jg-actions">
           <RouterLink v-if="!isAuthed" class="secondary-btn link-btn" to="/login">登录</RouterLink>
           <RouterLink v-if="!isAuthed" class="primary-btn link-btn" to="/register">注册</RouterLink>
-          <RouterLink v-if="isAuthed" class="primary-btn link-btn" to="/articles">文章列表</RouterLink>
+          <UserAvatarMenu v-if="isAuthed" />
         </div>
       </header>
 
-      <div class="reader-layout" :class="{ 'ai-hidden': !showAi }">
+      <div
+        class="reader-layout ai-sidebar-host"
+        :style="{ gridTemplateColumns: `320px minmax(0,1fr) ${showAi ? `${aiWidth + 8}px` : '48px'}` }"
+      >
         <aside class="reader-sidebar">
           <h3>JavaGuide</h3>
           <p class="reader-section-index">后端开发知识导航</p>
@@ -121,11 +125,16 @@ onMounted(load)
                 @click="toggleSection(section.title)"
               >
                 <span>{{ section.title }}</span>
-                <span>{{ isExpanded(section.title) ? '⌄' : '›' }}</span>
+                <span>{{ isExpanded(section.title) ? '▾' : '▸' }}</span>
               </button>
               <ul v-if="isExpanded(section.title)" class="reader-sublist">
-                <li v-for="child in section.children" :key="child">
-                  <a href="#">{{ child }}</a>
+                <li v-for="child in section.children ?? []" :key="child.title">
+                  <a href="#" class="reader-lv2-link">{{ child.title }}</a>
+                  <ul v-if="child.children?.length" class="reader-third-list">
+                    <li v-for="third in child.children" :key="third.title">
+                      <a href="#" class="reader-lv3-link">{{ third.title }}</a>
+                    </li>
+                  </ul>
                 </li>
               </ul>
             </li>
@@ -146,26 +155,7 @@ onMounted(load)
           </div>
         </article>
 
-        <aside v-if="showAi" class="reader-ai">
-          <div class="reader-ai-header">
-            <strong>AI 对话侧栏</strong>
-            <button class="secondary-btn" @click="showAi = false">隐藏</button>
-          </div>
-          <div class="reader-ai-body">
-            <p v-if="aiStore.messages.length === 0" class="muted">可基于当前章节提问。</p>
-            <article v-for="msg in aiStore.messages" :key="msg.id" class="msg" :class="msg.role">
-              <strong>{{ msg.role === 'user' ? '你' : 'AI' }}</strong>
-              <p>{{ msg.content }}</p>
-            </article>
-            <p v-if="aiStore.loading" class="muted">AI 正在生成...</p>
-          </div>
-          <div class="reader-ai-footer">
-            <input v-model="aiInput" placeholder="输入你的问题" @keydown.enter="sendAi" />
-            <button class="primary-btn small" :disabled="aiStore.loading" @click="sendAi">发送</button>
-          </div>
-        </aside>
-
-        <button v-else class="reader-ai-toggle secondary-btn" @click="showAi = true">展开 AI</button>
+        <AiSidebar v-model="showAi" :width="aiWidth" @update:width="aiWidth = $event" />
       </div>
     </div>
   </section>

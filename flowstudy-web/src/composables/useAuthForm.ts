@@ -96,9 +96,7 @@ export function useAuthForm(mode: AuthMode) {
 
   async function submit() {
     resetFeedback()
-    if (!validate()) {
-      return
-    }
+    if (!validate()) return
 
     loading.value = true
     try {
@@ -111,7 +109,10 @@ export function useAuthForm(mode: AuthMode) {
         empty.value = true
         return
       }
-      authStore.setToken(response.token)
+      authStore.setAuth({
+        token: response.token,
+        displayName: form.email.split('@')[0] || 'Learner',
+      })
       successMessage.value = response.message ?? 'Success.'
       if (mode === 'register') {
         Object.assign(form, getDefaultForm())
@@ -136,3 +137,4 @@ export function useAuthForm(mode: AuthMode) {
     submit,
   }
 }
+

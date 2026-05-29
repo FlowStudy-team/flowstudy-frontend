@@ -2,11 +2,13 @@ import { createRouter, createWebHistory } from 'vue-router'
 import AuthLayout from '../layouts/AuthLayout.vue'
 import AppShell from '../layouts/AppShell.vue'
 import ArticleReaderLayout from '../layouts/ArticleReaderLayout.vue'
+import OjProblemDetailView from '../views/oj/OjProblemDetailView.vue'
 import LoginView from '../views/auth/LoginView.vue'
 import RegisterView from '../views/auth/RegisterView.vue'
 import ArticleDetailView from '../views/articles/ArticleDetailView.vue'
 import ChapterDetailView from '../views/articles/ChapterDetailView.vue'
-import ProblemDetailView from '../views/problems/ProblemDetailView.vue'
+import PracticePlanView from '../views/practice/PracticePlanView.vue'
+import ProgressAnalysisView from '../views/profile/ProgressAnalysisView.vue'
 import ProfileHomeView from '../views/profile/ProfileHomeView.vue'
 import SubmissionListView from '../views/profile/SubmissionListView.vue'
 import HomeView from '../views/home/HomeView.vue'
@@ -43,10 +45,24 @@ const router = createRouter({
       path: '/',
       component: AppShell,
       children: [
-        { path: 'problems/:problemId', name: 'problem-detail', component: ProblemDetailView },
         { path: 'me', name: 'profile-home', component: ProfileHomeView },
         { path: 'me/submissions', name: 'profile-submissions', component: SubmissionListView },
       ],
+    },
+    {
+      path: '/practice',
+      name: 'practice',
+      component: PracticePlanView,
+    },
+    {
+      path: '/progress',
+      name: 'progress-analysis',
+      component: ProgressAnalysisView,
+    },
+    {
+      path: '/problems/:problemId',
+      name: 'problem-detail',
+      component: OjProblemDetailView,
     },
     {
       path: '/articles',
@@ -69,7 +85,7 @@ const router = createRouter({
 router.beforeEach((to) => {
   const authStore = useAuthStore()
   const publicPaths = ['/', '/login', '/register', '/403', '/500']
-  const publicPrefixes = ['/articles', '/problems']
+  const publicPrefixes = ['/articles', '/problems', '/practice']
   const isAuthPage = to.path === '/login' || to.path === '/register'
   const isPublicPrefix = publicPrefixes.some((prefix) => to.path.startsWith(prefix))
   if (!authStore.isAuthenticated && !publicPaths.includes(to.path) && !isPublicPrefix) {
