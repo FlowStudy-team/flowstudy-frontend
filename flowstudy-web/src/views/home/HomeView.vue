@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useAuthStore } from '../../store/modules/auth'
 import heroImage from '../../assets/hero.png'
+import UserAvatarMenu from '../../components/common/UserAvatarMenu.vue'
 
 interface LinkItem {
   text: string
@@ -37,7 +38,7 @@ const recommends: LinkItem[] = [
         <a href="#">后端开发</a>
         <a href="#">计算机基础</a>
         <a href="#">AI应用开发</a>
-        <a href="#">算法练习</a>
+        <RouterLink to="/practice">算法练习</RouterLink>
         <a href="#">AI编程</a>
         <a href="#">推荐阅读</a>
         <a href="#">网站相关</a>
@@ -45,7 +46,7 @@ const recommends: LinkItem[] = [
       <div class="jg-actions">
         <RouterLink v-if="!isAuthed" class="secondary-btn link-btn" to="/login">登录</RouterLink>
         <RouterLink v-if="!isAuthed" class="primary-btn link-btn" to="/register">注册</RouterLink>
-        <RouterLink v-if="isAuthed" class="primary-btn link-btn" to="/articles">进入学习</RouterLink>
+        <UserAvatarMenu v-if="isAuthed" />
       </div>
     </header>
 
