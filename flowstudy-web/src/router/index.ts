@@ -12,6 +12,9 @@ import ProgressAnalysisView from '../views/profile/ProgressAnalysisView.vue'
 import ProfileHomeView from '../views/profile/ProfileHomeView.vue'
 import SubmissionListView from '../views/profile/SubmissionListView.vue'
 import HomeView from '../views/home/HomeView.vue'
+import DocumentListView from '../views/document/DocumentListView.vue'
+import DocumentWorkspaceView from '../views/document/DocumentWorkspaceView.vue'
+import DocumentReadView from '../views/document/DocumentReadView.vue'
 import ForbiddenView from '../views/system/ForbiddenView.vue'
 import NotFoundView from '../views/system/NotFoundView.vue'
 import ServerErrorView from '../views/system/ServerErrorView.vue'
@@ -74,6 +77,15 @@ const router = createRouter({
           name: 'chapter-detail',
           component: ChapterDetailView,
         },
+      ],
+    },
+    {
+      path: '/document',
+      children: [
+        { path: '', name: 'document-list', component: DocumentListView },
+        { path: 'workspace', name: 'document-workspace', component: DocumentWorkspaceView },
+        { path: ':id', name: 'document-read', component: DocumentReadView },
+        { path: ':id/edit', name: 'document-edit', component: DocumentWorkspaceView },
       ],
     },
     { path: '/403', name: 'forbidden', component: ForbiddenView },

@@ -12,19 +12,19 @@ const displayName = computed(() => authStore.displayName || 'Learner')
 const avatarText = computed(() => displayName.value.slice(0, 1).toUpperCase())
 
 const quickActions = [
-  { icon: '📝', label: '题单' },
+  { icon: '📝', label: '题单', to: '/practice' },
   { icon: '⭐', label: '收藏夹' },
-  { icon: '📘', label: '笔记本' },
-  { icon: '💡', label: '我的题解' },
-  { icon: '📈', label: '进展分析', to: '/progress' },
-  { icon: '🪙', label: '积分' },
+  { icon: '📘', label: '笔记本', to: '/document' },
+  { icon: '📕', label: '我的题解' },
+  { icon: '📊', label: '进展分析', to: '/progress' },
+  { icon: '🏅', label: '积分' },
 ]
 
 const menuItems = [
   { icon: '🧪', label: '体验新功能' },
-  { icon: '📋', label: '订单' },
+  { icon: '📦', label: '订单' },
   { icon: '🧩', label: '我的 Playgrounds' },
-  { icon: '🪪', label: '账号设置' },
+  { icon: '⚙️', label: '账号设置' },
   { icon: '🎨', label: '外观' },
 ]
 
@@ -103,4 +103,3 @@ onBeforeUnmount(() => {
     </section>
   </div>
 </template>
-

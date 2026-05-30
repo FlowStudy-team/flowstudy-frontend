@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1800" viewBox="0 0 1600 1800">
+  <style>
+    .bg{fill:#f6f8fb}.board{fill:#fff;stroke:#111827;stroke-width:3}.panel{fill:#fcfcfd;stroke:#d8dee9;stroke-width:2}.line{stroke:#d8dee9;stroke-width:2}.text{font-family:Arial,"Microsoft YaHei",sans-serif;fill:#1f2937;font-size:24px}.small{font-size:18px;fill:#6b7280}.title{font-size:34px;font-weight:700}.label{font-size:22px;font-weight:700}.btn{fill:#eef4ff;stroke:#2563eb;stroke-width:2}.primary{fill:#2563eb}.white{fill:white}.code{fill:#0f172a}.codeText{font-family:Consolas,monospace;fill:#dbeafe;font-size:18px}
+  </style>
+  <rect class="bg" x="0" y="0" width="1600" height="1800"/>
+  <text class="text title" x="60" y="70">FlowStudy 文档模块原型图</text>
+  <text class="text small" x="60" y="105">核心页面：文档工作台、文档列表、阅读页、发布为博客弹窗、移动端适配</text>
+
+  <!-- Workspace -->
+  <text class="text label" x="60" y="160">1. 文档工作台 Desktop</text>
+  <rect class="board" x="60" y="185" width="1480" height="520" rx="16"/>
+  <line class="line" x1="60" y1="245" x2="1540" y2="245"/>
+  <text class="text" x="85" y="225">FlowStudy 文档工作台</text>
+  <rect class="btn" x="1040" y="202" width="100" height="32" rx="8"/><text class="text small" x="1062" y="224">保存</text>
+  <rect class="primary" x="1150" y="202" width="100" height="32" rx="8"/><text class="text small white" x="1172" y="224">发布</text>
+  <line class="line" x1="320" y1="245" x2="320" y2="705"/>
+  <line class="line" x1="1220" y1="245" x2="1220" y2="705"/>
+  <text class="text label" x="90" y="285">左侧导航</text>
+  <text class="text small" x="90" y="325">我的文档</text>
+  <text class="text small" x="90" y="360">算法笔记 / Java / 前端</text>
+  <text class="text small" x="90" y="395">最近编辑</text>
+  <text class="text label" x="350" y="285">中间 Markdown 编辑器</text>
+  <rect class="panel" x="350" y="305" width="830" height="55" rx="10"/>
+  <text class="text" x="375" y="342">标题输入：背包问题学习笔记</text>
+  <rect class="code" x="350" y="380" width="405" height="250" rx="10"/>
+  <rect class="panel" x="775" y="380" width="405" height="250" rx="10"/>
+  <text class="codeText" x="375" y="420">## 背包问题</text>
+  <text class="codeText" x="375" y="455">Markdown 编辑区</text>
+  <text class="text" x="800" y="420">Markdown 预览区</text>
+  <text class="text small" x="350" y="665">字数 1260 · 自动保存 12:30</text>
+  <text class="text label" x="1250" y="285">右侧属性 / 大纲</text>
+  <text class="text small" x="1250" y="325">状态：私有</text>
+  <text class="text small" x="1250" y="360">分类：算法笔记</text>
+  <text class="text small" x="1250" y="395">标签：DP / 算法</text>
+  <text class="text small" x="1250" y="450">文章大纲</text>
+
+  <!-- List -->
+  <text class="text label" x="60" y="780">2. 文档列表页</text>
+  <rect class="board" x="60" y="805" width="1480" height="340" rx="16"/>
+  <line class="line" x1="60" y1="865" x2="1540" y2="865"/>
+  <text class="text" x="85" y="845">文档中心</text>
+  <rect class="primary" x="1340" y="823" width="150" height="34" rx="8"/><text class="text small white" x="1368" y="846">新建文档</text>
+  <rect class="panel" x="90" y="885" width="380" height="42" rx="8"/><text class="text small" x="110" y="913">搜索文档标题 / 内容</text>
+  <rect class="panel" x="490" y="885" width="150" height="42" rx="8"/><text class="text small" x="515" y="913">分类：全部</text>
+  <rect class="panel" x="660" y="885" width="150" height="42" rx="8"/><text class="text small" x="685" y="913">标签：全部</text>
+  <rect class="panel" x="90" y="955" width="430" height="150" rx="12"/><text class="text" x="115" y="995">背包问题学习笔记</text><text class="text small" x="115" y="1030">私有文档 · 标签：DP / 算法</text>
+  <rect class="panel" x="585" y="955" width="430" height="150" rx="12"/><text class="text" x="610" y="995">Vue3 组件设计</text><text class="text small" x="610" y="1030">已发布 · 标签：Vue3 / 架构</text>
+  <rect class="panel" x="1080" y="955" width="430" height="150" rx="12"/><text class="text" x="1105" y="995">OJ 编辑器设计</text><text class="text small" x="1105" y="1030">草稿 · 标签：Monaco / OJ</text>
+
+  <!-- Read -->
+  <text class="text label" x="60" y="1220">3. 文档阅读页</text>
+  <rect class="board" x="60" y="1245" width="900" height="410" rx="16"/>
+  <line class="line" x1="60" y1="1305" x2="960" y2="1305"/>
+  <text class="text" x="85" y="1285">返回文档中心</text>
+  <line class="line" x1="730" y1="1305" x2="730" y2="1655"/>
+  <text class="text title" x="95" y="1365">背包问题学习笔记</text>
+  <text class="text small" x="95" y="1405">分类：算法笔记 · 标签：DP、算法、刷题</text>
+  <text class="text" x="95" y="1460">Markdown 渲染内容</text>
+  <rect class="code" x="95" y="1490" width="560" height="90" rx="10"/>
+  <text class="codeText" x="120" y="1535">public class Solution { ... }</text>
+  <text class="text label" x="760" y="1360">文章目录</text>
+  <text class="text small" x="760" y="1400">1. 背包问题</text>
+  <text class="text small" x="760" y="1435">2. 01 背包</text>
+
+  <!-- Dialog -->
+  <text class="text label" x="1020" y="1220">4. 发布为博客弹窗</text>
+  <rect class="board" x="1020" y="1245" width="520" height="410" rx="16"/>
+  <text class="text label" x="1060" y="1305">发布为博客</text>
+  <rect class="panel" x="1060" y="1340" width="420" height="42" rx="8"/><text class="text small" x="1078" y="1368">博客标题：背包问题学习笔记</text>
+  <rect class="panel" x="1060" y="1400" width="420" height="70" rx="8"/><text class="text small" x="1078" y="1430">摘要：用于记录动态规划...</text>
+  <rect class="panel" x="1060" y="1490" width="180" height="42" rx="8"/><text class="text small" x="1080" y="1518">封面上传</text>
+  <rect class="panel" x="1260" y="1490" width="220" height="42" rx="8"/><text class="text small" x="1280" y="1518">可见性：公开</text>
+  <rect class="primary" x="1340" y="1585" width="140" height="40" rx="8"/><text class="text small white" x="1365" y="1612">确认发布</text>
+</svg>
