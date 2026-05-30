@@ -1,9 +1,12 @@
 # Dependencies
 node_modules/
+**/node_modules/
 
 # Build output
 dist/
 dist-ssr/
+**/dist/
+**/dist-ssr/
 
 # Logs
 logs/
@@ -12,6 +15,7 @@ npm-debug.log*
 yarn-debug.log*
 pnpm-debug.log*
 lerna-debug.log*
+debug.log
 
 # Environment files
 .env
@@ -22,10 +26,12 @@ lerna-debug.log*
 .vscode/*
 !.vscode/extensions.json
 .idea/
+.history/
 
 # OS files
 .DS_Store
 Thumbs.db
+Desktop.ini
 
 # TypeScript
 *.tsbuildinfo
@@ -39,6 +45,16 @@ coverage/
 # Local cache
 .vite/
 **/.vite/
+.npm-cache/
+**/.npm-cache/
+.cache/
+**/.cache/
 
 # Local editor settings
 flowstudy-web/.vscode/
+
+# Test artifacts
+playwright-report/
+test-results/
+**/playwright-report/
+**/test-results/

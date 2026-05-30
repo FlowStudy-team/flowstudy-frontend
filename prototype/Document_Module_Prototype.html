@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FlowStudy 文档模块原型图</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --panel: #ffffff;
+      --border: #d8dee9;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --primary: #2563eb;
+      --soft: #eef4ff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 32px;
+    }
+    h1 { margin: 0 0 8px; }
+    .desc { color: var(--muted); margin-bottom: 28px; }
+    .artboard {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      margin: 0 0 32px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+    }
+    .title {
+      font-weight: 700;
+      font-size: 20px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .note { color: var(--muted); font-size: 13px; }
+    .wire {
+      border: 2px solid #111827;
+      border-radius: 10px;
+      overflow: hidden;
+      background: white;
+    }
+    .bar {
+      height: 54px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      background: #fbfdff;
+      font-weight: 600;
+    }
+    .actions { display: flex; gap: 8px; align-items: center; }
+    .btn {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 7px 12px;
+      background: white;
+      font-size: 13px;
+    }
+    .btn.primary { background: var(--primary); color: white; border-color: var(--primary); }
+    .search {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      color: var(--muted);
+      background: white;
+      min-width: 220px;
+      font-size: 13px;
+    }
+    .workspace {
+      display: grid;
+      grid-template-columns: 250px 1fr 280px;
+      min-height: 560px;
+    }
+    .left, .center, .right { padding: 16px; }
+    .left { border-right: 1px solid var(--border); background: #fcfcfd; }
+    .right { border-left: 1px solid var(--border); background: #fcfcfd; }
+    .section-title {
+      font-weight: 700;
+      font-size: 14px;
+      margin: 0 0 12px;
+    }
+    .tree, .list { font-size: 14px; line-height: 1.9; color: #374151; }
+    .tree .active {
+      background: var(--soft);
+      color: var(--primary);
+      padding: 3px 8px;
+      border-radius: 6px;
+      display: inline-block;
+    }
+    .input-title {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      background: #fff;
+    }
+    .editor {
+      height: 405px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+    }
+    .editor > div { padding: 16px; }
+    .editor .edit { border-right: 1px solid var(--border); background: #0f172a; color: #dbeafe; font-family: Consolas, monospace; }
+    .editor .preview { background: #fff; }
+    .status { margin-top: 10px; color: var(--muted); font-size: 13px; display: flex; justify-content: space-between; }
+    .field { margin-bottom: 14px; }
+    .label { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+    .value {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      background: white;
+      font-size: 13px;
+    }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag {
+      background: var(--soft);
+      color: var(--primary);
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-size: 12px;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      padding: 16px;
+    }
+    .filter {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      min-height: 150px;
+      background: #fff;
+    }
+    .card h3 { margin: 0 0 10px; font-size: 17px; }
+    .card p { margin: 6px 0; color: var(--muted); font-size: 13px; }
+    .read-layout {
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      min-height: 480px;
+    }
+    .article { padding: 28px 40px; }
+    .toc { border-left: 1px solid var(--border); padding: 22px; background: #fcfcfd; }
+    .code {
+      background: #111827;
+      color: #d1d5db;
+      border-radius: 8px;
+      padding: 14px;
+      font-family: Consolas, monospace;
+      font-size: 13px;
+    }
+    .dialog-wrap {
+      min-height: 430px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #eef4ff, #f8fafc);
+    }
+    .dialog {
+      width: 460px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.16);
+      overflow: hidden;
+    }
+    .dialog-head, .dialog-foot {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border);
+      font-weight: 700;
+    }
+    .dialog-foot { border-bottom: 0; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 8px; }
+    .dialog-body { padding: 18px; }
+    .mobile {
+      width: 390px;
+      margin: 0 auto;
+      border: 2px solid #111827;
+      border-radius: 28px;
+      overflow: hidden;
+      background: white;
+    }
+    .mobile .bar { height: 56px; }
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-bottom: 1px solid var(--border);
+    }
+    .tab {
+      text-align: center;
+      padding: 12px 0;
+      font-size: 13px;
+      border-right: 1px solid var(--border);
+    }
+    .tab.active { color: var(--primary); background: var(--soft); font-weight: 700; }
+    .mobile-content { padding: 16px; min-height: 520px; }
+  </style>
+</head>
+<body>
+  <h1>FlowStudy 文档模块原型图</h1>
+  <p class="desc">用于指导 Codex 开发文档模块第一版：文档列表、文档工作台、阅读页、发布为博客弹窗和移动端适配。</p>
+
+  <section class="artboard">
+    <div class="title">1. 文档工作台 Desktop <span class="note">核心页面：/document/workspace</span></div>
+    <div class="wire">
+      <div class="bar">
+        <div>FlowStudy 文档工作台</div>
+        <div class="actions">
+          <div class="btn">返回</div>
+          <div class="btn primary">新建文档</div>
+          <div class="search">搜索文档...</div>
+          <div class="btn">已保存</div>
+          <div class="btn primary">发布</div>
+        </div>
+      </div>
+      <div class="workspace">
+        <aside class="left">
+          <div class="section-title">我的文档</div>
+          <div class="tree">
+            📁 算法笔记<br/>
+            &nbsp;&nbsp;├─ <span class="active">动态规划</span><br/>
+            &nbsp;&nbsp;├─ 图论<br/>
+            &nbsp;&nbsp;└─ 贪心<br/>
+            📁 Java<br/>
+            📁 前端<br/>
+            📁 FlowStudy
+          </div>
+          <br/>
+          <div class="section-title">最近编辑</div>
+          <div class="list">
+            - 背包问题<br/>
+            - Vue3 组件设计<br/>
+            - OJ 编辑器设计
+          </div>
+        </aside>
+        <main class="center">
+          <div class="input-title">背包问题学习笔记</div>
+          <div class="editor">
+            <div class="edit">
+              ## 背包问题<br/><br/>
+              这里是 Markdown 编辑区。<br/><br/>
+              ```java<br/>
+              public class Solution {<br/>
+              &nbsp;&nbsp;// code<br/>
+              }<br/>
+              ```
+            </div>
+            <div class="preview">
+              <h2>背包问题</h2>
+              <p>这里是 Markdown 预览区。</p>
+              <div class="code">public class Solution { ... }</div>
+            </div>
+          </div>
+          <div class="status">
+            <span>字数：1260</span>
+            <span>自动保存：12:30</span>
+          </div>
+        </main>
+        <aside class="right">
+          <div class="section-title">文档属性</div>
+          <div class="field"><div class="label">状态</div><div class="value">私有文档</div></div>
+          <div class="field"><div class="label">分类</div><div class="value">算法笔记 / 动态规划</div></div>
+          <div class="field"><div class="label">标签</div><div class="tags"><span class="tag">DP</span><span class="tag">算法</span><span class="tag">刷题</span></div></div>
+          <div class="field"><div class="label">摘要</div><div class="value">用于记录 DP 背包问题学习笔记...</div></div>
+          <div class="actions" style="margin-bottom:18px;"><div class="btn">保存</div><div class="btn">预览</div><div class="btn primary">发布为博客</div></div>
+          <div class="section-title">文章大纲</div>
+          <div class="list">1. 背包问题<br/>1.1 01 背包<br/>1.2 完全背包<br/>1.3 多重背包</div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="artboard">
+    <div class="title">2. 文档列表页 <span class="note">核心页面：/document</span></div>
+    <div class="wire">
+      <div class="bar">
+        <div>文档中心</div>
+        <div class="btn primary">新建文档</div>
+      </div>
+      <div class="filter">
+        <div class="search">搜索文档标题 / 内容</div>
+        <div class="btn">分类：全部</div>
+        <div class="btn">标签：全部</div>
+        <div class="btn">状态：全部</div>
+        <div class="btn">重置</div>
+      </div>
+      <div class="cards">
+        <div class="card">
+          <h3>背包问题学习笔记</h3>
+          <p>私有文档 · 算法笔记</p>
+          <p>标签：DP / 算法 / 刷题</p>
+          <p>更新：2026-05-29</p>
+          <div class="actions"><div class="btn">阅读</div><div class="btn">编辑</div></div>
+        </div>
+        <div class="card">
+          <h3>Vue3 组件设计</h3>
+          <p>已发布 · 前端</p>
+          <p>标签：Vue3 / 架构</p>
+          <p>更新：2026-05-28</p>
+          <div class="actions"><div class="btn">阅读</div><div class="btn">编辑</div></div>
+        </div>
+        <div class="card">
+          <h3>OJ 编辑器设计</h3>
+          <p>草稿 · FlowStudy</p>
+          <p>标签：Monaco / OJ</p>
+          <p>更新：2026-05-27</p>
+          <div class="actions"><div class="btn">继续编辑</div><div class="btn">更多</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="artboard">
+    <div class="title">3. 文档阅读页 <span class="note">核心页面：/document/:id</span></div>
+    <div class="wire">
+      <div class="bar">
+        <div>返回文档中心</div>
+        <div class="actions"><div class="btn">编辑</div><div class="btn primary">发布为博客</div><div class="btn">更多</div></div>
+      </div>
+      <div class="read-layout">
+        <main class="article">
+          <h1>背包问题学习笔记</h1>
+          <p style="color:var(--muted)">分类：算法笔记 / 动态规划 · 标签：DP、算法、刷题 · 更新：2026-05-29</p>
+          <hr/>
+          <h2>背包问题</h2>
+          <p>这里展示阅读态内容，支持代码高亮、表格、引用、公式。</p>
+          <div class="code">public class Solution {<br/>  // code<br/>}</div>
+        </main>
+        <aside class="toc">
+          <div class="section-title">文章目录</div>
+          <div class="list">1. 背包问题<br/>2. 01 背包<br/>3. 完全背包<br/>4. 多重背包</div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="artboard">
+    <div class="title">4. 发布为博客弹窗 <span class="note">Document → BlogPost</span></div>
+    <div class="wire dialog-wrap">
+      <div class="dialog">
+        <div class="dialog-head">发布为博客</div>
+        <div class="dialog-body">
+          <div class="field"><div class="label">博客标题</div><div class="value">背包问题学习笔记</div></div>
+          <div class="field"><div class="label">摘要</div><div class="value">用于记录动态规划背包问题的学习笔记...</div></div>
+          <div class="field"><div class="label">封面</div><div class="value">上传封面</div></div>
+          <div class="field"><div class="label">分类</div><div class="value">算法学习</div></div>
+          <div class="field"><div class="label">标签</div><div class="tags"><span class="tag">DP</span><span class="tag">算法</span><span class="tag">刷题</span></div></div>
+          <div class="field"><div class="label">可见性</div><div class="value">● 公开　○ 仅自己可见</div></div>
+        </div>
+        <div class="dialog-foot"><div class="btn">取消</div><div class="btn primary">确认发布</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="artboard">
+    <div class="title">5. 移动端适配 <span class="note">目录 / 编辑 / 属性 / 大纲切换</span></div>
+    <div class="mobile">
+      <div class="bar"><div>文档工作台</div><div class="actions"><div class="btn">保存</div><div class="btn primary">发布</div></div></div>
+      <div class="tabs">
+        <div class="tab">目录</div>
+        <div class="tab active">编辑</div>
+        <div class="tab">属性</div>
+        <div class="tab">大纲</div>
+      </div>
+      <div class="mobile-content">
+        <div class="input-title" style="font-size:18px">背包问题学习笔记</div>
+        <div style="border:1px solid var(--border);border-radius:10px;padding:14px;min-height:360px;background:#0f172a;color:#dbeafe;font-family:Consolas,monospace;">
+          ## 背包问题<br/><br/>
+          移动端不使用三栏布局，改为 Tab 切换。
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
