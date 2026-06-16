@@ -5,6 +5,7 @@ export interface DraftPayload {
   title: string
   content: string
   summary?: string
+  folderId?: number
   categoryId?: number
   tags: string[]
   updatedAt: string
@@ -48,4 +49,3 @@ export function useAutoSave(key: () => string, source: () => DraftPayload) {
     saveNow,
   }
 }
-

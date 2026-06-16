@@ -1,21 +1,17 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
-import { fetchChapterDetail } from '../../api/modules/articles'
+import { fetchArticleDetail, fetchChapterDetail } from '../../api/modules/articles'
 import AiSidebar from '../../components/ai/AiSidebar.vue'
 import UserAvatarMenu from '../../components/common/UserAvatarMenu.vue'
 import EmptyState from '../../components/common/EmptyState.vue'
 import ErrorRetry from '../../components/common/ErrorRetry.vue'
 import LoadingBlock from '../../components/common/LoadingBlock.vue'
+import MarkdownRenderer from '../../components/markdown/MarkdownRenderer.vue'
 import heroImage from '../../assets/hero.png'
 import { useAiStore } from '../../store/modules/ai'
 import { useAuthStore } from '../../store/modules/auth'
-import type { ChapterDetail } from '../../types/article'
-
-interface NavItem {
-  title: string
-  children?: NavItem[]
-}
+import type { ArticleDetail, ChapterDetail } from '../../types/article'
 
 const route = useRoute()
 const aiStore = useAiStore()
@@ -23,51 +19,23 @@ const authStore = useAuthStore()
 const loading = ref(false)
 const error = ref('')
 const detail = ref<ChapterDetail | null>(null)
+const article = ref<ArticleDetail | null>(null)
 const chapterId = computed(() => String(route.params.chapterId))
 const showAi = ref(true)
 const aiWidth = ref(360)
 const isAuthed = computed(() => authStore.isAuthenticated)
-const expanded = ref<string[]>(['Java'])
-const activeTop = ref('Java')
-
-const navSections: NavItem[] = [
-  { title: '项目介绍', children: [{ title: '项目地址' }, { title: '在线阅读' }] },
-  { title: '面试准备（必看）', children: [{ title: '学习路线' }, { title: '简历准备' }, { title: '项目经验' }] },
-  {
-    title: 'Java',
-    children: [
-      { title: 'Java基础面试题', children: [{ title: '概念' }, { title: '数据类型' }] },
-      { title: 'Java集合', children: [{ title: 'List' }, { title: 'Map' }] },
-      { title: 'JVM', children: [{ title: '内存模型' }, { title: 'GC' }] },
-    ],
-  },
-  { title: '数据库', children: [{ title: 'MySQL' }, { title: 'Redis' }, { title: '事务与索引' }] },
-  { title: '开发工具', children: [{ title: 'Git' }, { title: 'Maven' }, { title: 'Docker' }] },
-  { title: '常用框架', children: [{ title: 'Spring' }, { title: 'MyBatis' }, { title: 'Spring Boot' }] },
-  { title: '系统设计', children: [{ title: '缓存设计' }, { title: '限流熔断' }, { title: '一致性' }] },
-  { title: '分布式', children: [{ title: '分布式事务' }, { title: '消息队列' }, { title: '服务治理' }] },
-]
-
-function isExpanded(title: string) {
-  return expanded.value.includes(title)
-}
-
-function toggleSection(title: string) {
-  activeTop.value = title
-  if (isExpanded(title)) {
-    expanded.value = expanded.value.filter((item) => item !== title)
-  } else {
-    expanded.value = [...expanded.value, title]
-  }
-}
 
 async function load() {
   loading.value = true
   error.value = ''
+  detail.value = null
+  article.value = null
   try {
-    detail.value = await fetchChapterDetail('a1', chapterId.value)
+    const chapter = await fetchChapterDetail(1, chapterId.value)
+    detail.value = chapter
+    article.value = await fetchArticleDetail(chapter.articleId)
   } catch (err) {
-    error.value = err instanceof Error ? err.message : '加载失败'
+    error.value = err instanceof Error ? err.message : '章节加载失败'
   } finally {
     loading.value = false
   }
@@ -79,6 +47,7 @@ async function analyzeCurrentChapter() {
 }
 
 onMounted(load)
+watch(chapterId, load)
 </script>
 
 <template>
@@ -94,13 +63,9 @@ onMounted(load)
         </div>
         <nav class="jg-nav">
           <RouterLink to="/">首页</RouterLink>
-          <a href="#">后端开发</a>
-          <a href="#">计算机基础</a>
-          <a href="#">AI应用开发</a>
+          <RouterLink class="active" to="/articles">文章阅读</RouterLink>
           <RouterLink to="/practice">算法练习</RouterLink>
-          <a href="#">AI编程</a>
-          <a href="#" class="active">推荐阅读</a>
-          <a href="#">网站相关</a>
+          <RouterLink to="/document">学习文档</RouterLink>
         </nav>
         <div class="jg-actions">
           <RouterLink v-if="!isAuthed" class="secondary-btn link-btn" to="/login">登录</RouterLink>
@@ -114,42 +79,50 @@ onMounted(load)
         :style="{ gridTemplateColumns: `320px minmax(0,1fr) ${showAi ? `${aiWidth + 8}px` : '48px'}` }"
       >
         <aside class="reader-sidebar">
-          <h3>JavaGuide</h3>
-          <p class="reader-section-index">后端开发知识导航</p>
+          <h3>{{ article?.title ?? '章节目录' }}</h3>
+          <p class="reader-section-index">{{ article?.chapterCount ?? article?.chapters.length ?? 0 }} 个章节</p>
           <ul>
-            <li v-for="section in navSections" :key="section.title" class="reader-node">
-              <button
-                type="button"
+            <li v-for="chapter in article?.chapters ?? []" :key="chapter.id" class="reader-node">
+              <RouterLink
                 class="reader-node-btn"
-                :class="{ active: activeTop === section.title }"
-                @click="toggleSection(section.title)"
+                :class="{ active: chapter.id === detail.id }"
+                :to="`/articles/chapters/${chapter.id}`"
               >
-                <span>{{ section.title }}</span>
-                <span>{{ isExpanded(section.title) ? '▾' : '▸' }}</span>
-              </button>
-              <ul v-if="isExpanded(section.title)" class="reader-sublist">
-                <li v-for="child in section.children ?? []" :key="child.title">
-                  <a href="#" class="reader-lv2-link">{{ child.title }}</a>
-                  <ul v-if="child.children?.length" class="reader-third-list">
-                    <li v-for="third in child.children" :key="third.title">
-                      <a href="#" class="reader-lv3-link">{{ third.title }}</a>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
+                <span>{{ chapter.title }}</span>
+                <span v-if="chapter.estimatedMinutes">{{ chapter.estimatedMinutes }} 分钟</span>
+              </RouterLink>
             </li>
           </ul>
         </aside>
 
         <article class="reader-content">
           <h1>{{ detail.title }}</h1>
-          <p class="lead">{{ detail.markdown }}</p>
-          <h2>关联练习题</h2>
-          <div class="chapter-links">
+          <MarkdownRenderer :model-value="detail.markdown" />
+
+          <h2 v-if="detail.problemIds.length">关联练习题</h2>
+          <div v-if="detail.problemIds.length" class="chapter-links">
             <RouterLink v-for="id in detail.problemIds" :key="id" class="secondary-btn link-btn" :to="`/problems/${id}`">
-              {{ id }}
+              题目 {{ id }}
             </RouterLink>
           </div>
+
+          <div class="chapter-links">
+            <RouterLink
+              v-if="detail.prevChapterId"
+              class="secondary-btn link-btn"
+              :to="`/articles/chapters/${detail.prevChapterId}`"
+            >
+              上一章
+            </RouterLink>
+            <RouterLink
+              v-if="detail.nextChapterId"
+              class="secondary-btn link-btn"
+              :to="`/articles/chapters/${detail.nextChapterId}`"
+            >
+              下一章
+            </RouterLink>
+          </div>
+
           <div class="toolbar">
             <button class="primary-btn" @click="analyzeCurrentChapter">用 AI 分析本章节</button>
           </div>

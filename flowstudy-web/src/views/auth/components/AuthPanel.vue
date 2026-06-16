@@ -10,7 +10,7 @@ interface Props {
 
 const props = defineProps<Props>()
 const router = useRouter()
-const { modeLabel, submitText, switchText, form, loading, empty, error, successMessage, fieldErrors, submit } =
+const { modeLabel, submitText, switchText, form, loading, error, traceId, successMessage, fieldErrors, submit } =
   useAuthForm(props.mode)
 
 function goToOtherMode() {
@@ -41,16 +41,53 @@ watch(successMessage, (message) => {
       <p class="subtitle">Immersive, bright UI for coding-first learning workflows.</p>
 
       <form class="auth-form" @submit.prevent="submit">
-        <label for="email">Email</label>
-        <input
-          id="email"
-          v-model="form.email"
-          type="email"
-          placeholder="name@example.com"
-          autocomplete="email"
-          :disabled="loading"
-        />
-        <p v-if="fieldErrors.email" class="field-error">{{ fieldErrors.email }}</p>
+        <template v-if="mode === 'login'">
+          <label for="account">Username or Email</label>
+          <input
+            id="account"
+            v-model="form.account"
+            type="text"
+            placeholder="username or name@example.com"
+            autocomplete="username"
+            :disabled="loading"
+          />
+          <p v-if="fieldErrors.account" class="field-error">{{ fieldErrors.account }}</p>
+        </template>
+
+        <template v-else>
+          <label for="username">Username</label>
+          <input
+            id="username"
+            v-model="form.username"
+            type="text"
+            placeholder="letters, numbers, underscores"
+            autocomplete="username"
+            :disabled="loading"
+          />
+          <p v-if="fieldErrors.username" class="field-error">{{ fieldErrors.username }}</p>
+
+          <label for="email">Email <span class="optional">(optional)</span></label>
+          <input
+            id="email"
+            v-model="form.email"
+            type="email"
+            placeholder="name@example.com"
+            autocomplete="email"
+            :disabled="loading"
+          />
+          <p v-if="fieldErrors.email" class="field-error">{{ fieldErrors.email }}</p>
+
+          <label for="nickname">Nickname <span class="optional">(optional)</span></label>
+          <input
+            id="nickname"
+            v-model="form.nickname"
+            type="text"
+            placeholder="How should we call you?"
+            autocomplete="nickname"
+            :disabled="loading"
+          />
+          <p v-if="fieldErrors.nickname" class="field-error">{{ fieldErrors.nickname }}</p>
+        </template>
 
         <label for="password">Password</label>
         <input
@@ -58,7 +95,7 @@ watch(successMessage, (message) => {
           v-model="form.password"
           type="password"
           placeholder="At least 8 chars"
-          autocomplete="current-password"
+          :autocomplete="mode === 'login' ? 'current-password' : 'new-password'"
           :disabled="loading"
         />
         <p v-if="fieldErrors.password" class="field-error">{{ fieldErrors.password }}</p>
@@ -86,8 +123,8 @@ watch(successMessage, (message) => {
 
       <p v-if="loading" class="state loading">Sending request...</p>
       <p v-else-if="error" class="state error">{{ error }}</p>
-      <p v-else-if="empty" class="state empty">No response data returned. Please retry.</p>
       <p v-else-if="successMessage" class="state success">{{ successMessage }}</p>
+      <p v-if="traceId" class="trace-id">Trace ID: {{ traceId }}</p>
 
       <button type="button" class="switch-btn" :disabled="loading" @click="goToOtherMode">
         {{ switchText }}
