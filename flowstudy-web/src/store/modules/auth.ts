@@ -1,36 +1,52 @@
 import { defineStore } from 'pinia'
+import type { LoginResponse, User } from '../../types/auth'
+import { getStorageJSON, removeStorage, setStorageJSON } from '../../utils/storage'
+
+const AUTH_STORAGE_KEY = 'flowstudy_auth'
+
+interface StoredAuth {
+  token: string
+  user: User
+}
 
 interface AuthState {
   token: string
-  displayName: string
+  user: User | null
 }
+
+const storedAuth = getStorageJSON<StoredAuth>(AUTH_STORAGE_KEY)
 
 export const useAuthStore = defineStore('auth', {
   state: (): AuthState => ({
-    token: localStorage.getItem('flowstudy_token') ?? '',
-    displayName: localStorage.getItem('flowstudy_display_name') ?? '',
+    token: storedAuth?.token ?? '',
+    user: storedAuth?.user ?? null,
   }),
   getters: {
     isAuthenticated: (state) => Boolean(state.token),
+    displayName: (state) => state.user?.nickname || state.user?.username || 'Learner',
   },
   actions: {
-    setAuth(payload: { token: string; displayName?: string }) {
-      const name = payload.displayName?.trim() || 'Learner'
-      this.token = payload.token
-      this.displayName = name
-      localStorage.setItem('flowstudy_token', payload.token)
-      localStorage.setItem('flowstudy_display_name', name)
+    setLogin(loginResponse: LoginResponse) {
+      this.token = loginResponse.accessToken
+      this.user = loginResponse.user
+      setStorageJSON<StoredAuth>(AUTH_STORAGE_KEY, {
+        token: loginResponse.accessToken,
+        user: loginResponse.user,
+      })
     },
-    setToken(token: string) {
-      this.token = token
-      localStorage.setItem('flowstudy_token', token)
+    setUser(user: User) {
+      this.user = user
+      if (this.token) {
+        setStorageJSON<StoredAuth>(AUTH_STORAGE_KEY, { token: this.token, user })
+      }
+    },
+    clearAuth() {
+      this.token = ''
+      this.user = null
+      removeStorage(AUTH_STORAGE_KEY)
     },
     clearToken() {
-      this.token = ''
-      this.displayName = ''
-      localStorage.removeItem('flowstudy_token')
-      localStorage.removeItem('flowstudy_display_name')
+      this.clearAuth()
     },
   },
 })
-

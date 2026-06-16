@@ -1,18 +1,26 @@
-import type { AuthMode, AuthRequest, AuthResponse } from '../../types/auth'
+import { request } from '../request'
+import type {
+  LoginRequest,
+  LoginResponse,
+  RegisterRequest,
+  RegisterResponse,
+  User,
+} from '../../types/auth'
 
-export async function submitAuth(mode: AuthMode, payload: AuthRequest): Promise<AuthResponse> {
-  await new Promise((resolve) => setTimeout(resolve, 800))
+export function login(payload: LoginRequest): Promise<LoginResponse> {
+  return request<LoginResponse>('/auth/login', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  })
+}
 
-  if (payload.email.includes('error')) {
-    throw new Error('Server unavailable. Please try again later.')
-  }
+export function register(payload: RegisterRequest): Promise<RegisterResponse> {
+  return request<RegisterResponse>('/auth/register', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  })
+}
 
-  if (payload.email.includes('empty')) {
-    return {}
-  }
-
-  return {
-    token: `${mode}-token-${Date.now()}`,
-    message: mode === 'login' ? 'Login successful.' : 'Registration successful.',
-  }
+export function getCurrentUser(): Promise<User> {
+  return request<User>('/users/me')
 }

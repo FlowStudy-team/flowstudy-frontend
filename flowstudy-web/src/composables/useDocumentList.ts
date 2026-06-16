@@ -10,11 +10,12 @@ export function useDocumentList() {
 
   const query = reactive<DocumentQuery>({
     keyword: '',
+    folderId: undefined,
     status: undefined,
     categoryId: undefined,
     tag: '',
     page: 1,
-    pageSize: 9,
+    pageSize: 24,
   })
 
   async function fetchList() {
@@ -33,9 +34,15 @@ export function useDocumentList() {
 
   function resetQuery() {
     query.keyword = ''
+    query.folderId = undefined
     query.status = undefined
     query.categoryId = undefined
     query.tag = ''
+    query.page = 1
+  }
+
+  function setFolder(folderId?: number) {
+    query.folderId = folderId
     query.page = 1
   }
 
@@ -48,5 +55,5 @@ export function useDocumentList() {
     query.page = page
   }
 
-  return { loading, error, list, total, query, fetchList, resetQuery, setStatus, changePage }
+  return { loading, error, list, total, query, fetchList, resetQuery, setFolder, setStatus, changePage }
 }

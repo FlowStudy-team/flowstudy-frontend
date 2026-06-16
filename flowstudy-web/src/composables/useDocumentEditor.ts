@@ -6,6 +6,7 @@ export interface DocumentEditorForm {
   title: string
   content: string
   summary: string
+  folderId?: number
   categoryId?: number
   tags: string[]
 }
@@ -14,6 +15,7 @@ const defaultForm = (): DocumentEditorForm => ({
   title: '',
   content: '',
   summary: '',
+  folderId: undefined,
   categoryId: undefined,
   tags: [],
 })
@@ -36,6 +38,7 @@ export function useDocumentEditor() {
     form.title = detail.title
     form.content = detail.content
     form.summary = detail.summary ?? ''
+    form.folderId = detail.folderId
     form.categoryId = detail.categoryId
     form.tags = detail.tags.slice()
     syncSnapshot()
@@ -64,6 +67,7 @@ export function useDocumentEditor() {
           title: form.title,
           content: form.content,
           summary: form.summary,
+          folderId: form.folderId,
           categoryId: form.categoryId,
           tags: form.tags,
         })
@@ -71,6 +75,7 @@ export function useDocumentEditor() {
         document.value = await createDocument({
           title: form.title || '未命名文档',
           content: form.content,
+          folderId: form.folderId,
           categoryId: form.categoryId,
           tags: form.tags,
         })

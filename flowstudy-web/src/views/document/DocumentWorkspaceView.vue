@@ -37,6 +37,7 @@ const { lastSavedAt, restoreDraft, clearDraft } = useAutoSave(
     title: form.title,
     content: form.content,
     summary: form.summary,
+    folderId: form.folderId,
     categoryId: form.categoryId,
     tags: form.tags,
     updatedAt: new Date().toISOString(),
@@ -59,11 +60,14 @@ async function initPage() {
     return
   }
   resetForm()
+  const rawFolderId = Number(route.query.folderId)
+  form.folderId = Number.isNaN(rawFolderId) ? undefined : rawFolderId
   const draft = restoreDraft()
   if (!draft) return
   form.title = draft.title
   form.content = draft.content
   form.summary = draft.summary ?? ''
+  form.folderId = draft.folderId ?? form.folderId
   form.categoryId = draft.categoryId
   form.tags = draft.tags ?? []
 }
@@ -73,7 +77,7 @@ async function handleSave() {
   if (!saved) return
   clearDraft()
   if (!documentId.value) {
-    await router.replace(`/document/${saved.id}/edit`)
+    await router.replace(`/document/${saved.id}`)
   }
   await loadBaseData()
 }

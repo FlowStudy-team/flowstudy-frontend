@@ -1,23 +1,26 @@
 import { computed, reactive, ref } from 'vue'
-import { submitAuth } from '../api/modules/auth'
+import { login, register } from '../api/modules/auth'
+import { ApiError } from '../api/request'
 import { useAuthStore } from '../store/modules/auth'
 import type { AuthMode } from '../types/auth'
 
 interface AuthForm {
+  account: string
+  username: string
   email: string
+  nickname: string
   password: string
   confirmPassword: string
 }
 
-interface FieldErrors {
-  email: string
-  password: string
-  confirmPassword: string
-}
+type FieldErrors = Record<keyof AuthForm, string>
 
 function getDefaultForm(): AuthForm {
   return {
+    account: '',
+    username: '',
     email: '',
+    nickname: '',
     password: '',
     confirmPassword: '',
   }
@@ -25,7 +28,10 @@ function getDefaultForm(): AuthForm {
 
 function getDefaultFieldErrors(): FieldErrors {
   return {
+    account: '',
+    username: '',
     email: '',
+    nickname: '',
     password: '',
     confirmPassword: '',
   }
@@ -34,8 +40,8 @@ function getDefaultFieldErrors(): FieldErrors {
 export function useAuthForm(mode: AuthMode) {
   const authStore = useAuthStore()
   const loading = ref(false)
-  const empty = ref(false)
   const error = ref('')
+  const traceId = ref('')
   const successMessage = ref('')
   const form = reactive<AuthForm>(getDefaultForm())
   const fieldErrors = reactive<FieldErrors>(getDefaultFieldErrors())
@@ -47,50 +53,59 @@ export function useAuthForm(mode: AuthMode) {
   )
 
   function resetFeedback() {
-    empty.value = false
     error.value = ''
+    traceId.value = ''
     successMessage.value = ''
   }
 
   function resetFieldErrors() {
-    const defaults = getDefaultFieldErrors()
-    fieldErrors.email = defaults.email
-    fieldErrors.password = defaults.password
-    fieldErrors.confirmPassword = defaults.confirmPassword
+    Object.assign(fieldErrors, getDefaultFieldErrors())
+  }
+
+  function validateLogin() {
+    let isValid = true
+    if (!form.account.trim()) {
+      fieldErrors.account = 'Username or email is required.'
+      isValid = false
+    }
+    return isValid
+  }
+
+  function validateRegister() {
+    let isValid = true
+    const usernameRule = /^[A-Za-z0-9_]{3,64}$/
+    const emailRule = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+    if (!usernameRule.test(form.username.trim())) {
+      fieldErrors.username = 'Use 3-64 letters, numbers, or underscores.'
+      isValid = false
+    }
+    if (form.email.trim() && !emailRule.test(form.email.trim())) {
+      fieldErrors.email = 'Email format is invalid.'
+      isValid = false
+    }
+    if (form.nickname.trim().length > 64) {
+      fieldErrors.nickname = 'Nickname cannot exceed 64 characters.'
+      isValid = false
+    }
+    if (form.confirmPassword !== form.password) {
+      fieldErrors.confirmPassword = 'Passwords do not match.'
+      isValid = false
+    }
+    return isValid
   }
 
   function validate() {
     resetFieldErrors()
-    let isValid = true
-    const emailRule = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    const passwordRule = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/
-
-    if (!form.email) {
-      fieldErrors.email = 'Email is required.'
-      isValid = false
-    } else if (!emailRule.test(form.email)) {
-      fieldErrors.email = 'Email format is invalid.'
+    let isValid = mode === 'login' ? validateLogin() : validateRegister()
+    if (form.password.length < 8 || form.password.length > 72) {
+      fieldErrors.password = 'Password length must be between 8 and 72 characters.'
       isValid = false
     }
-
-    if (!form.password) {
-      fieldErrors.password = 'Password is required.'
-      isValid = false
-    } else if (!passwordRule.test(form.password)) {
-      fieldErrors.password = 'Password must be 8+ chars with letters and numbers.'
+    if (mode === 'register' && !form.confirmPassword) {
+      fieldErrors.confirmPassword = 'Please confirm your password.'
       isValid = false
     }
-
-    if (mode === 'register') {
-      if (!form.confirmPassword) {
-        fieldErrors.confirmPassword = 'Please confirm your password.'
-        isValid = false
-      } else if (form.confirmPassword !== form.password) {
-        fieldErrors.confirmPassword = 'Passwords do not match.'
-        isValid = false
-      }
-    }
-
     return isValid
   }
 
@@ -100,25 +115,26 @@ export function useAuthForm(mode: AuthMode) {
 
     loading.value = true
     try {
-      const response = await submitAuth(mode, {
-        email: form.email,
-        password: form.password,
-        confirmPassword: form.confirmPassword,
-      })
-      if (!response.token) {
-        empty.value = true
-        return
-      }
-      authStore.setAuth({
-        token: response.token,
-        displayName: form.email.split('@')[0] || 'Learner',
-      })
-      successMessage.value = response.message ?? 'Success.'
-      if (mode === 'register') {
+      if (mode === 'login') {
+        const response = await login({
+          account: form.account.trim(),
+          password: form.password,
+        })
+        authStore.setLogin(response)
+        successMessage.value = 'Login successful.'
+      } else {
+        await register({
+          username: form.username.trim(),
+          email: form.email.trim() || undefined,
+          nickname: form.nickname.trim() || undefined,
+          password: form.password,
+        })
+        successMessage.value = 'Registration successful. Please sign in.'
         Object.assign(form, getDefaultForm())
       }
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Request failed. Please retry.'
+      traceId.value = err instanceof ApiError ? err.traceId : ''
     } finally {
       loading.value = false
     }
@@ -130,11 +146,10 @@ export function useAuthForm(mode: AuthMode) {
     switchText,
     form,
     loading,
-    empty,
     error,
+    traceId,
     successMessage,
     fieldErrors,
     submit,
   }
 }
-

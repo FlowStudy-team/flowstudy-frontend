@@ -4,6 +4,8 @@ export interface DocumentItem {
   id: number
   title: string
   summary?: string
+  folderId?: number
+  folderName?: string
   categoryId?: number
   categoryName?: string
   tags: string[]
@@ -24,8 +26,18 @@ export interface DocumentCategory {
   children?: DocumentCategory[]
 }
 
+export interface DocumentFolder {
+  id: number
+  name: string
+  parentId?: number
+  createdAt: string
+  updatedAt: string
+  children?: DocumentFolder[]
+}
+
 export interface DocumentQuery {
   keyword?: string
+  folderId?: number
   categoryId?: number
   tag?: string
   status?: DocumentStatus
@@ -36,6 +48,7 @@ export interface DocumentQuery {
 export interface CreateDocumentPayload {
   title: string
   content?: string
+  folderId?: number
   categoryId?: number
   tags?: string[]
 }
@@ -44,9 +57,15 @@ export interface UpdateDocumentPayload {
   title?: string
   content?: string
   summary?: string
+  folderId?: number
   categoryId?: number
   tags?: string[]
   status?: DocumentStatus
+}
+
+export interface CreateDocumentFolderPayload {
+  name: string
+  parentId?: number
 }
 
 export interface PublishDocumentPayload {
@@ -62,4 +81,3 @@ export interface DocumentListResult {
   list: DocumentItem[]
   total: number
 }
-
