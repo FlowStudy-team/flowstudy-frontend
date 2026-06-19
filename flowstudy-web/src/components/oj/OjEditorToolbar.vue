@@ -9,6 +9,7 @@ interface Props {
   fontSize: number
   running: boolean
   submitting: boolean
+  executionAvailable?: boolean
 }
 
 defineProps<Props>()
@@ -62,7 +63,10 @@ onBeforeUnmount(() => {
 <template>
   <div ref="rootRef" class="oj-toolbar">
     <div class="oj-toolbar-left">
-      <select :value="modelValue" @change="emit('update:modelValue', ($event.target as HTMLSelectElement).value as OJLanguageOption['value'])">
+      <select
+        :value="modelValue"
+        @change="emit('update:modelValue', ($event.target as HTMLSelectElement).value as OJLanguageOption['value'])"
+      >
         <option v-for="language in languages" :key="language.value" :value="language.value">{{ language.label }}</option>
       </select>
       <div class="oj-inline-setting">
@@ -89,11 +93,11 @@ onBeforeUnmount(() => {
         </div>
       </div>
       <button v-else class="secondary-btn" @click="emit('save')">保存草稿</button>
-      <button class="secondary-btn" :disabled="running || submitting" @click="emit('run')">
-        {{ running ? '运行中...' : '运行' }}
+      <button class="secondary-btn" :disabled="!executionAvailable || running || submitting" @click="emit('run')">
+        {{ executionAvailable ? (running ? '运行中...' : '运行') : '运行暂未接入' }}
       </button>
-      <button class="primary-btn" :disabled="running || submitting" @click="emit('submit')">
-        {{ submitting ? '提交中...' : '提交' }}
+      <button class="primary-btn" :disabled="!executionAvailable || running || submitting" @click="emit('submit')">
+        {{ executionAvailable ? (submitting ? '提交中...' : '提交') : '提交暂未接入' }}
       </button>
     </div>
   </div>

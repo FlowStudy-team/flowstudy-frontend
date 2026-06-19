@@ -2,7 +2,7 @@
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import heroImage from '../../assets/hero.png'
-import { fetchOjLanguageOptions, fetchOjProblemDetail, runOjCode, submitOjCode } from '../../api/oj'
+import { fetchOjLanguageOptions, fetchOjProblemDetail } from '../../api/oj'
 import AiSidebar from '../../components/ai/AiSidebar.vue'
 import UserAvatarMenu from '../../components/common/UserAvatarMenu.vue'
 import OjCodeEditor from '../../components/oj/OjCodeEditor.vue'
@@ -97,11 +97,10 @@ function onStartResizeVertical(event: MouseEvent) {
 async function initPage() {
   loading.value = true
   error.value = ''
+  result.value = null
   try {
-    const [problemData, languageOptions] = await Promise.all([
-      fetchOjProblemDetail(problemId.value),
-      fetchOjLanguageOptions(),
-    ])
+    const problemData = await fetchOjProblemDetail(problemId.value)
+    const languageOptions = await fetchOjLanguageOptions(problemData.id, problemData.supportLanguages)
     problem.value = problemData
     languages.value = languageOptions
     language.value = languageOptions[0]?.value ?? 'java'
@@ -114,37 +113,16 @@ async function initPage() {
 }
 
 async function runCode() {
-  if (running.value || submitting.value) return
-  if (!code.value.trim()) {
-    result.value = { status: 'COMPILING_ERROR', message: '提交前代码不能为空', compileError: 'Code is empty', testCases: [] }
-    return
-  }
-  running.value = true
-  saveDraft()
-  try {
-    result.value = await runOjCode(code.value)
-  } finally {
-    running.value = false
-  }
+  result.value = { status: 'PENDING', message: '代码运行接口暂未接入', testCases: [] }
 }
 
 async function submitCode() {
-  if (running.value || submitting.value) return
-  if (!code.value.trim()) {
-    result.value = { status: 'COMPILING_ERROR', message: '提交前代码不能为空', compileError: 'Code is empty', testCases: [] }
-    return
-  }
-  submitting.value = true
-  saveDraft()
-  try {
-    result.value = await submitOjCode(code.value)
-  } finally {
-    submitting.value = false
-  }
+  result.value = { status: 'PENDING', message: '代码提交接口暂未接入', testCases: [] }
 }
 
 watch(language, (nextLanguage) => loadCodeForLanguage(nextLanguage))
 watch(code, () => saveDraft())
+watch(problemId, initPage)
 
 onMounted(initPage)
 onBeforeUnmount(() => {
@@ -163,13 +141,9 @@ onBeforeUnmount(() => {
         </div>
         <nav class="jg-nav">
           <RouterLink to="/">首页</RouterLink>
-          <a href="#">后端开发</a>
-          <a href="#">计算机基础</a>
-          <a href="#">AI应用开发</a>
+          <RouterLink to="/articles">文章阅读</RouterLink>
           <RouterLink to="/practice" class="active">算法练习</RouterLink>
-          <a href="#">AI编程</a>
-          <a href="#">推荐阅读</a>
-          <a href="#">网站相关</a>
+          <RouterLink to="/document">学习文档</RouterLink>
         </nav>
         <div class="jg-actions">
           <RouterLink class="secondary-btn link-btn" to="/practice">返回题单</RouterLink>
@@ -196,7 +170,10 @@ onBeforeUnmount(() => {
             :style="{ gridTemplateColumns: aiOpen ? `minmax(0,1fr) ${aiWidth + 8}px` : 'minmax(0,1fr) 48px' }"
           >
             <div class="oj-right-main">
-              <div class="oj-right-top" :style="{ gridTemplateRows: `${editorPanePercent}% 8px ${100 - editorPanePercent}%` }">
+              <div
+                class="oj-right-top"
+                :style="{ gridTemplateRows: `${editorPanePercent}% 8px ${100 - editorPanePercent}%` }"
+              >
                 <div class="oj-editor-pane">
                   <div class="oj-editor-toolbar-wrap">
                     <OjEditorToolbar
@@ -206,6 +183,7 @@ onBeforeUnmount(() => {
                       :font-size="fontSize"
                       :running="running"
                       :submitting="submitting"
+                      :execution-available="false"
                       @update:theme="theme = $event"
                       @update:font-size="fontSize = $event"
                       @run="runCode"
