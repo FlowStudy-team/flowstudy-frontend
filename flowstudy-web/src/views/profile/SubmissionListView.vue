@@ -40,7 +40,7 @@ onMounted(load)
   <section>
     <h2>My Submissions</h2>
     <div class="toolbar">
-      <input v-model="query.keyword" placeholder="Search by id/problem" />
+      <input v-model="query.keyword" placeholder="Filter by numeric problem id" />
       <button class="secondary-btn" @click="search">Search</button>
       <button class="secondary-btn" @click="load">Refresh</button>
     </div>
@@ -49,15 +49,17 @@ onMounted(load)
     <EmptyState v-else-if="list.length === 0" text="No submissions." />
     <table v-else class="table">
       <thead>
-        <tr><th>ID</th><th>Problem</th><th>Status</th><th>Language</th><th>Runtime</th></tr>
+        <tr><th>ID</th><th>Problem</th><th>Status</th><th>Language</th><th>Runtime</th><th>Memory</th><th>Created</th></tr>
       </thead>
       <tbody>
         <tr v-for="item in list" :key="item.id">
           <td>{{ item.id }}</td>
-          <td>{{ item.problemId }}</td>
+          <td>{{ item.problemTitle || item.problemId }}</td>
           <td><StatusTag :status="item.status" /></td>
           <td>{{ item.language }}</td>
-          <td>{{ item.runtimeMs }}ms</td>
+          <td>{{ item.runtimeMs === undefined ? '-' : `${item.runtimeMs}ms` }}</td>
+          <td>{{ item.memoryKb === undefined ? '-' : `${item.memoryKb}KB` }}</td>
+          <td>{{ new Date(item.createdAt).toLocaleString() }}</td>
         </tr>
       </tbody>
     </table>

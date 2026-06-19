@@ -1,4 +1,15 @@
-export type JudgeStatus = 'PENDING' | 'RUNNING' | 'AC' | 'WA' | 'TLE' | 'RE' | 'CE'
+export type JudgeStatus =
+  | 'PENDING'
+  | 'RUNNING'
+  | 'AC'
+  | 'WA'
+  | 'TLE'
+  | 'RE'
+  | 'CE'
+  | 'ACCEPTED'
+  | 'WRONG_ANSWER'
+  | 'RUNTIME_ERROR'
+  | 'COMPILE_ERROR'
 
 export interface ProblemDetail {
   id: string
@@ -22,9 +33,11 @@ export interface TestCaseResult {
 export interface SubmissionDetail {
   id: string
   problemId: string
+  problemTitle?: string
   status: JudgeStatus
-  runtimeMs: number
-  memoryKb: number
+  runtimeMs?: number
+  memoryKb?: number
+  score?: number
   language: string
   createdAt: string
   testCases: TestCaseResult[]
