@@ -23,6 +23,11 @@ interface CoreProblemTemplate {
   code: string
 }
 
+interface CoreCreateSubmissionResponse {
+  submitId: number
+  status: OJJudgeResult['status']
+}
+
 const languageMeta: Record<OJLanguage, { label: string; monacoLanguage: OJLanguage }> = {
   java: { label: 'Java', monacoLanguage: 'java' },
   cpp: { label: 'C++', monacoLanguage: 'cpp' },
@@ -42,6 +47,9 @@ function normalizeLanguage(language: string): OJLanguage | null {
 }
 
 export async function fetchOjProblemDetail(problemId: string): Promise<OJProblem> {
+  if (!/^\d+$/.test(problemId)) {
+    throw new Error(`题目 ID ${problemId} 不是后端可识别的数字 ID`)
+  }
   const detail = await request<CoreProblemDetail>(`/problems/${problemId}`)
   return {
     id: String(detail.id),
@@ -86,6 +94,22 @@ export async function runOjCode(): Promise<OJJudgeResult> {
   throw new Error('代码运行接口暂未接入')
 }
 
-export async function submitOjCode(): Promise<OJJudgeResult> {
-  throw new Error('代码提交接口暂未接入')
+export async function submitOjCode(params: {
+  problemId: string
+  language: OJLanguage
+  code: string
+}): Promise<OJJudgeResult> {
+  const response = await request<CoreCreateSubmissionResponse>(`/problems/${params.problemId}/submissions`, {
+    method: 'POST',
+    body: JSON.stringify({
+      language: params.language,
+      code: params.code,
+    }),
+  })
+  return {
+    submissionId: String(response.submitId),
+    status: response.status,
+    message: `提交成功，提交 ID：${response.submitId}。当前状态：${response.status}`,
+    testCases: [],
+  }
 }

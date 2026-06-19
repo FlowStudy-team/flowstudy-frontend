@@ -2,7 +2,7 @@
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import heroImage from '../../assets/hero.png'
-import { fetchOjLanguageOptions, fetchOjProblemDetail } from '../../api/oj'
+import { fetchOjLanguageOptions, fetchOjProblemDetail, submitOjCode } from '../../api/oj'
 import AiSidebar from '../../components/ai/AiSidebar.vue'
 import UserAvatarMenu from '../../components/common/UserAvatarMenu.vue'
 import OjCodeEditor from '../../components/oj/OjCodeEditor.vue'
@@ -117,7 +117,29 @@ async function runCode() {
 }
 
 async function submitCode() {
-  result.value = { status: 'PENDING', message: '代码提交接口暂未接入', testCases: [] }
+  if (!problem.value) return
+  if (!isAuthed.value) {
+    result.value = { status: 'PENDING', message: '请先登录后提交代码', testCases: [] }
+    return
+  }
+  submitting.value = true
+  result.value = { status: 'PENDING', message: '提交中...', testCases: [] }
+  try {
+    saveDraft()
+    result.value = await submitOjCode({
+      problemId: problem.value.id,
+      language: language.value,
+      code: code.value,
+    })
+  } catch (err) {
+    result.value = {
+      status: 'PENDING',
+      message: err instanceof Error ? err.message : '提交失败',
+      testCases: [],
+    }
+  } finally {
+    submitting.value = false
+  }
 }
 
 watch(language, (nextLanguage) => loadCodeForLanguage(nextLanguage))
@@ -183,7 +205,8 @@ onBeforeUnmount(() => {
                       :font-size="fontSize"
                       :running="running"
                       :submitting="submitting"
-                      :execution-available="false"
+                      :run-available="false"
+                      :submit-available="true"
                       @update:theme="theme = $event"
                       @update:font-size="fontSize = $event"
                       @run="runCode"

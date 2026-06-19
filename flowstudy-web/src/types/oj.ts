@@ -1,5 +1,5 @@
 export type OJLanguage = 'java' | 'cpp' | 'go' | 'python'
-export type OJResultStatus = 'PENDING' | 'COMPILING_ERROR' | 'RUNTIME_ERROR' | 'WRONG_ANSWER' | 'ACCEPTED'
+export type OJResultStatus = 'PENDING' | 'COMPILE_ERROR' | 'COMPILING_ERROR' | 'RUNTIME_ERROR' | 'WRONG_ANSWER' | 'ACCEPTED'
 
 export interface OJProblem {
   id: string
@@ -32,6 +32,7 @@ export interface OJTestCaseResult {
 }
 
 export interface OJJudgeResult {
+  submissionId?: string
   status: OJResultStatus
   message: string
   runtimeMs?: number

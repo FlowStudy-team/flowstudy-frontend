@@ -10,6 +10,8 @@ interface Props {
   running: boolean
   submitting: boolean
   executionAvailable?: boolean
+  runAvailable?: boolean
+  submitAvailable?: boolean
 }
 
 defineProps<Props>()
@@ -93,11 +95,19 @@ onBeforeUnmount(() => {
         </div>
       </div>
       <button v-else class="secondary-btn" @click="emit('save')">保存草稿</button>
-      <button class="secondary-btn" :disabled="!executionAvailable || running || submitting" @click="emit('run')">
-        {{ executionAvailable ? (running ? '运行中...' : '运行') : '运行暂未接入' }}
+      <button
+        class="secondary-btn"
+        :disabled="!(runAvailable ?? executionAvailable) || running || submitting"
+        @click="emit('run')"
+      >
+        {{ (runAvailable ?? executionAvailable) ? (running ? '运行中...' : '运行') : '运行暂未接入' }}
       </button>
-      <button class="primary-btn" :disabled="!executionAvailable || running || submitting" @click="emit('submit')">
-        {{ executionAvailable ? (submitting ? '提交中...' : '提交') : '提交暂未接入' }}
+      <button
+        class="primary-btn"
+        :disabled="!(submitAvailable ?? executionAvailable) || running || submitting"
+        @click="emit('submit')"
+      >
+        {{ (submitAvailable ?? executionAvailable) ? (submitting ? '提交中...' : '提交') : '提交暂未接入' }}
       </button>
     </div>
   </div>

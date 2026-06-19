@@ -11,7 +11,7 @@ const aiStore = useAiStore()
     <div class="shell-body">
       <aside class="sidebar">
         <RouterLink to="/articles">Article List</RouterLink>
-        <RouterLink to="/problems/p1001">Problem Practice</RouterLink>
+        <RouterLink to="/problems/1">Problem Practice</RouterLink>
         <RouterLink to="/me/submissions">My Submissions</RouterLink>
       </aside>
       <main class="content">
