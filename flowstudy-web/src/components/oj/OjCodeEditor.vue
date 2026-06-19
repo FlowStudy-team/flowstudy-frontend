@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import type { OJLanguage } from '../../types/oj'
 
 interface Props {
   modelValue: string
-  language: 'java' | 'cpp' | 'python' | 'javascript'
+  language: OJLanguage
   theme: 'light' | 'dark'
   fontSize: number
 }
@@ -88,4 +89,3 @@ onBeforeUnmount(() => {
 <template>
   <div ref="containerRef" class="oj-code-editor"></div>
 </template>
-

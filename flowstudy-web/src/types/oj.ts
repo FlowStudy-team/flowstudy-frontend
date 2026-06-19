@@ -1,8 +1,9 @@
-export type OJLanguage = 'java' | 'cpp' | 'python' | 'javascript'
+export type OJLanguage = 'java' | 'cpp' | 'go' | 'python'
 export type OJResultStatus = 'PENDING' | 'COMPILING_ERROR' | 'RUNTIME_ERROR' | 'WRONG_ANSWER' | 'ACCEPTED'
 
 export interface OJProblem {
   id: string
+  chapterId: number
   title: string
   difficulty: '简单' | '中等' | '困难'
   description: string
@@ -11,13 +12,14 @@ export interface OJProblem {
   samples: Array<{ input: string; output: string; explanation?: string }>
   constraints: string[]
   tags: string[]
+  supportLanguages: OJLanguage[]
 }
 
 export interface OJLanguageOption {
   value: OJLanguage
   label: string
   template: string
-  monacoLanguage: 'java' | 'cpp' | 'python' | 'javascript'
+  monacoLanguage: OJLanguage
 }
 
 export interface OJTestCaseResult {
@@ -38,4 +40,3 @@ export interface OJJudgeResult {
   runtimeError?: string
   testCases: OJTestCaseResult[]
 }
-
