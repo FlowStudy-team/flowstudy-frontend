@@ -1,5 +1,16 @@
 export type OJLanguage = 'java' | 'cpp' | 'go' | 'python'
-export type OJResultStatus = 'PENDING' | 'COMPILE_ERROR' | 'COMPILING_ERROR' | 'RUNTIME_ERROR' | 'WRONG_ANSWER' | 'ACCEPTED'
+export type OJResultStatus =
+  | 'PENDING'
+  | 'COMPILING'
+  | 'RUNNING'
+  | 'COMPILE_ERROR'
+  | 'COMPILING_ERROR'
+  | 'RUNTIME_ERROR'
+  | 'WRONG_ANSWER'
+  | 'TIME_LIMIT_EXCEEDED'
+  | 'MEMORY_LIMIT_EXCEEDED'
+  | 'SYSTEM_ERROR'
+  | 'ACCEPTED'
 
 export interface OJProblem {
   id: string

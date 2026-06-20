@@ -28,6 +28,31 @@ interface CoreCreateSubmissionResponse {
   status: OJJudgeResult['status']
 }
 
+interface CoreSubmissionDetail {
+  submitId: number
+  problemId: number
+  problemTitle: string
+  language: string
+  status: OJJudgeResult['status']
+  timeUsedMs?: number | null
+  memoryUsedKb?: number | null
+  score?: number | null
+  compileMessage?: string | null
+  runtimeMessage?: string | null
+  createdAt: string
+  caseResults: CoreJudgeCaseResult[]
+}
+
+interface CoreJudgeCaseResult {
+  caseIndex: number
+  status: OJJudgeResult['status']
+  timeUsedMs?: number | null
+  memoryUsedKb?: number | null
+  expectedOutput?: string | null
+  actualOutput?: string | null
+  errorMessage?: string | null
+}
+
 const languageMeta: Record<OJLanguage, { label: string; monacoLanguage: OJLanguage }> = {
   java: { label: 'Java', monacoLanguage: 'java' },
   cpp: { label: 'C++', monacoLanguage: 'cpp' },
@@ -111,5 +136,26 @@ export async function submitOjCode(params: {
     status: response.status,
     message: `提交成功，提交 ID：${response.submitId}。当前状态：${response.status}`,
     testCases: [],
+  }
+}
+
+export async function fetchOjSubmissionDetail(submissionId: string): Promise<OJJudgeResult> {
+  const detail = await request<CoreSubmissionDetail>(`/submissions/${submissionId}`)
+  return {
+    submissionId: String(detail.submitId),
+    status: detail.status,
+    message: `提交 ID：${detail.submitId}，当前状态：${detail.status}`,
+    runtimeMs: detail.timeUsedMs ?? undefined,
+    memoryKb: detail.memoryUsedKb ?? undefined,
+    compileError: detail.compileMessage ?? undefined,
+    runtimeError: detail.runtimeMessage ?? undefined,
+    testCases: detail.caseResults.map((item) => ({
+      index: item.caseIndex,
+      input: '',
+      expected: item.expectedOutput ?? '',
+      output: item.actualOutput ?? '',
+      status: item.status,
+      message: item.errorMessage ?? undefined,
+    })),
   }
 }
