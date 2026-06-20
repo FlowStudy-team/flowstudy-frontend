@@ -10,10 +10,15 @@ const props = defineProps<Props>()
 function statusText(status: OJJudgeResult['status']) {
   const map: Record<OJJudgeResult['status'], string> = {
     PENDING: '等待中',
+    COMPILING: '编译中',
+    RUNNING: '运行中',
     COMPILE_ERROR: '编译错误',
     COMPILING_ERROR: '编译错误',
     RUNTIME_ERROR: '运行错误',
     WRONG_ANSWER: '答案错误',
+    TIME_LIMIT_EXCEEDED: '运行超时',
+    MEMORY_LIMIT_EXCEEDED: '内存超限',
+    SYSTEM_ERROR: '系统错误',
     ACCEPTED: '通过',
   }
   return map[status]
@@ -21,7 +26,15 @@ function statusText(status: OJJudgeResult['status']) {
 
 function statusClass(status: OJJudgeResult['status']) {
   if (status === 'ACCEPTED') return 'st-ac'
-  if (status === 'COMPILE_ERROR' || status === 'COMPILING_ERROR' || status === 'RUNTIME_ERROR' || status === 'WRONG_ANSWER') return 'st-wa'
+  if (
+    status === 'COMPILE_ERROR'
+    || status === 'COMPILING_ERROR'
+    || status === 'RUNTIME_ERROR'
+    || status === 'WRONG_ANSWER'
+    || status === 'TIME_LIMIT_EXCEEDED'
+    || status === 'MEMORY_LIMIT_EXCEEDED'
+    || status === 'SYSTEM_ERROR'
+  ) return 'st-wa'
   return 'st-pending'
 }
 </script>

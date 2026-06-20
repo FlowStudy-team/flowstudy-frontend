@@ -2,7 +2,7 @@
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import heroImage from '../../assets/hero.png'
-import { fetchOjLanguageOptions, fetchOjProblemDetail, submitOjCode } from '../../api/oj'
+import { fetchOjLanguageOptions, fetchOjProblemDetail, fetchOjSubmissionDetail, submitOjCode } from '../../api/oj'
 import AiSidebar from '../../components/ai/AiSidebar.vue'
 import UserAvatarMenu from '../../components/common/UserAvatarMenu.vue'
 import OjCodeEditor from '../../components/oj/OjCodeEditor.vue'
@@ -38,6 +38,7 @@ const aiOpen = ref(false)
 const aiWidth = ref(360)
 
 const currentLanguageOption = computed(() => languages.value.find((item) => item.value === language.value))
+const finalStatuses = new Set(['ACCEPTED', 'WRONG_ANSWER', 'COMPILE_ERROR', 'RUNTIME_ERROR', 'TIME_LIMIT_EXCEEDED', 'MEMORY_LIMIT_EXCEEDED', 'SYSTEM_ERROR'])
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value))
@@ -126,11 +127,21 @@ async function submitCode() {
   result.value = { status: 'PENDING', message: '提交中...', testCases: [] }
   try {
     saveDraft()
-    result.value = await submitOjCode({
+    const submitted = await submitOjCode({
       problemId: problem.value.id,
       language: language.value,
       code: code.value,
     })
+    result.value = submitted
+    if (!submitted.submissionId) return
+    for (let attempt = 0; attempt < 30; attempt += 1) {
+      await new Promise((resolve) => window.setTimeout(resolve, 1500))
+      const detail = await fetchOjSubmissionDetail(submitted.submissionId)
+      result.value = detail
+      if (finalStatuses.has(detail.status)) {
+        break
+      }
+    }
   } catch (err) {
     result.value = {
       status: 'PENDING',

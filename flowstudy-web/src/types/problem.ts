@@ -10,6 +10,9 @@ export type JudgeStatus =
   | 'WRONG_ANSWER'
   | 'RUNTIME_ERROR'
   | 'COMPILE_ERROR'
+  | 'TIME_LIMIT_EXCEEDED'
+  | 'MEMORY_LIMIT_EXCEEDED'
+  | 'SYSTEM_ERROR'
 
 export interface ProblemDetail {
   id: string
