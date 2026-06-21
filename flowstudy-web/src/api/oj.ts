@@ -1,5 +1,5 @@
 import { request } from './request'
-import type { OJJudgeResult, OJLanguage, OJLanguageOption, OJProblem } from '../types/oj'
+import type { OJJudgeResult, OJLanguage, OJLanguageOption, OJProblem, OJRunTestCase } from '../types/oj'
 
 interface CoreProblemDetail {
   id: number
@@ -28,6 +28,11 @@ interface CoreCreateSubmissionResponse {
   status: OJJudgeResult['status']
 }
 
+interface CoreCreateRunResponse {
+  runId: number
+  status: OJJudgeResult['status']
+}
+
 interface CoreSubmissionDetail {
   submitId: number
   problemId: number
@@ -43,11 +48,26 @@ interface CoreSubmissionDetail {
   caseResults: CoreJudgeCaseResult[]
 }
 
+interface CoreRunDetail {
+  runId: number
+  problemId: number
+  problemTitle: string
+  language: string
+  status: OJJudgeResult['status']
+  timeUsedMs?: number | null
+  memoryUsedKb?: number | null
+  compileMessage?: string | null
+  runtimeMessage?: string | null
+  createdAt: string
+  caseResults: CoreJudgeCaseResult[]
+}
+
 interface CoreJudgeCaseResult {
   caseIndex: number
   status: OJJudgeResult['status']
   timeUsedMs?: number | null
   memoryUsedKb?: number | null
+  input?: string | null
   expectedOutput?: string | null
   actualOutput?: string | null
   errorMessage?: string | null
@@ -115,7 +135,53 @@ export async function fetchOjLanguageOptions(
   return options
 }
 
-export async function runOjCode(): Promise<OJJudgeResult> {
+export async function runOjCode(params: {
+  problemId: string
+  language: OJLanguage
+  code: string
+  testCases: OJRunTestCase[]
+}): Promise<OJJudgeResult> {
+  const response = await request<CoreCreateRunResponse>(`/problems/${params.problemId}/runs`, {
+    method: 'POST',
+    body: JSON.stringify({
+      language: params.language,
+      code: params.code,
+      testCases: params.testCases.map((item) => ({
+        input: item.input,
+        expectedOutput: item.expectedOutput,
+      })),
+    }),
+  })
+  return {
+    runId: String(response.runId),
+    status: response.status,
+    message: `运行任务已创建，运行 ID：${response.runId}。当前状态：${response.status}`,
+    testCases: [],
+  }
+}
+
+export async function fetchOjRunDetail(runId: string): Promise<OJJudgeResult> {
+  const detail = await request<CoreRunDetail>(`/runs/${runId}`)
+  return {
+    runId: String(detail.runId),
+    status: detail.status,
+    message: `运行 ID：${detail.runId}，当前状态：${detail.status}`,
+    runtimeMs: detail.timeUsedMs ?? undefined,
+    memoryKb: detail.memoryUsedKb ?? undefined,
+    compileError: detail.compileMessage ?? undefined,
+    runtimeError: detail.runtimeMessage ?? undefined,
+    testCases: detail.caseResults.map((item) => ({
+      index: item.caseIndex,
+      input: item.input ?? '',
+      expected: item.expectedOutput ?? '',
+      output: item.actualOutput ?? '',
+      status: item.status,
+      message: item.errorMessage ?? undefined,
+    })),
+  }
+}
+
+export function unusedRunPlaceholder() {
   throw new Error('代码运行接口暂未接入')
 }
 
@@ -151,7 +217,7 @@ export async function fetchOjSubmissionDetail(submissionId: string): Promise<OJJ
     runtimeError: detail.runtimeMessage ?? undefined,
     testCases: detail.caseResults.map((item) => ({
       index: item.caseIndex,
-      input: '',
+      input: item.input ?? '',
       expected: item.expectedOutput ?? '',
       output: item.actualOutput ?? '',
       status: item.status,

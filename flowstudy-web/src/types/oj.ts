@@ -42,7 +42,13 @@ export interface OJTestCaseResult {
   message?: string
 }
 
+export interface OJRunTestCase {
+  input: string
+  expectedOutput: string
+}
+
 export interface OJJudgeResult {
+  runId?: string
   submissionId?: string
   status: OJResultStatus
   message: string
