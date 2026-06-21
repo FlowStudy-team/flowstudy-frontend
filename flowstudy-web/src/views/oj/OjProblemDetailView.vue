@@ -2,7 +2,7 @@
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import heroImage from '../../assets/hero.png'
-import { fetchOjLanguageOptions, fetchOjProblemDetail, fetchOjSubmissionDetail, submitOjCode } from '../../api/oj'
+import { fetchOjLanguageOptions, fetchOjProblemDetail, fetchOjRunDetail, fetchOjSubmissionDetail, runOjCode, submitOjCode } from '../../api/oj'
 import AiSidebar from '../../components/ai/AiSidebar.vue'
 import UserAvatarMenu from '../../components/common/UserAvatarMenu.vue'
 import OjCodeEditor from '../../components/oj/OjCodeEditor.vue'
@@ -11,7 +11,7 @@ import OjProblemDescription from '../../components/oj/OjProblemDescription.vue'
 import OjSubmitResultPanel from '../../components/oj/OjSubmitResultPanel.vue'
 import OjTestCasePanel from '../../components/oj/OjTestCasePanel.vue'
 import { useAuthStore } from '../../store/modules/auth'
-import type { OJJudgeResult, OJLanguage, OJLanguageOption, OJProblem } from '../../types/oj'
+import type { OJJudgeResult, OJLanguage, OJLanguageOption, OJProblem, OJRunTestCase } from '../../types/oj'
 import { loadCodeDraft, saveCodeDraft } from '../../utils/codeDraftStorage'
 
 const route = useRoute()
@@ -31,6 +31,7 @@ const code = ref('')
 const theme = ref<'light' | 'dark'>('light')
 const fontSize = ref(15)
 const result = ref<OJJudgeResult | null>(null)
+const runTestCases = ref<OJRunTestCase[]>([])
 
 const leftPanePercent = ref(45)
 const editorPanePercent = ref(62)
@@ -57,6 +58,29 @@ function loadCodeForLanguage(targetLanguage: OJLanguage) {
 function saveDraft() {
   if (!problem.value) return
   saveCodeDraft(problem.value.id, language.value, code.value)
+}
+
+function resetRunTestCases() {
+  runTestCases.value = (problem.value?.samples ?? []).map((item) => ({
+    input: item.input,
+    expectedOutput: item.output,
+  }))
+  if (runTestCases.value.length === 0) {
+    runTestCases.value = [{ input: '', expectedOutput: '' }]
+  }
+}
+
+function addRunTestCase() {
+  if (runTestCases.value.length >= 10) {
+    result.value = { status: 'PENDING', message: '运行测试用例最多 10 组', testCases: [] }
+    return
+  }
+  runTestCases.value.push({ input: '', expectedOutput: '' })
+}
+
+function removeRunTestCase(index: number) {
+  if (runTestCases.value.length <= 1) return
+  runTestCases.value.splice(index, 1)
 }
 
 function onStartResizeHorizontal(event: MouseEvent) {
@@ -105,6 +129,7 @@ async function initPage() {
     problem.value = problemData
     languages.value = languageOptions
     language.value = languageOptions[0]?.value ?? 'java'
+    resetRunTestCases()
     loadCodeForLanguage(language.value)
   } catch (err) {
     error.value = err instanceof Error ? err.message : '题目加载失败'
@@ -113,9 +138,52 @@ async function initPage() {
   }
 }
 
+async function runCodeImpl() {
+  if (!problem.value) return
+  if (!isAuthed.value) {
+    result.value = { status: 'PENDING', message: '请先登录后运行代码', testCases: [] }
+    return
+  }
+  running.value = true
+  result.value = { status: 'PENDING', message: '运行中...', testCases: [] }
+  try {
+    saveDraft()
+    const created = await runOjCode({
+      problemId: problem.value.id,
+      language: language.value,
+      code: code.value,
+      testCases: runTestCases.value,
+    })
+    result.value = created
+    if (!created.runId) return
+    for (let attempt = 0; attempt < 30; attempt += 1) {
+      await new Promise((resolve) => window.setTimeout(resolve, 1000))
+      const detail = await fetchOjRunDetail(created.runId)
+      result.value = detail
+      if (finalStatuses.has(detail.status)) {
+        break
+      }
+    }
+  } catch (err) {
+    result.value = {
+      status: 'PENDING',
+      message: err instanceof Error ? err.message : '运行失败',
+      testCases: [],
+    }
+  } finally {
+    running.value = false
+  }
+}
+
 async function runCode() {
+  return runCodeImpl()
+}
+
+async function unusedRunPlaceholder() {
   result.value = { status: 'PENDING', message: '代码运行接口暂未接入', testCases: [] }
 }
+
+void unusedRunPlaceholder
 
 async function submitCode() {
   if (!problem.value) return
@@ -216,7 +284,7 @@ onBeforeUnmount(() => {
                       :font-size="fontSize"
                       :running="running"
                       :submitting="submitting"
-                      :run-available="false"
+                      :run-available="true"
                       :submit-available="true"
                       @update:theme="theme = $event"
                       @update:font-size="fontSize = $event"
@@ -236,6 +304,63 @@ onBeforeUnmount(() => {
                 </div>
                 <div class="oj-resizer oj-resizer-h" @mousedown="onStartResizeVertical"></div>
                 <div class="oj-bottom">
+                  <div class="card" style="overflow: auto;">
+                    <div
+                      class="section-title"
+                      style="display: flex; align-items: center; justify-content: space-between; gap: 12px;"
+                    >
+                      <span>运行测试用例</span>
+                      <span style="display: flex; gap: 8px;">
+                        <button class="secondary-btn" type="button" @click="resetRunTestCases">重置示例</button>
+                        <button
+                          class="primary-btn"
+                          type="button"
+                          :disabled="runTestCases.length >= 10"
+                          @click="addRunTestCase"
+                        >
+                          新增用例
+                        </button>
+                      </span>
+                    </div>
+                    <div
+                      v-for="(item, index) in runTestCases"
+                      :key="index"
+                      class="card"
+                      style="margin-top: 10px; padding: 12px; box-shadow: none;"
+                    >
+                      <div
+                        style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px;"
+                      >
+                        <strong>Case {{ index + 1 }}</strong>
+                        <button
+                          class="secondary-btn"
+                          type="button"
+                          :disabled="runTestCases.length <= 1"
+                          @click="removeRunTestCase(index)"
+                        >
+                          删除
+                        </button>
+                      </div>
+                      <label style="display: block; margin-bottom: 8px;">
+                        <span>输入</span>
+                        <textarea
+                          v-model="item.input"
+                          class="form-input"
+                          rows="4"
+                          style="width: 100%; margin-top: 6px;"
+                        ></textarea>
+                      </label>
+                      <label style="display: block;">
+                        <span>期望输出</span>
+                        <textarea
+                          v-model="item.expectedOutput"
+                          class="form-input"
+                          rows="3"
+                          style="width: 100%; margin-top: 6px;"
+                        ></textarea>
+                      </label>
+                    </div>
+                  </div>
                   <OjSubmitResultPanel :result="result" />
                   <OjTestCasePanel :test-cases="result?.testCases ?? []" />
                 </div>
