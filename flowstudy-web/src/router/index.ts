@@ -12,9 +12,9 @@ import ProgressAnalysisView from '../views/profile/ProgressAnalysisView.vue'
 import ProfileHomeView from '../views/profile/ProfileHomeView.vue'
 import SubmissionListView from '../views/profile/SubmissionListView.vue'
 import HomeView from '../views/home/HomeView.vue'
+import LearningCenterView from '../views/learning/LearningCenterView.vue'
 import DocumentListView from '../views/document/DocumentListView.vue'
 import DocumentWorkspaceView from '../views/document/DocumentWorkspaceView.vue'
-import DocumentReadView from '../views/document/DocumentReadView.vue'
 import ForbiddenView from '../views/system/ForbiddenView.vue'
 import NotFoundView from '../views/system/NotFoundView.vue'
 import ServerErrorView from '../views/system/ServerErrorView.vue'
@@ -68,23 +68,28 @@ const router = createRouter({
       component: OjProblemDetailView,
     },
     {
-      path: '/articles',
+      path: '/tutorials',
       component: ArticleReaderLayout,
       children: [
-        { path: '', name: 'article-detail', component: ArticleDetailView },
+        { path: '', name: 'tutorial-detail', component: ArticleDetailView },
         {
-          path: 'chapters/:chapterId',
-          name: 'chapter-detail',
+          path: 'blogs/:blogId',
+          name: 'blog-detail',
           component: ChapterDetailView,
         },
       ],
+    },
+    {
+      path: '/learn',
+      name: 'learning-center',
+      component: LearningCenterView,
     },
     {
       path: '/document',
       children: [
         { path: '', name: 'document-list', component: DocumentListView },
         { path: 'workspace', name: 'document-workspace', component: DocumentWorkspaceView },
-        { path: ':id', name: 'document-read', component: DocumentReadView },
+        { path: ':id', name: 'document-read', component: DocumentWorkspaceView },
         { path: ':id/edit', name: 'document-edit', component: DocumentWorkspaceView },
       ],
     },
@@ -97,14 +102,14 @@ const router = createRouter({
 router.beforeEach((to) => {
   const authStore = useAuthStore()
   const publicPaths = ['/', '/login', '/register', '/403', '/500']
-  const publicPrefixes = ['/articles', '/problems', '/practice']
+  const publicPrefixes = ['/learn', '/tutorials', '/problems', '/practice']
   const isAuthPage = to.path === '/login' || to.path === '/register'
   const isPublicPrefix = publicPrefixes.some((prefix) => to.path.startsWith(prefix))
   if (!authStore.isAuthenticated && !publicPaths.includes(to.path) && !isPublicPrefix) {
     return '/login'
   }
   if (authStore.isAuthenticated && isAuthPage) {
-    return '/articles'
+    return '/tutorials'
   }
   return true
 })

@@ -87,6 +87,7 @@ function inlineNodeToMarkdown(node: Node): string {
   if (tag === 'strong' || tag === 'b') return `**${content}**`
   if (tag === 'em' || tag === 'i') return `*${content}*`
   if (tag === 'code') return `\`${content}\``
+  if (tag === 'u') return `<u>${content}</u>`
   if (tag === 'a') return `[${content}](${node.getAttribute('href') || ''})`
   if (tag === 'br') return '\n'
   return content
@@ -105,6 +106,7 @@ export function editableHtmlToMarkdown(root: HTMLElement) {
       if (tag === 'h2') return `## ${content}`
       if (tag === 'h3') return `### ${content}`
       if (tag === 'blockquote') return `> ${content}`
+      if (tag === 'pre') return `\`\`\`\n${block.textContent ?? ''}\n\`\`\``
       if (tag === 'ul') {
         return Array.from(block.children)
           .map((item) => `- ${Array.from(item.childNodes).map(inlineNodeToMarkdown).join('').trim()}`)
@@ -118,4 +120,10 @@ export function editableHtmlToMarkdown(root: HTMLElement) {
       return content
     })
     .join('\n\n')
+}
+
+export function editableHtmlStringToMarkdown(html: string) {
+  const root = document.createElement('div')
+  root.innerHTML = html
+  return editableHtmlToMarkdown(root)
 }

@@ -14,7 +14,7 @@ export type OJResultStatus =
 
 export interface OJProblem {
   id: string
-  chapterId: number
+  blogId: number
   title: string
   difficulty: '简单' | '中等' | '困难'
   description: string

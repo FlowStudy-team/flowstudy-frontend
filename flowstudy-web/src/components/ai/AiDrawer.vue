@@ -22,7 +22,7 @@ async function send() {
       <button class="secondary-btn" @click="aiStore.toggle">Close</button>
     </header>
     <section class="drawer-body">
-      <p v-if="messages.length === 0" class="muted">Ask about current article or problem.</p>
+      <p v-if="messages.length === 0" class="muted">Ask about current tutorial, blog, or problem.</p>
       <article v-for="msg in messages" :key="msg.id" class="msg" :class="msg.role">
         <strong>{{ msg.role === 'user' ? 'You' : 'AI' }}</strong>
         <p>{{ msg.content }}</p>

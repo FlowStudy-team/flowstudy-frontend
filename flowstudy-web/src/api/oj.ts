@@ -3,7 +3,7 @@ import type { OJJudgeResult, OJLanguage, OJLanguageOption, OJProblem, OJRunTestC
 
 interface CoreProblemDetail {
   id: number
-  chapterId: number
+  blogId: number
   title: string
   descriptionMd: string
   difficulty: 'EASY' | 'MEDIUM' | 'HARD'
@@ -98,7 +98,7 @@ export async function fetchOjProblemDetail(problemId: string): Promise<OJProblem
   const detail = await request<CoreProblemDetail>(`/problems/${problemId}`)
   return {
     id: String(detail.id),
-    chapterId: detail.chapterId,
+    blogId: detail.blogId,
     title: detail.title,
     difficulty: difficultyText[detail.difficulty],
     description: detail.descriptionMd,

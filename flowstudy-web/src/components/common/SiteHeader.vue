@@ -24,12 +24,9 @@ function isActive(target: string) {
     </RouterLink>
     <nav class="jg-nav">
       <RouterLink to="/" :class="{ active: isActive('/') }">首页</RouterLink>
-      <RouterLink to="/articles" :class="{ active: isActive('/articles') }">后端开发</RouterLink>
-      <RouterLink to="/articles">计算机基础</RouterLink>
-      <RouterLink to="/articles">AI应用开发</RouterLink>
+      <RouterLink to="/learn" :class="{ active: isActive('/learn') }">学习中心</RouterLink>
+      <RouterLink to="/tutorials" :class="{ active: isActive('/tutorials') }">教程阅读</RouterLink>
       <RouterLink to="/practice" :class="{ active: isActive('/practice') || isActive('/problems') }">算法练习</RouterLink>
-      <RouterLink to="/articles">AI编程</RouterLink>
-      <RouterLink to="/articles">一周热点</RouterLink>
       <RouterLink to="/document" :class="{ active: isActive('/document') }">文档中心</RouterLink>
     </nav>
     <div class="jg-actions">

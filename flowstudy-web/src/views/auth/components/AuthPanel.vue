@@ -20,7 +20,7 @@ function goToOtherMode() {
 watch(successMessage, (message) => {
   if (!message) return
   if (props.mode === 'login') {
-    router.push('/articles')
+    router.push('/tutorials')
     return
   }
   router.push('/login')

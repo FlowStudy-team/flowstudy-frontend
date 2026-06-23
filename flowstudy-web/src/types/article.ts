@@ -1,10 +1,10 @@
-export interface Article {
+export interface Tutorial {
   id: number
   title: string
   summary?: string
   coverUrl?: string
   authorName?: string
-  chapterCount?: number
+  blogCount?: number
   problemCount?: number
   viewCount?: number
   likeCount?: number
@@ -15,41 +15,50 @@ export interface Article {
   updatedAt: string
 }
 
-export interface Chapter {
+export interface Blog {
   id: number
-  articleId?: number
+  tutorialId?: number | null
   title: string
+  summary?: string
+  coverUrl?: string
+  authorName?: string
   sortOrder?: number
   estimatedMinutes?: number
   problemCount?: number
   problemIds: string[]
+  viewCount?: number
+  likeCount?: number
+  tags?: string[]
+  createdAt?: string
+  updatedAt?: string
+  publishedAt?: string
 }
 
-export interface ArticleDetail {
+export interface TutorialDetail {
   id: number
   title: string
   summary?: string
   markdown: string
   coverUrl?: string
-  chapterCount?: number
+  blogCount?: number
   problemCount?: number
   viewCount?: number
   likeCount?: number
   status?: string
   createdAt?: string
   updatedAt?: string
-  chapters: Chapter[]
+  blogs: Blog[]
 }
 
-export interface ChapterDetail {
+export interface BlogDetail {
   id: number
-  articleId: number
+  tutorialId?: number | null
   title: string
   contentMd?: string
   markdown: string
   sortOrder?: number
   estimatedMinutes?: number
   problemIds: string[]
-  prevChapterId?: number | null
-  nextChapterId?: number | null
+  prevBlogId?: number | null
+  nextBlogId?: number | null
 }
