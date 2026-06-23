@@ -4,8 +4,9 @@ import { onBeforeRouteLeave, RouterLink, useRoute } from 'vue-router'
 import heroImage from '../../assets/hero.png'
 import AiSidebar from '../../components/ai/AiSidebar.vue'
 import UserAvatarMenu from '../../components/common/UserAvatarMenu.vue'
+import DocumentEditorPanel from '../../components/document/DocumentEditorPanel.vue'
 import DocumentPublishDialog from '../../components/document/DocumentPublishDialog.vue'
-import MarkdownEditor, { type MarkdownEditorMode } from '../../components/markdown/MarkdownEditor.vue'
+import type { MarkdownEditorMode } from '../../components/markdown/MarkdownEditor.vue'
 import { useAutoSave } from '../../composables/useAutoSave'
 import { useDocumentEditor } from '../../composables/useDocumentEditor'
 import { useAuthStore } from '../../store/modules/auth'
@@ -25,7 +26,9 @@ const showAi = ref(true)
 const aiWidth = ref(360)
 const activeAnchor = ref('')
 const publishOpen = ref(false)
-const editorMode = ref<MarkdownEditorMode>('simple')
+const editorMode = ref<MarkdownEditorMode>(
+  (localStorage.getItem('flowstudy:document-editor-mode') as MarkdownEditorMode | null) ?? 'professional',
+)
 
 const { loading, saving, error, document, form, dirty, loadDocument, saveDocument, publishCurrent } = useDocumentEditor()
 
@@ -138,6 +141,10 @@ watch(
   },
 )
 
+watch(editorMode, (value) => {
+  localStorage.setItem('flowstudy:document-editor-mode', value)
+})
+
 onMounted(async () => {
   await fetchDetail()
   window.addEventListener('beforeunload', beforeUnloadHandler)
@@ -230,7 +237,11 @@ onBeforeUnmount(() => {
               文件夹：{{ document?.folderName || '未归档' }} · 标签：{{ form.tags.join(' / ') || '暂无' }} ·
               {{ lastSavedAt ? `草稿 ${lastSavedAt.slice(11, 19)}` : `更新 ${document?.updatedAt?.slice(0, 10) || '-'}` }}
             </p>
-            <MarkdownEditor v-model="form.content" :mode="editorMode" />
+            <DocumentEditorPanel
+              v-model="form.content"
+              v-model:mode="editorMode"
+              placeholder="开始撰写文档内容，支持 Markdown 专业编辑和类飞书简洁编辑..."
+            />
           </template>
         </article>
 

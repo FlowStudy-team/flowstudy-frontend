@@ -14,16 +14,16 @@ const authStore = useAuthStore()
 const isAuthed = computed(() => authStore.isAuthenticated)
 
 const mustRead: LinkItem[] = [
-  { text: 'Java 面试指南（网站核心）：系统整理 Java 八股文、后端通用面试知识', href: '/articles' },
-  { text: 'AI 应用开发面试指南（新增）：覆盖大模型基础、Agent、RAG、MCP', href: '/articles' },
-  { text: 'Java 优质开源项目：按实战、架构、工具链做精细分类', href: '/articles' },
+  { text: 'Java 面试指南（网站核心）：系统整理 Java 八股文、后端通用面试知识', href: '/tutorials' },
+  { text: 'AI 应用开发面试指南（新增）：覆盖大模型基础、Agent、RAG、MCP', href: '/tutorials' },
+  { text: 'Java 优质开源项目：按实战、架构、工具链做精细分类', href: '/tutorials' },
 ]
 
 const recommends: LinkItem[] = [
-  { text: 'Java 后端面试通关计划（覆盖后端通用体系）', href: '/articles' },
-  { text: 'Java 基础常见面试题总结', href: '/articles' },
-  { text: '操作系统常见面试题总结', href: '/articles' },
-  { text: 'MySQL 常见面试题总结', href: '/articles' },
+  { text: 'Java 后端面试通关计划（覆盖后端通用体系）', href: '/tutorials' },
+  { text: 'Java 基础常见面试题总结', href: '/tutorials' },
+  { text: '操作系统常见面试题总结', href: '/tutorials' },
+  { text: 'MySQL 常见面试题总结', href: '/tutorials' },
 ]
 </script>
 
@@ -35,6 +35,7 @@ const recommends: LinkItem[] = [
         <strong>FlowStudy</strong>
       </div>
       <nav class="jg-nav">
+        <RouterLink to="/learn">学习中心</RouterLink>
         <a href="#">后端开发</a>
         <a href="#">计算机基础</a>
         <a href="#">AI应用开发</a>
@@ -59,7 +60,7 @@ const recommends: LinkItem[] = [
           <h1>FlowStudy</h1>
           <p>Java 面试 & 后端通用面试指南，覆盖计算机基础、数据库、分布式、高并发、系统设计与 AI 应用开发。</p>
           <div class="jg-hero-buttons">
-            <RouterLink class="primary-btn link-btn" to="/articles">开始阅读</RouterLink>
+            <RouterLink class="primary-btn link-btn" to="/tutorials">开始阅读</RouterLink>
           </div>
         </div>
       </section>

@@ -242,7 +242,7 @@ onBeforeUnmount(() => {
         </div>
         <nav class="jg-nav">
           <RouterLink to="/">首页</RouterLink>
-          <RouterLink to="/articles">文章阅读</RouterLink>
+          <RouterLink to="/tutorials">教程阅读</RouterLink>
           <RouterLink to="/practice" class="active">算法练习</RouterLink>
           <RouterLink to="/document">学习文档</RouterLink>
         </nav>

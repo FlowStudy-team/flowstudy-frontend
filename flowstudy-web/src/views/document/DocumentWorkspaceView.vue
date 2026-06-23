@@ -2,10 +2,11 @@
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { onBeforeRouteLeave, useRoute, useRouter } from 'vue-router'
 import { getDocumentCategories, getDocumentList } from '../../api/document'
+import DocumentEditorPanel from '../../components/document/DocumentEditorPanel.vue'
 import DocumentMetaPanel from '../../components/document/DocumentMetaPanel.vue'
 import DocumentPublishDialog from '../../components/document/DocumentPublishDialog.vue'
 import DocumentSidebar from '../../components/document/DocumentSidebar.vue'
-import MarkdownEditor from '../../components/markdown/MarkdownEditor.vue'
+import type { MarkdownEditorMode } from '../../components/markdown/MarkdownEditor.vue'
 import { useAutoSave } from '../../composables/useAutoSave'
 import { useDocumentEditor } from '../../composables/useDocumentEditor'
 import type { DocumentCategory, DocumentItem } from '../../types/document'
@@ -19,6 +20,9 @@ const publishOpen = ref(false)
 
 const leftPanePercent = ref(22)
 const centerPanePercent = ref(52)
+const editorMode = ref<MarkdownEditorMode>(
+  (localStorage.getItem('flowstudy:document-editor-mode') as MarkdownEditorMode | null) ?? 'professional',
+)
 
 const { loading, saving, error, document, form, dirty, loadDocument, saveDocument, publishCurrent, resetForm } =
   useDocumentEditor()
@@ -166,6 +170,10 @@ watch(
   },
 )
 
+watch(editorMode, (value) => {
+  localStorage.setItem('flowstudy:document-editor-mode', value)
+})
+
 onMounted(async () => {
   await loadBaseData()
   await initPage()
@@ -205,7 +213,25 @@ onBeforeUnmount(() => {
       <div class="document-workspace-resizer" @mousedown="onStartResizeLeft"></div>
       <main class="document-workspace-editor">
         <div v-if="loading" class="card">加载中...</div>
-        <MarkdownEditor v-else v-model="form.content" />
+        <template v-else>
+          <div class="document-workspace-editor-tools">
+            <div>
+              <strong>内容编辑</strong>
+              <span>{{ editorMode === 'professional' ? 'Markdown 专业编辑' : '类飞书简洁编辑' }}</span>
+            </div>
+            <div class="document-mode-switch" role="group" aria-label="编辑模式">
+              <button type="button" :class="{ active: editorMode === 'professional' }" @click="editorMode = 'professional'">
+                专业编辑
+              </button>
+              <button type="button" :class="{ active: editorMode === 'simple' }" @click="editorMode = 'simple'">简洁编辑</button>
+            </div>
+          </div>
+          <DocumentEditorPanel
+            v-model="form.content"
+            v-model:mode="editorMode"
+            placeholder="开始撰写文档内容，支持 Markdown 专业编辑和类飞书简洁编辑..."
+          />
+        </template>
       </main>
       <div class="document-workspace-resizer" @mousedown="onStartResizeRight"></div>
       <DocumentMetaPanel

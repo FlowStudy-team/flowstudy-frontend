@@ -1,4 +1,4 @@
-import type { Article, ArticleDetail, ChapterDetail } from '../../types/article'
+import type { Blog, BlogDetail, Tutorial, TutorialDetail } from '../../types/article'
 import type { PageQuery, PageResult } from '../../types/common'
 import { request } from '../request'
 
@@ -9,9 +9,9 @@ interface CorePageResult<T> {
   size: number
 }
 
-type ArticleId = number | string
+type ContentId = number | string
 
-export async function fetchArticles(query: PageQuery): Promise<PageResult<Article>> {
+export async function fetchTutorials(query: PageQuery): Promise<PageResult<Tutorial>> {
   const params = new URLSearchParams({
     page: String(query.page),
     size: String(query.pageSize),
@@ -20,7 +20,7 @@ export async function fetchArticles(query: PageQuery): Promise<PageResult<Articl
     params.set('keyword', query.keyword.trim())
   }
 
-  const page = await request<CorePageResult<Article>>(`/articles?${params.toString()}`)
+  const page = await request<CorePageResult<Tutorial>>(`/tutorials?${params.toString()}`)
   return {
     list: page.records,
     total: page.total,
@@ -29,13 +29,28 @@ export async function fetchArticles(query: PageQuery): Promise<PageResult<Articl
   }
 }
 
-export async function fetchArticleDetail(articleId: ArticleId): Promise<ArticleDetail> {
-  return request<ArticleDetail>(`/articles/${articleId}`)
+export async function fetchBlogs(query: PageQuery): Promise<PageResult<Blog>> {
+  const params = new URLSearchParams({
+    page: String(query.page),
+    size: String(query.pageSize),
+  })
+  if (query.keyword?.trim()) {
+    params.set('keyword', query.keyword.trim())
+  }
+
+  const page = await request<CorePageResult<Blog>>(`/blogs?${params.toString()}`)
+  return {
+    list: page.records,
+    total: page.total,
+    page: page.page,
+    pageSize: page.size,
+  }
 }
 
-export async function fetchChapterDetail(
-  _articleId: ArticleId,
-  chapterId: ArticleId,
-): Promise<ChapterDetail> {
-  return request<ChapterDetail>(`/chapters/${chapterId}`)
+export async function fetchTutorialDetail(tutorialId: ContentId): Promise<TutorialDetail> {
+  return request<TutorialDetail>(`/tutorials/${tutorialId}`)
+}
+
+export async function fetchBlogDetail(blogId: ContentId): Promise<BlogDetail> {
+  return request<BlogDetail>(`/blogs/${blogId}`)
 }

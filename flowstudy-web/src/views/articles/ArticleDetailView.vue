@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
-import { fetchArticleDetail } from '../../api/modules/articles'
+import { fetchTutorialDetail } from '../../api/modules/articles'
 import AiSidebar from '../../components/ai/AiSidebar.vue'
 import UserAvatarMenu from '../../components/common/UserAvatarMenu.vue'
 import EmptyState from '../../components/common/EmptyState.vue'
@@ -10,26 +10,26 @@ import LoadingBlock from '../../components/common/LoadingBlock.vue'
 import MarkdownRenderer from '../../components/markdown/MarkdownRenderer.vue'
 import heroImage from '../../assets/hero.png'
 import { useAuthStore } from '../../store/modules/auth'
-import type { ArticleDetail } from '../../types/article'
+import type { TutorialDetail } from '../../types/article'
 
-const DEFAULT_ARTICLE_ID = 1
+const DEFAULT_TUTORIAL_ID = 1
 
 const authStore = useAuthStore()
 const loading = ref(false)
 const error = ref('')
-const detail = ref<ArticleDetail | null>(null)
+const detail = ref<TutorialDetail | null>(null)
 const showAi = ref(true)
 const aiWidth = ref(360)
 const isAuthed = computed(() => authStore.isAuthenticated)
-const articleMarkdown = computed(() => detail.value?.markdown || '')
+const tutorialMarkdown = computed(() => detail.value?.markdown || '')
 
 async function load() {
   loading.value = true
   error.value = ''
   try {
-    detail.value = await fetchArticleDetail(DEFAULT_ARTICLE_ID)
+    detail.value = await fetchTutorialDetail(DEFAULT_TUTORIAL_ID)
   } catch (err) {
-    error.value = err instanceof Error ? err.message : '文章加载失败'
+    error.value = err instanceof Error ? err.message : '教程加载失败'
   } finally {
     loading.value = false
   }
@@ -42,7 +42,7 @@ onMounted(load)
   <section class="reader-page">
     <LoadingBlock v-if="loading" />
     <ErrorRetry v-else-if="error" :text="error" @retry="load" />
-    <EmptyState v-else-if="!detail" text="文章不存在" />
+    <EmptyState v-else-if="!detail" text="教程不存在" />
     <div v-else class="reader-page-wrap">
       <header class="jg-header">
         <div class="jg-brand">
@@ -51,7 +51,7 @@ onMounted(load)
         </div>
         <nav class="jg-nav">
           <RouterLink to="/">首页</RouterLink>
-          <RouterLink class="active" to="/articles">文章阅读</RouterLink>
+          <RouterLink class="active" to="/tutorials">教程阅读</RouterLink>
           <RouterLink to="/practice">算法练习</RouterLink>
           <RouterLink to="/document">学习文档</RouterLink>
         </nav>
@@ -69,13 +69,13 @@ onMounted(load)
         <aside class="reader-sidebar">
           <h3>{{ detail.title }}</h3>
           <p class="reader-section-index">
-            {{ detail.chapterCount ?? detail.chapters.length }} 个章节 · {{ detail.problemCount ?? 0 }} 道练习题
+            {{ detail.blogCount ?? detail.blogs.length }} 篇博客 · {{ detail.problemCount ?? 0 }} 道练习题
           </p>
           <ul>
-            <li v-for="chapter in detail.chapters" :key="chapter.id" class="reader-node">
-              <RouterLink class="reader-node-btn" :to="`/articles/chapters/${chapter.id}`">
-                <span>{{ chapter.title }}</span>
-                <span v-if="chapter.estimatedMinutes">{{ chapter.estimatedMinutes }} 分钟</span>
+            <li v-for="blog in detail.blogs" :key="blog.id" class="reader-node">
+              <RouterLink class="reader-node-btn" :to="`/tutorials/blogs/${blog.id}`">
+                <span>{{ blog.title }}</span>
+                <span v-if="blog.estimatedMinutes">{{ blog.estimatedMinutes }} 分钟</span>
               </RouterLink>
             </li>
           </ul>
@@ -84,17 +84,17 @@ onMounted(load)
         <article class="reader-content">
           <h1>{{ detail.title }}</h1>
           <p v-if="detail.summary" class="lead">{{ detail.summary }}</p>
-          <MarkdownRenderer v-if="articleMarkdown" :model-value="articleMarkdown" />
+          <MarkdownRenderer v-if="tutorialMarkdown" :model-value="tutorialMarkdown" />
 
-          <h3>章节目录</h3>
+          <h3>博客目录</h3>
           <div class="chapter-links">
             <RouterLink
-              v-for="chapter in detail.chapters"
-              :key="chapter.id"
+              v-for="blog in detail.blogs"
+              :key="blog.id"
               class="secondary-btn link-btn"
-              :to="`/articles/chapters/${chapter.id}`"
+              :to="`/tutorials/blogs/${blog.id}`"
             >
-              {{ chapter.title }}
+              {{ blog.title }}
             </RouterLink>
           </div>
         </article>
