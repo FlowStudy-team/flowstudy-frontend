@@ -2,6 +2,7 @@
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { onBeforeRouteLeave, useRoute, useRouter } from 'vue-router'
 import { getDocumentCategories, getDocumentList } from '../../api/document'
+import { createBlog } from '../../api/modules/blogs'
 import DocumentEditorPanel from '../../components/document/DocumentEditorPanel.vue'
 import DocumentMetaPanel from '../../components/document/DocumentMetaPanel.vue'
 import DocumentPublishDialog from '../../components/document/DocumentPublishDialog.vue'
@@ -96,6 +97,8 @@ function openDocument(id: number) {
   router.push(`/document/${id}/edit`)
 }
 
+const publishError = ref('')
+
 async function submitPublish(payload: {
   title: string
   summary: string
@@ -104,9 +107,20 @@ async function submitPublish(payload: {
   visible: boolean
   allowComment: boolean
 }) {
+  publishError.value = ''
   if (!document.value) {
     const saved = await saveDocument()
     if (!saved) return
+  }
+  try {
+    await createBlog({
+      title: payload.title,
+      contentMd: form.content,
+      summary: payload.summary,
+    })
+  } catch (err) {
+    publishError.value = err instanceof Error ? err.message : '发布到博客失败'
+    return
   }
   await publishCurrent(payload)
   publishOpen.value = false
@@ -248,6 +262,7 @@ onBeforeUnmount(() => {
       :seed-title="form.title || '未命名文档'"
       :seed-summary="form.summary"
       :seed-tags="form.tags"
+      :error="publishError"
       @close="publishOpen = false"
       @submit="submitPublish"
     />

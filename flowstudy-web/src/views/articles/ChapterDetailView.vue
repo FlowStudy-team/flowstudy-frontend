@@ -11,6 +11,7 @@ import MarkdownRenderer from '../../components/markdown/MarkdownRenderer.vue'
 import heroImage from '../../assets/hero.png'
 import { useAiStore } from '../../store/modules/ai'
 import { useAuthStore } from '../../store/modules/auth'
+import type { AiContext } from '../../types/ai'
 import type { BlogDetail, TutorialDetail } from '../../types/article'
 
 const route = useRoute()
@@ -47,6 +48,13 @@ async function analyzeCurrentBlog() {
   if (!detail.value) return
   await aiStore.send(`请总结博客《${detail.value.title}》的核心知识点与常见面试问法。`)
 }
+
+watch([detail, tutorial], () => {
+  const ctx: AiContext = {}
+  if (tutorial.value?.title) ctx.tutorialTitle = tutorial.value.title
+  if (detail.value?.title) ctx.blogTitle = detail.value.title
+  aiStore.setContext(ctx)
+})
 
 onMounted(load)
 watch(blogId, load)

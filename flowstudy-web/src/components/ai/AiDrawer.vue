@@ -30,8 +30,9 @@ async function send() {
       <p v-if="loading" class="muted">Streaming response...</p>
     </section>
     <footer class="drawer-footer">
-      <input v-model="input" placeholder="Ask AI..." @keydown.enter="send" />
-      <button class="primary-btn small" :disabled="loading" @click="send">Send</button>
+      <input v-model="input" placeholder="Ask AI..." @keydown.enter="send" :disabled="loading" />
+      <button v-if="loading" class="secondary-btn" @click="aiStore.cancel">Stop</button>
+      <button v-else class="primary-btn small" :disabled="loading" @click="send">Send</button>
     </footer>
   </aside>
 </template>

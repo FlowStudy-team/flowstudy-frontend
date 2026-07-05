@@ -10,11 +10,14 @@ import OjEditorToolbar from '../../components/oj/OjEditorToolbar.vue'
 import OjProblemDescription from '../../components/oj/OjProblemDescription.vue'
 import OjSubmitResultPanel from '../../components/oj/OjSubmitResultPanel.vue'
 import OjTestCasePanel from '../../components/oj/OjTestCasePanel.vue'
+import { useAiStore } from '../../store/modules/ai'
 import { useAuthStore } from '../../store/modules/auth'
+import type { AiContext } from '../../types/ai'
 import type { OJJudgeResult, OJLanguage, OJLanguageOption, OJProblem, OJRunTestCase } from '../../types/oj'
 import { loadCodeDraft, saveCodeDraft } from '../../utils/codeDraftStorage'
 
 const route = useRoute()
+const aiStore = useAiStore()
 const authStore = useAuthStore()
 const isAuthed = computed(() => authStore.isAuthenticated)
 const problemId = computed(() => String(route.params.problemId))
@@ -224,6 +227,30 @@ async function submitCode() {
 watch(language, (nextLanguage) => loadCodeForLanguage(nextLanguage))
 watch(code, () => saveDraft())
 watch(problemId, initPage)
+
+watch([problem, language, code, result], () => {
+  const ctx: AiContext = {}
+  if (problem.value) {
+    ctx.problemTitle = problem.value.title
+    ctx.problemDescription = problem.value.description
+  }
+  ctx.language = language.value
+  ctx.userCode = code.value
+  if (result.value) {
+    ctx.submissionStatus = result.value.status
+    if (result.value.compileError) ctx.compileMessage = result.value.compileError
+    if (result.value.runtimeError) ctx.compileMessage = result.value.runtimeError
+    const failed = result.value.testCases?.find(
+      (tc) => tc.status !== 'ACCEPTED'
+    )
+    if (failed) {
+      ctx.failedCaseInput = failed.input
+      ctx.expectedOutput = failed.expected
+      ctx.actualOutput = failed.output
+    }
+  }
+  aiStore.setContext(ctx)
+})
 
 onMounted(initPage)
 onBeforeUnmount(() => {
