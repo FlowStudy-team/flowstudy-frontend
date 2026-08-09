@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { createDocumentFolder, getDocumentFolders } from '../../api/document'
+import JSZip from 'jszip'
+import { createDocument as createDocumentApi, createDocumentFolder, deleteDocumentFolder, getDocumentFolders } from '../../api/document'
 import DocumentFileGrid from '../../components/document/DocumentFileGrid.vue'
 import DocumentFolderDialog from '../../components/document/DocumentFolderDialog.vue'
 import DocumentFolderTree from '../../components/document/DocumentFolderTree.vue'
@@ -15,6 +16,10 @@ const folderError = ref('')
 const folderDialogOpen = ref(false)
 const folderSaving = ref(false)
 const folderDialogError = ref('')
+const fileInput = ref<HTMLInputElement | null>(null)
+const importing = ref(false)
+const importProgress = ref('')
+const importError = ref('')
 const expandedIds = ref<number[]>([])
 
 const { loading, error, list, total, query, fetchList, resetQuery, setFolder, changePage } = useDocumentList()
@@ -86,6 +91,20 @@ function openFolder(folderId: number) {
   void selectFolder(folderId)
 }
 
+async function handleDeleteFolder(folderId: number) {
+  if (!confirm('确定删除该文件夹吗？文件夹内的文档不会被删除。')) return
+  try {
+    await deleteDocumentFolder(folderId)
+    await loadFolders()
+    if (query.folderId === folderId) {
+      await selectFolder(undefined)
+    }
+    await fetchList()
+  } catch (err) {
+    folderError.value = err instanceof Error ? err.message : '删除文件夹失败'
+  }
+}
+
 function openDocument(id: number) {
   router.push(`/document/${id}`)
 }
@@ -121,6 +140,119 @@ async function nextPage(page: number) {
   await fetchList()
 }
 
+function triggerImport() {
+  importError.value = ''
+  importProgress.value = ''
+  fileInput.value?.click()
+}
+
+function extractMdTitle(content: string, filename: string): string {
+  const heading = content.match(/^#\s+(.+)$/m)
+  if (heading) return heading[1].trim()
+  return filename.replace(/\.md$/i, '')
+}
+
+async function handleFileImport(event: Event) {
+  const input = event.target as HTMLInputElement
+  const file = input.files?.[0]
+  if (!file) return
+
+  const isMd = file.name.endsWith('.md')
+  const isZip = file.name.endsWith('.zip')
+
+  if (!isMd && !isZip) {
+    importError.value = '仅支持 .md 或 .zip 文件'
+    input.value = ''
+    return
+  }
+
+  importing.value = true
+  importError.value = ''
+  importProgress.value = ''
+
+  let firstDocId: number | null = null
+
+  try {
+    if (isMd) {
+      importProgress.value = '正在导入 1 个文件...'
+      const content = await readFileAsText(file)
+      const title = extractMdTitle(content, file.name)
+      const doc = await createDocumentApi({
+        title,
+        content: content,
+        folderId: query.folderId,
+      })
+      firstDocId = doc.id
+      importProgress.value = '导入完成：1 个文件'
+    } else {
+      const zip = await JSZip.loadAsync(file)
+      const mdFiles = Object.keys(zip.files).filter(
+        (name) => name.endsWith('.md') && !zip.files[name].dir,
+      )
+      if (mdFiles.length === 0) {
+        importError.value = '压缩包中没有找到 .md 文件'
+        importing.value = false
+        input.value = ''
+        return
+      }
+
+      // Collect unique directory paths and create folders
+      const dirSet = new Set<string>()
+      for (const name of mdFiles) {
+        const dir = name.substring(0, name.lastIndexOf('/'))
+        if (dir) dirSet.add(dir)
+      }
+
+      // Create folders ordered by depth (parent before child)
+      const sortedDirs = [...dirSet].sort((a, b) => a.split('/').length - b.split('/').length)
+      const folderIdMap = new Map<string, number>()
+
+      for (const dir of sortedDirs) {
+        const parts = dir.split('/')
+        const parentDir = parts.slice(0, -1).join('/')
+        const parentId = parentDir ? folderIdMap.get(parentDir) : query.folderId
+        importProgress.value = `正在创建文件夹：${parts[parts.length - 1]}`
+        const folder = await createDocumentFolder({ name: parts[parts.length - 1], parentId })
+        folderIdMap.set(dir, folder.id)
+      }
+
+      // Create documents in their respective folders
+      let done = 0
+      for (const name of mdFiles) {
+        importProgress.value = `正在导入 ${done + 1}/${mdFiles.length}：${name}`
+        const dir = name.substring(0, name.lastIndexOf('/'))
+        const folderId = dir ? folderIdMap.get(dir) : query.folderId
+        const content = await zip.files[name].async('text')
+        const title = extractMdTitle(content, name)
+        const doc = await createDocumentApi({ title, content, folderId })
+        if (!firstDocId) firstDocId = doc.id
+        done++
+      }
+      importProgress.value = `导入完成：${mdFiles.length} 个文件`
+    }
+
+    await loadFolders()
+    await fetchList()
+    if (firstDocId) {
+      router.push(`/document/${firstDocId}`)
+    }
+  } catch (err) {
+    importError.value = err instanceof Error ? err.message : '导入失败'
+  } finally {
+    importing.value = false
+    input.value = ''
+  }
+}
+
+function readFileAsText(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => resolve(reader.result as string)
+    reader.onerror = () => reject(new Error('文件读取失败'))
+    reader.readAsText(file)
+  })
+}
+
 onMounted(async () => {
   await Promise.all([loadFolders(), fetchList()])
 })
@@ -142,6 +274,7 @@ onMounted(async () => {
         :expanded-ids="expandedIds"
         @select="selectFolder"
         @toggle="toggleFolder"
+        @delete="handleDeleteFolder"
       />
     </aside>
 
@@ -157,8 +290,22 @@ onMounted(async () => {
           <button class="secondary-btn" type="button" @click="reset">重置</button>
           <button class="secondary-btn" type="button" @click="folderDialogOpen = true">新建文件夹</button>
           <button class="primary-btn" type="button" @click="createDocument">新建文档</button>
+          <button class="secondary-btn" type="button" :disabled="importing" @click="triggerImport">
+            {{ importing ? '导入中...' : '导入 Markdown' }}
+          </button>
+          <input
+            ref="fileInput"
+            type="file"
+            accept=".md,.markdown,.zip"
+            style="display: none"
+            @change="handleFileImport"
+          />
         </div>
       </header>
+
+      <div v-if="importProgress || importError" class="card" :class="{ 'error-box': importError }" style="margin-bottom: 12px;">
+        <span :style="{ color: importError ? '#d44' : '#10b981' }">{{ importProgress || importError }}</span>
+      </div>
 
       <div v-if="loading" class="card">加载中...</div>
       <div v-else-if="error" class="card error-box">

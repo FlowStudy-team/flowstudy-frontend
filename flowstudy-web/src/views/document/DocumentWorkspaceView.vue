@@ -98,6 +98,8 @@ function openDocument(id: number) {
 }
 
 const publishError = ref('')
+const publishSuccess = ref(false)
+let publishSuccessTimer: ReturnType<typeof setTimeout> | null = null
 
 async function submitPublish(payload: {
   title: string
@@ -124,6 +126,11 @@ async function submitPublish(payload: {
   }
   await publishCurrent(payload)
   publishOpen.value = false
+  publishSuccess.value = true
+  if (publishSuccessTimer) clearTimeout(publishSuccessTimer)
+  publishSuccessTimer = setTimeout(() => {
+    publishSuccess.value = false
+  }, 3000)
 }
 
 function onStartResizeLeft(event: MouseEvent) {
@@ -211,6 +218,10 @@ onBeforeUnmount(() => {
         <button class="primary-btn" :disabled="saving || loading" @click="publishOpen = true">发布</button>
       </div>
     </header>
+
+    <div v-if="publishSuccess" class="publish-toast">
+      <span>博客已成功发布到学习中心</span>
+    </div>
 
     <div v-if="error" class="card error-box">
       <span>{{ error }}</span>

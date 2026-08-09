@@ -17,6 +17,7 @@
     "@tiptap/extension-underline": "^3.27.1",
     "@tiptap/starter-kit": "^3.27.1",
     "@tiptap/vue-3": "^3.27.1",
+    "jszip": "^3.10.1",
     "md-editor-v3": "6.5.1",
     "monaco-editor": "^0.54.0",
     "pinia": "^3.0.4",
@@ -26,6 +27,7 @@
     "vue3-calendar-heatmap": "^2.0.5"
   },
   "devDependencies": {
+    "@types/jszip": "^3.4.0",
     "@types/node": "^24.12.3",
     "@vitejs/plugin-vue": "^6.0.6",
     "@vue/tsconfig": "^0.9.1",

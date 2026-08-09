@@ -107,6 +107,11 @@ watch(blogId, load)
 
         <article class="reader-content">
           <h1>{{ detail.title }}</h1>
+          <div class="blog-meta" v-if="detail.authorName || detail.publishedAt">
+            <span v-if="detail.authorName">作者：{{ detail.authorName }}</span>
+            <span v-if="detail.publishedAt">发布于 {{ detail.publishedAt.slice(0, 10) }}</span>
+            <span v-if="detail.updatedAt && detail.updatedAt !== detail.publishedAt">更新于 {{ detail.updatedAt.slice(0, 10) }}</span>
+          </div>
           <MarkdownRenderer :model-value="detail.markdown" />
 
           <h2 v-if="detail.problemIds.length">关联练习题</h2>

@@ -15,6 +15,7 @@ withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{
   select: [number | undefined]
   toggle: [number]
+  delete: [number]
 }>()
 </script>
 
@@ -45,6 +46,7 @@ const emit = defineEmits<{
             <span class="folder-icon">▣</span>
             <span>{{ folder.name }}</span>
           </button>
+          <button class="folder-tree-delete" type="button" title="删除文件夹" @click.stop="emit('delete', folder.id)">×</button>
         </div>
         <DocumentFolderTree
           v-if="folder.children?.length && expandedIds.includes(folder.id)"
@@ -54,6 +56,7 @@ const emit = defineEmits<{
           :show-root="false"
           @select="emit('select', $event)"
           @toggle="emit('toggle', $event)"
+          @delete="emit('delete', $event)"
         />
       </li>
     </ul>

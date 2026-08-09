@@ -3,21 +3,24 @@ import { computed, onMounted, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import SiteHeader from '../../components/common/SiteHeader.vue'
 import { fetchBlogs, fetchTutorials } from '../../api/modules/articles'
-import { createBlog } from '../../api/modules/blogs'
 import type { Blog, Tutorial } from '../../types/article'
 
 type Audience = 'all' | 'official' | 'community'
 type SortMode = 'latest' | 'hot'
 
 const loading = ref(false)
+const loadingMore = ref(false)
 const error = ref('')
 const keyword = ref('')
 const audience = ref<Audience>('all')
 const sortMode = ref<SortMode>('latest')
 const tutorials = ref<Tutorial[]>([])
 const blogs = ref<Blog[]>([])
-const importing = ref(false)
-const importError = ref('')
+const blogPage = ref(1)
+const blogTotal = ref(0)
+const tutorialPage = ref(1)
+const tutorialTotal = ref(0)
+const PAGE_SIZE = 12
 
 function timestampOf(item: { publishedAt?: string; updatedAt?: string; createdAt?: string }) {
   const raw = item.publishedAt ?? item.updatedAt ?? item.createdAt ?? ''
@@ -31,7 +34,7 @@ function heatOf(item: { viewCount?: number; likeCount?: number; problemCount?: n
 
 function isOfficial(item: { authorName?: string }) {
   const author = item.authorName?.trim().toLowerCase()
-  if (!author) return true
+  if (!author) return false
   return ['admin', 'official', 'flowstudy', '管理员', '官方'].some((name) => author.includes(name))
 }
 
@@ -56,11 +59,15 @@ const visibleBlogs = computed(() => sortItems(filterByAudience(blogs.value)))
 async function load() {
   loading.value = true
   error.value = ''
+  blogPage.value = 1
+  tutorialPage.value = 1
   try {
-    const query = { page: 1, pageSize: 24, keyword: keyword.value.trim() || undefined }
-    const [tutorialPage, blogPage] = await Promise.all([fetchTutorials(query), fetchBlogs(query)])
-    tutorials.value = tutorialPage.list
-    blogs.value = blogPage.list
+    const query = { page: 1, pageSize: PAGE_SIZE, keyword: keyword.value.trim() || undefined }
+    const [tutorialResult, blogResult] = await Promise.all([fetchTutorials(query), fetchBlogs(query)])
+    tutorials.value = tutorialResult.list
+    tutorialTotal.value = tutorialResult.total
+    blogs.value = blogResult.list
+    blogTotal.value = blogResult.total
   } catch (err) {
     error.value = err instanceof Error ? err.message : '学习中心加载失败'
   } finally {
@@ -68,58 +75,27 @@ async function load() {
   }
 }
 
+async function loadMoreBlogs() {
+  if (loadingMore.value || blogs.value.length >= blogTotal.value) return
+  loadingMore.value = true
+  try {
+    const nextPage = blogPage.value + 1
+    const query = { page: nextPage, pageSize: PAGE_SIZE, keyword: keyword.value.trim() || undefined }
+    const result = await fetchBlogs(query)
+    blogs.value.push(...result.list)
+    blogPage.value = nextPage
+  } catch {
+    // silently ignore load-more errors
+  } finally {
+    loadingMore.value = false
+  }
+}
+
+const hasMoreBlogs = computed(() => blogs.value.length < blogTotal.value)
+
 function formatDate(item: { publishedAt?: string; updatedAt?: string; createdAt?: string }) {
   const raw = item.publishedAt ?? item.updatedAt ?? item.createdAt
   return raw ? raw.slice(0, 10) : '暂无日期'
-}
-
-const fileInput = ref<HTMLInputElement | null>(null)
-
-function triggerImport() {
-  importError.value = ''
-  fileInput.value?.click()
-}
-
-async function handleFileImport(event: Event) {
-  const input = event.target as HTMLInputElement
-  const file = input.files?.[0]
-  if (!file) return
-  if (!file.name.endsWith('.md')) {
-    importError.value = '仅支持 .md 文件'
-    input.value = ''
-    return
-  }
-
-  importing.value = true
-  importError.value = ''
-  try {
-    const content = await new Promise<string>((resolve, reject) => {
-      const reader = new FileReader()
-      reader.onload = () => resolve(reader.result as string)
-      reader.onerror = () => reject(new Error('文件读取失败'))
-      reader.readAsText(file)
-    })
-
-    const title = extractMdTitle(content, file.name)
-
-    await createBlog({
-      title,
-      contentMd: content,
-      summary: content.slice(0, 200).replace(/[#*\n\r]/g, '').trim(),
-    })
-    await load()
-  } catch (err) {
-    importError.value = err instanceof Error ? err.message : '导入失败'
-  } finally {
-    importing.value = false
-    input.value = ''
-  }
-}
-
-function extractMdTitle(content: string, filename: string): string {
-  const heading = content.match(/^#\s+(.+)$/m)
-  if (heading) return heading[1].trim()
-  return filename.replace(/\.md$/i, '')
 }
 
 onMounted(load)
@@ -138,16 +114,8 @@ onMounted(load)
         </div>
         <div class="learning-hero-actions">
           <RouterLink class="primary-btn link-btn" to="/document/workspace">写一篇博客</RouterLink>
-          <button class="secondary-btn" :disabled="importing" @click="triggerImport">
-            {{ importing ? '导入中...' : '导入 Markdown' }}
-          </button>
-          <input ref="fileInput" type="file" accept=".md,.markdown" style="display: none" @change="handleFileImport" />
         </div>
       </section>
-
-      <div v-if="importError" class="card error-box learning-state">
-        <span>{{ importError }}</span>
-      </div>
 
       <section class="learning-controls card">
         <input v-model="keyword" placeholder="搜索教程、博客标题或摘要" @keydown.enter="load" />
@@ -220,6 +188,11 @@ onMounted(load)
             </RouterLink>
           </div>
           <div v-else class="learning-empty card">暂无符合条件的博客。</div>
+          <div v-if="hasMoreBlogs" class="learning-load-more">
+            <button class="secondary-btn" :disabled="loadingMore" @click="loadMoreBlogs">
+              {{ loadingMore ? '加载中...' : `加载更多 (${blogs.length}/${blogTotal})` }}
+            </button>
+          </div>
         </section>
       </template>
     </main>
