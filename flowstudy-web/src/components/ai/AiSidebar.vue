@@ -79,8 +79,9 @@ async function send() {
         <p v-if="loading" class="muted">AI 正在生成...</p>
       </div>
       <div class="shared-ai-footer">
-        <input v-model="input" placeholder="输入你的问题" @keydown.enter="send" />
-        <button class="primary-btn small" :disabled="loading" @click="send">发送</button>
+        <input v-model="input" placeholder="输入你的问题" @keydown.enter="send" :disabled="loading" />
+        <button v-if="loading" class="secondary-btn small" @click="aiStore.cancel">停止</button>
+        <button v-else class="primary-btn small" :disabled="loading" @click="send">发送</button>
       </div>
     </aside>
     <div v-else class="shared-ai-collapsed">

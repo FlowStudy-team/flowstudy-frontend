@@ -2,6 +2,7 @@
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { onBeforeRouteLeave, useRoute, useRouter } from 'vue-router'
 import { getDocumentCategories, getDocumentList } from '../../api/document'
+import { createBlog } from '../../api/modules/blogs'
 import DocumentEditorPanel from '../../components/document/DocumentEditorPanel.vue'
 import DocumentMetaPanel from '../../components/document/DocumentMetaPanel.vue'
 import DocumentPublishDialog from '../../components/document/DocumentPublishDialog.vue'
@@ -96,6 +97,10 @@ function openDocument(id: number) {
   router.push(`/document/${id}/edit`)
 }
 
+const publishError = ref('')
+const publishSuccess = ref(false)
+let publishSuccessTimer: ReturnType<typeof setTimeout> | null = null
+
 async function submitPublish(payload: {
   title: string
   summary: string
@@ -104,12 +109,28 @@ async function submitPublish(payload: {
   visible: boolean
   allowComment: boolean
 }) {
+  publishError.value = ''
   if (!document.value) {
     const saved = await saveDocument()
     if (!saved) return
   }
+  try {
+    await createBlog({
+      title: payload.title,
+      contentMd: form.content,
+      summary: payload.summary,
+    })
+  } catch (err) {
+    publishError.value = err instanceof Error ? err.message : '发布到博客失败'
+    return
+  }
   await publishCurrent(payload)
   publishOpen.value = false
+  publishSuccess.value = true
+  if (publishSuccessTimer) clearTimeout(publishSuccessTimer)
+  publishSuccessTimer = setTimeout(() => {
+    publishSuccess.value = false
+  }, 3000)
 }
 
 function onStartResizeLeft(event: MouseEvent) {
@@ -198,6 +219,10 @@ onBeforeUnmount(() => {
       </div>
     </header>
 
+    <div v-if="publishSuccess" class="publish-toast">
+      <span>博客已成功发布到学习中心</span>
+    </div>
+
     <div v-if="error" class="card error-box">
       <span>{{ error }}</span>
       <button class="secondary-btn" @click="initPage">重试</button>
@@ -248,6 +273,7 @@ onBeforeUnmount(() => {
       :seed-title="form.title || '未命名文档'"
       :seed-summary="form.summary"
       :seed-tags="form.tags"
+      :error="publishError"
       @close="publishOpen = false"
       @submit="submitPublish"
     />

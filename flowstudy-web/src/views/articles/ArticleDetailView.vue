@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { RouterLink } from 'vue-router'
 import { fetchTutorialDetail } from '../../api/modules/articles'
 import AiSidebar from '../../components/ai/AiSidebar.vue'
@@ -9,11 +9,14 @@ import ErrorRetry from '../../components/common/ErrorRetry.vue'
 import LoadingBlock from '../../components/common/LoadingBlock.vue'
 import MarkdownRenderer from '../../components/markdown/MarkdownRenderer.vue'
 import heroImage from '../../assets/hero.png'
+import { useAiStore } from '../../store/modules/ai'
 import { useAuthStore } from '../../store/modules/auth'
+import type { AiContext } from '../../types/ai'
 import type { TutorialDetail } from '../../types/article'
 
 const DEFAULT_TUTORIAL_ID = 1
 
+const aiStore = useAiStore()
 const authStore = useAuthStore()
 const loading = ref(false)
 const error = ref('')
@@ -36,6 +39,12 @@ async function load() {
 }
 
 onMounted(load)
+
+watch(detail, () => {
+  const ctx: AiContext = {}
+  if (detail.value?.title) ctx.tutorialTitle = detail.value.title
+  aiStore.setContext(ctx)
+})
 </script>
 
 <template>

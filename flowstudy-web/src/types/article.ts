@@ -21,6 +21,7 @@ export interface Blog {
   title: string
   summary?: string
   coverUrl?: string
+  authorId?: number
   authorName?: string
   sortOrder?: number
   estimatedMinutes?: number
@@ -61,4 +62,9 @@ export interface BlogDetail {
   problemIds: string[]
   prevBlogId?: number | null
   nextBlogId?: number | null
+  authorId?: number
+  authorName?: string
+  createdAt?: string
+  updatedAt?: string
+  publishedAt?: string
 }

@@ -7,6 +7,7 @@ interface Props {
   seedTitle: string
   seedSummary: string
   seedTags: string[]
+  error?: string
 }
 
 const props = defineProps<Props>()
@@ -61,6 +62,9 @@ function onTagsInput(raw: string) {
         <input v-model="form.coverUrl" placeholder="暂用 URL，后续可接上传" />
         <label>标签（逗号分隔）</label>
         <input :value="form.tags.join(', ')" @input="onTagsInput(($event.target as HTMLInputElement).value)" />
+      </div>
+      <div v-if="props.error" class="error-box" style="margin-bottom: 12px; padding: 8px 12px; border-radius: 6px; background: #fff0f0; color: #d44; font-size: 13px;">
+        {{ props.error }}
       </div>
       <footer>
         <button class="secondary-btn" @click="emit('close')">取消</button>
