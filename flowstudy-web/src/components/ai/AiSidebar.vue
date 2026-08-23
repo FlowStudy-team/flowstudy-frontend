@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useAiStore } from '../../store/modules/ai'
 
@@ -23,8 +23,11 @@ const emit = defineEmits<{
 }>()
 
 const aiStore = useAiStore()
-const { loading, messages } = storeToRefs(aiStore)
+const { loading, messages, conversations, conversationId, noteLoading, noteResult, noteError } = storeToRefs(aiStore)
 const input = ref('')
+onMounted(() => {
+  void aiStore.loadLatestConversation()
+})
 const open = computed({
   get: () => props.modelValue,
   set: (value: boolean) => emit('update:modelValue', value),
@@ -68,9 +71,24 @@ async function send() {
     <aside v-if="open" class="shared-ai-panel">
       <div class="shared-ai-header">
         <strong>{{ title }}</strong>
+        <select
+          v-if="conversations.length"
+          class="ai-conversation-select"
+          :value="conversationId ?? ''"
+          @change="aiStore.loadConversation(Number(($event.target as HTMLSelectElement).value))"
+        >
+          <option value="">最近会话</option>
+          <option v-for="item in conversations" :key="item.id" :value="item.id">
+            {{ item.title || ('会话 ' + item.id) }}
+          </option>
+        </select>
+        <button class="secondary-btn small" @click="aiStore.newConversation">新会话</button>
+        <button class="secondary-btn small" :disabled="noteLoading" @click="aiStore.generateNote">{{ noteLoading ? '生成中...' : '生成笔记' }}</button>
         <button class="secondary-btn" @click="open = false">隐藏</button>
       </div>
       <div class="shared-ai-body">
+        <article v-if="noteResult" class="msg assistant"><strong>学习笔记</strong><p>{{ noteResult }}</p></article>
+        <p v-if="noteError" class="muted">{{ noteError }}</p>
         <p v-if="messages.length === 0" class="muted">{{ emptyText }}</p>
         <article v-for="msg in messages" :key="msg.id" class="msg" :class="msg.role">
           <strong>{{ msg.role === 'user' ? '你' : 'AI' }}</strong>
@@ -89,4 +107,3 @@ async function send() {
     </div>
   </div>
 </template>
-
