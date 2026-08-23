@@ -16,6 +16,8 @@ import LearningCenterView from '../views/learning/LearningCenterView.vue'
 import DocumentListView from '../views/document/DocumentListView.vue'
 import DocumentWorkspaceView from '../views/document/DocumentWorkspaceView.vue'
 import StoreView from '../views/store/StoreView.vue'
+import AdminLayout from '../layouts/AdminLayout.vue'
+import AdminConsoleView from '../views/admin/AdminConsoleView.vue'
 import ForbiddenView from '../views/system/ForbiddenView.vue'
 import NotFoundView from '../views/system/NotFoundView.vue'
 import ServerErrorView from '../views/system/ServerErrorView.vue'
@@ -98,6 +100,17 @@ const router = createRouter({
     { path: '/403', name: 'forbidden', component: ForbiddenView },
     { path: '/500', name: 'server-error', component: ServerErrorView },
     { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFoundView },
+    {
+      path: '/admin', component: AdminLayout, meta: { requiresAdmin: true },
+      children: [
+        { path: '', name: 'admin-dashboard', component: AdminConsoleView },
+        { path: 'users', name: 'admin-users', component: AdminConsoleView },
+        { path: 'content/:type', name: 'admin-content', component: AdminConsoleView },
+        { path: 'store/:type', name: 'admin-store', component: AdminConsoleView },
+        { path: 'orders', name: 'admin-orders', component: AdminConsoleView },
+        { path: 'audit-logs', name: 'admin-audit-logs', component: AdminConsoleView },
+      ],
+    },
   ],
 })
 
@@ -113,6 +126,7 @@ router.beforeEach((to) => {
   if (authStore.isAuthenticated && isAuthPage) {
     return '/tutorials'
   }
+  if (to.meta.requiresAdmin && authStore.user?.role !== 'ADMIN') return '/403'
   return true
 })
 

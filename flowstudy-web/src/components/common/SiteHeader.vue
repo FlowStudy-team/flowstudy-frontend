@@ -29,6 +29,7 @@ function isActive(target: string) {
       <RouterLink to="/practice" :class="{ active: isActive('/practice') || isActive('/problems') }">算法练习</RouterLink>
       <RouterLink to="/document" :class="{ active: isActive('/document') }">文档中心</RouterLink>
       <RouterLink v-if="isAuthed" to="/store" :class="{ active: isActive('/store') }">Token 商城</RouterLink>
+      <RouterLink v-if="authStore.user?.role === 'ADMIN'" to="/admin" :class="{ active: isActive('/admin') }">管理后台</RouterLink>
     </nav>
     <div class="jg-actions">
       <RouterLink v-if="!isAuthed" class="secondary-btn link-btn" to="/login">登录</RouterLink>
