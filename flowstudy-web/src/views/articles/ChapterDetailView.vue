@@ -13,6 +13,7 @@ import { useAiStore } from '../../store/modules/ai'
 import { useAuthStore } from '../../store/modules/auth'
 import type { AiContext } from '../../types/ai'
 import type { BlogDetail, TutorialDetail } from '../../types/article'
+import { recordLearningEvent } from '../../api/modules/learning'
 
 const route = useRoute()
 const aiStore = useAiStore()
@@ -34,6 +35,9 @@ async function load() {
   try {
     const blog = await fetchBlogDetail(blogId.value)
     detail.value = blog
+    if (authStore.isAuthenticated) {
+      void recordLearningEvent({ eventType: 'BLOG_READ', resourceType: 'BLOG', resourceId: Number(blog.id) }).catch(() => undefined)
+    }
     if (blog.tutorialId) {
       tutorial.value = await fetchTutorialDetail(blog.tutorialId)
     }
