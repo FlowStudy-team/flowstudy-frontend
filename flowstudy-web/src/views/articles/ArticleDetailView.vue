@@ -13,6 +13,7 @@ import { useAiStore } from '../../store/modules/ai'
 import { useAuthStore } from '../../store/modules/auth'
 import type { AiContext } from '../../types/ai'
 import type { TutorialDetail } from '../../types/article'
+import { recordLearningEvent } from '../../api/modules/learning'
 
 const DEFAULT_TUTORIAL_ID = 1
 
@@ -31,6 +32,9 @@ async function load() {
   error.value = ''
   try {
     detail.value = await fetchTutorialDetail(DEFAULT_TUTORIAL_ID)
+    if (authStore.isAuthenticated) {
+      void recordLearningEvent({ eventType: 'TUTORIAL_READ', resourceType: 'TUTORIAL', resourceId: DEFAULT_TUTORIAL_ID }).catch(() => undefined)
+    }
   } catch (err) {
     error.value = err instanceof Error ? err.message : '教程加载失败'
   } finally {
