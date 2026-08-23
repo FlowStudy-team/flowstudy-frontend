@@ -15,6 +15,7 @@ import HomeView from '../views/home/HomeView.vue'
 import LearningCenterView from '../views/learning/LearningCenterView.vue'
 import DocumentListView from '../views/document/DocumentListView.vue'
 import DocumentWorkspaceView from '../views/document/DocumentWorkspaceView.vue'
+import StoreView from '../views/store/StoreView.vue'
 import ForbiddenView from '../views/system/ForbiddenView.vue'
 import NotFoundView from '../views/system/NotFoundView.vue'
 import ServerErrorView from '../views/system/ServerErrorView.vue'
@@ -50,6 +51,7 @@ const router = createRouter({
       children: [
         { path: 'me', name: 'profile-home', component: ProfileHomeView },
         { path: 'me/submissions', name: 'profile-submissions', component: SubmissionListView },
+        { path: 'store', name: 'store', component: StoreView },
       ],
     },
     {
