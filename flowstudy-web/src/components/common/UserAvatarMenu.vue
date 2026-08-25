@@ -3,6 +3,7 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '../../store/modules/auth'
 import { useAiStore } from '../../store/modules/ai'
+import { logout as logoutRequest } from '../../api/modules/auth'
 
 const authStore = useAuthStore()
 const aiStore = useAiStore()
@@ -30,7 +31,10 @@ function onAction(item: (typeof quickActions)[number]) {
   if ('to' in item && item.to) router.push(item.to)
   if ('action' in item && item.action === 'ai') aiStore.toggle()
 }
-function logout() { authStore.clearToken(); open.value = false; router.push('/') }
+async function logout() {
+  try { await logoutRequest() } catch { /* local logout still clears the session */ }
+  authStore.clearToken(); open.value = false; router.push('/')
+}
 onMounted(() => document.addEventListener('click', onDocumentClick))
 onBeforeUnmount(() => document.removeEventListener('click', onDocumentClick))
 </script>

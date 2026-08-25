@@ -21,6 +21,10 @@ export function register(payload: RegisterRequest): Promise<RegisterResponse> {
   })
 }
 
+export function logout(): Promise<void> {
+  return request<void>('/auth/logout', { method: 'POST' })
+}
+
 export function getCurrentUser(): Promise<User> {
   return request<User>('/users/me')
 }

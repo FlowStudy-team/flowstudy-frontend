@@ -22,7 +22,9 @@ export async function askAiStream(params: AskAiStreamParams): Promise<void> {
     headers: {
       'Content-Type': 'application/json',
       ...(authStore.token ? { Authorization: `Bearer ${authStore.token}` } : {}),
+      'X-Device-Id': authStore.deviceId,
     },
+    credentials: 'include',
     body: JSON.stringify({ message, history, context, conversationId }),
   })
 
@@ -117,7 +119,9 @@ export async function generateAiNote(context: AiContext) {
     headers: {
       'Content-Type': 'application/json',
       ...(authStore.token ? { Authorization: `Bearer ${authStore.token}` } : {}),
+      'X-Device-Id': authStore.deviceId,
     },
+    credentials: 'include',
     body: JSON.stringify({ context }),
   })
   const payload = await response.json().catch(() => null)
@@ -128,7 +132,11 @@ export async function generateAiNote(context: AiContext) {
 export async function getAiNoteTask(taskId: string) {
   const authStore = useAuthStore()
   const response = await fetch(`/ai/api/v1/ai/notes/tasks/${taskId}`, {
-    headers: authStore.token ? { Authorization: `Bearer ${authStore.token}` } : {},
+    headers: {
+      ...(authStore.token ? { Authorization: `Bearer ${authStore.token}` } : {}),
+      'X-Device-Id': authStore.deviceId,
+    },
+    credentials: 'include',
   })
   const payload = await response.json().catch(() => null)
   if (!response.ok || !payload) throw new Error(`AI note task query failed: ${response.status}`)
