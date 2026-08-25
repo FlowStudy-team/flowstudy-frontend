@@ -70,7 +70,14 @@ async function buy(product: StoreProduct) {
   notice.value = ''
   try {
     const order = await createStoreOrder(product.id, selectedCoupon.value)
-    const paidOrder = await payStoreOrder(order.id)
+    let persistedOrder: StoreOrder | undefined
+    for (let attempt = 0; attempt < 20; attempt += 1) {
+      persistedOrder = (await fetchStoreOrders()).find((item) => item.orderNo === order.orderNo)
+      if (persistedOrder?.id) break
+      await new Promise((resolve) => setTimeout(resolve, 250))
+    }
+    if (!persistedOrder?.id) throw new Error('订单正在排队，请稍后在订单记录中支付')
+    const paidOrder = await payStoreOrder(persistedOrder.id)
     notice.value = `购买成功，已到账 ${paidOrder.tokenAmount.toLocaleString()} Token`
     selectedCoupon.value = undefined
     await load()
