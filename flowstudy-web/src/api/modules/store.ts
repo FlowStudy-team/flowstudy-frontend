@@ -25,7 +25,7 @@ export interface StoreCoupon {
 }
 
 export interface StoreOrder {
-  id: number
+  id?: number
   orderNo: string
   productId: number
   productName: string
